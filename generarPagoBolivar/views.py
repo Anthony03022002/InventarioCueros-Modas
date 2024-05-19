@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .serializer import generarPagoBolivarSerializer
+from .models import generarPagoBolivar
 
-# Create your views here.
+class GenerarPagoBolivarView(viewsets.ModelViewSet):
+    serializer_class = generarPagoBolivarSerializer
+    queryset = generarPagoBolivar.objects.all()

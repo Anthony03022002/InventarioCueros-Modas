@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .serializer import facturaSerializer
+from .models import Factura
 
-# Create your views here.
+class FacturaView(viewsets.ModelViewSet):
+    serializer_class = facturaSerializer
+    queryset = Factura.objects.all()

@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .serializer import generarPagoOtavaloSerializer
+from .models import generarPagoOtavalo
 
-# Create your views here.
+class GenerarPagoOtavaloView(viewsets.ModelViewSet):
+    serializer_class = generarPagoOtavaloSerializer
+    queryset = generarPagoOtavalo.objects.all()

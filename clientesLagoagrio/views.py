@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .serializer import clientesLagoagrioSerializer
+from .models import ClientesLagoagrio
 
-# Create your views here.
+class ClientesLagoagrioView(viewsets.ModelViewSet):
+    serializer_class = clientesLagoagrioSerializer
+    queryset = ClientesLagoagrio.objects.all()

@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .serializer import generarPagoAngelSerializer
+from .models import generarPagoAngel
 
-# Create your views here.
+class GenerarPagoAngelView(viewsets.ModelViewSet):
+    serializer_class = generarPagoAngelSerializer
+    queryset = generarPagoAngel.objects.all()

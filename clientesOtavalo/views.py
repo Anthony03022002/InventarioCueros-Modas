@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .serializer import clientesOtavaloSerializer
+from .models import ClientesOtavalo
 
-# Create your views here.
+class ClientesOtavaloView(viewsets.ModelViewSet):
+    serializer_class = clientesOtavaloSerializer
+    queryset = ClientesOtavalo.objects.all()

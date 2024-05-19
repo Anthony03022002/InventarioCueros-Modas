@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .serializer import clientesIbarraSerializer
+from .models import ClientesIbarra
 
-# Create your views here.
+class ClientesIbarraView(viewsets.ModelViewSet):
+    serializer_class = clientesIbarraSerializer
+    queryset = ClientesIbarra.objects.all()

@@ -1,0 +1,14 @@
+.navegacion {
+    color: black;
+}
+
+.menu {
+    background-color: #d43137;
+}
+
+
+.navegacion:hover {
+    color: white;
+    transform: scale(1) translateX(10px);
+    transition: transform 0.2s;
+}

@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .serializer import devolucionesSerializer
+from .models import Devoluciones
 
-# Create your views here.
+class DevolucionesView(viewsets.ModelViewSet):
+    serializer_class = devolucionesSerializer
+    queryset = Devoluciones.objects.all()

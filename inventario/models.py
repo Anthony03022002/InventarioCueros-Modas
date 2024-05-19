@@ -1,5 +1,4 @@
 from django.db import models
-
 from factura.models import Factura
 
 # Create your models here.

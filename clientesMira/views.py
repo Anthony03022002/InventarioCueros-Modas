@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .serializer import clientesMiraSerializer
+from .models import ClientesMira
 
-# Create your views here.
+class ClientesMiraView(viewsets.ModelViewSet):
+    serializer_class = clientesMiraSerializer
+    queryset = ClientesMira.objects.all()

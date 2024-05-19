@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .serializer import inventarioSerializer
+from .models import Inventario
 
-# Create your views here.
+class InventarioView(viewsets.ModelViewSet):
+    serializer_class = inventarioSerializer
+    queryset = Inventario.objects.all()

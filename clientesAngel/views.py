@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .serializer import clientesAngelSerializer
+from .models import ClientesAngel
 
-# Create your views here.
+class ClientesAngelView(viewsets.ModelViewSet):
+    serializer_class = clientesAngelSerializer
+    queryset = ClientesAngel.objects.all()

@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .serializer import generarPagoIbarraSerializer
+from .models import generarPagoIbarra
 
-# Create your views here.
+class GenerarPagoIbarraView(viewsets.ModelViewSet):
+    serializer_class = generarPagoIbarraSerializer
+    queryset = generarPagoIbarra.objects.all()
