@@ -1,9 +1,10 @@
+import '../index.css'
+
 export function Home() {
   return (
-    <div className="container">
-      <div className="text-center pt-20">
-        <h1>Pagina de inicios</h1>
-        <button>Click</button>
+    <div className="container-home">
+      <div className="text-center pt-4">
+        <img src='../imagenes/logo_empresa.jpg' alt='No se encuentra la imagen'/>
       </div>
     </div>
   );

@@ -2,13 +2,33 @@
     color: black;
 }
 
-.menu {
-    background-color: #d43137;
-}
-
-
 .navegacion:hover {
     color: white;
     transform: scale(1) translateX(10px);
     transition: transform 0.2s;
 }
+
+.container-home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 65vh;
+}
+
+.nav_bar {
+    background: rgb(107, 30, 179);
+    background: linear-gradient(0deg, rgba(107, 30, 179, 1) 32%, rgba(195, 34, 37, 1) 74%);
+}
+
+.menu {
+    background-color: #C62828;
+}
+.iconos{
+    font-size: 25px;
+    margin-left: 20px;
+}
+h3{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-left: 25px;
+}
+
