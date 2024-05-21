@@ -8,7 +8,18 @@ export const getAllFacturas = () => facturaApi.get('/');
 
 // export const getFacturas = (id) => facturaApi.get(`/${id}/`);
 
-// export const createCliente = (clientes) => clienteApi.post('/', clientes);
+export const createFacturas = (factura) => {
+    const formData = new FormData();
+    formData.append('proveedor', factura.proveedor);
+    formData.append('fecha', factura.fecha);
+    formData.append('file', factura.file[0]);  // Asegúrate de que 'file' sea un array
+
+    return facturaApi.post('/', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+};
 
 // export const deleteCliente = (id) => clienteApi.delete(`/${id}`)
 

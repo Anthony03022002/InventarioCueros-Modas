@@ -23,7 +23,7 @@ export function ClientesAtuntaquiList() {
   }, []);
   return (
     <div className="container pt-4">
-      <h1 className="text-center">Clientes Angel</h1>
+      <h1 className="text-center">Clientes Atuntaqui</h1>
       <table className="table table-bordered">
         <thead>
           <tr>

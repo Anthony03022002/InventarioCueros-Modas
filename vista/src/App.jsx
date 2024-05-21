@@ -15,6 +15,8 @@ import { ClientesLagoagrioList } from "./components/ClientesLagoagrioList";
 import { ClientesMiraList } from "./components/ClientesMiraList";
 import { ClientesOtavaloList } from "./components/ClientesOtavaloList";
 import { ClientesPimampiroList } from "./components/ClientesPimampiroList";
+import { FacturasForm } from "./pages/FacturasForm";
+import { ClientesAngelForm } from "./pages/ClientesAngelForm";
 function App() {
   return (
     <BrowserRouter>
@@ -35,6 +37,8 @@ function App() {
         <Route path="/clientesMira" element={<ClientesMiraList/>}/>
         <Route path="/clientesOtavalo" element={<ClientesOtavaloList/>}/>
         <Route path="/clientesPimampiro" element={<ClientesPimampiroList/>}/>
+        <Route path="/crear-factura" element={<FacturasForm/>}/>
+        <Route path="/crear-clienteAngel" element={<ClientesAngelForm/>}/>
       </Routes>
     </BrowserRouter>
   );

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAllFacturas } from "../api/facturas.api";
+import { Link } from "react-router-dom";
 
 export function Facturas() {
   const [facturas, setFacturas] = useState([]);
@@ -15,6 +16,7 @@ export function Facturas() {
   return (
     <div className="container pt-4">
       <h1 className="text-center">Facturas</h1>
+      <div><Link to='/crear-factura'>Crear factura</Link></div>
       <table className="table table-bordered">
         <thead>
           <tr>

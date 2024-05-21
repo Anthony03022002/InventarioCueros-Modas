@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { getAllClientesAngel } from "../api/clientesAngel.api";
 import { getAllInventario } from "../api/inventario.api";
+import { Link } from "react-router-dom";
+
 
 export function ClientesAngelList() {
   const [clientesAngel, setClientesAngel] = useState([]);
@@ -24,6 +26,7 @@ export function ClientesAngelList() {
   return (
     <div className="container pt-4">
       <h1 className="text-center">Clientes Angel</h1>
+      <Link to='/crear-clienteAngel'>Crear cliente</Link>
       <table className="table table-bordered">
         <thead>
           <tr>
