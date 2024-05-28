@@ -43,6 +43,7 @@ urlpatterns = [
     path('', include('factura.urls')),
     path('', include('inventario.urls')),
     path('', include('devoluciones.urls')),
+    path('', include('productoClienteAngel.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

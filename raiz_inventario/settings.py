@@ -62,7 +62,8 @@ INSTALLED_APPS = [
     'devoluciones',
     'kardex',
     'rest_framework',
-    'corsheaders'
+    'corsheaders',
+    'productoClienteAngel'
 ]
 
 MIDDLEWARE = [

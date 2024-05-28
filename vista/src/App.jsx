@@ -17,6 +17,8 @@ import { ClientesOtavaloList } from "./components/ClientesOtavaloList";
 import { ClientesPimampiroList } from "./components/ClientesPimampiroList";
 import { FacturasForm } from "./pages/FacturasForm";
 import { ClientesAngelForm } from "./pages/ClientesAngelForm";
+import { ProductoClienteAngelList } from "./components/ProductoClienteAngelList";
+import { ProductoClienteAngelForm } from "./pages/ProductoClienteAngelForm";
 function App() {
   return (
     <BrowserRouter>
@@ -39,6 +41,8 @@ function App() {
         <Route path="/clientesPimampiro" element={<ClientesPimampiroList/>}/>
         <Route path="/crear-factura" element={<FacturasForm/>}/>
         <Route path="/crear-clienteAngel" element={<ClientesAngelForm/>}/>
+        <Route path="/productosAngel" element={<ProductoClienteAngelList/>}/>
+        <Route path="/crear-productosAngel" element={<ProductoClienteAngelForm/>}/>
       </Routes>
     </BrowserRouter>
   );

@@ -1,9 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
-import Select from "react-select";
 import { createClienteAngel } from "../api/clientesAngel.api";
-import { getAllInventario } from "../api/inventario.api";
 
 export function ClientesAngelForm() {
   const {
@@ -11,38 +8,18 @@ export function ClientesAngelForm() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [inventarios, setInventario] = useState([]);
-  const [selectedProductos, setSelectedProductos] = useState([]);
   
-
-  const cantidadRef = useRef(null);
-
   const navigate = useNavigate();
 
-  useEffect(() => {
-    async function cargarInventario() {
-      const res = await getAllInventario();
-      setInventario(res.data);
-    }
-    cargarInventario();
-  }, []);
-
-  const onSubmit = handleSubmit(async (data) => {
-    data.producto = selectedProductos.map((p) => p.value);
+  const onSubmit = handleSubmit(async data=>{
     await createClienteAngel(data);
-    navigate("/clientesAngel");
+
+    const confirmacion = window.confirm("¿Desea crear una venta?");
+    if (confirmacion) {
+      navigate('/crear-productosAngel');
+    }
   });
 
-  const handleProductoChange = (selectedOptions) => {
-    setSelectedProductos(selectedOptions);
-  };
-
-  const productOptions = inventarios.map((inventario) => ({
-    value: inventario.id,
-    label: inventario.producto,
-    stock: inventario.stock,
-    precio: inventario.precio // Assuming stock is the field name in your model
-  }));
 
   return (
     <div>
@@ -81,64 +58,9 @@ export function ClientesAngelForm() {
           {...register("direccion", { required: true })}
         />
         {errors.direccion && <span>Este campo es requerido</span>}
-
-        <label>Selecciona los productos:</label>
-        <Select
-          isMulti
-          options={productOptions}
-          onChange={handleProductoChange}
-          placeholder="Busca y selecciona productos..."
-        />
-
-        <input
-          ref={cantidadRef}
-          type="number"
-          placeholder="Cantidad del producto"
-          {...register("cantidad_producto", { required: true })}
-        />
-        {errors.cantidad_producto && <span>Este campo es requerido</span>}
-
-        <input
-          type="number"
-          placeholder="Total a pagar"
-          {...register("total_pagar", { required: true })}
-        />
-        {errors.total_pagar && <span>Este campo es requerido</span>}
-
-        <input type="date" {...register("fecha_venta", { required: true })} />
-        {errors.fecha_venta && <span>Este campo es requerido</span>}
-
-        <label>Estado del Pago:</label>
-        <select {...register("estado", { required: true })}>
-          <option value="pagado">Por pagar</option>
-          <option value="cancelado">Cancelado</option>
-        </select>
-        {errors.estado && <span>Este campo es requerido</span>}
-
         <button type="submit">Enviar</button>
       </form>
 
-      <h3>Productos Seleccionados</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Producto</th>
-            <th>Stock</th>
-            <th>Precio</th>
-            <th>total</th>
-          </tr>
-        </thead>
-        <tbody>
-          {selectedProductos.map((producto) => (
-            <tr key={producto.value}>
-              <td>{producto.label}</td>
-              <td>{producto.stock}</td>
-              <td>{producto.precio}</td>
-              {/* <td>{producto.precio * producto.stock}</td> */}
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 }

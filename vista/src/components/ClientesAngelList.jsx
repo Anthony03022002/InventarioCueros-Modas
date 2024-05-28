@@ -30,31 +30,20 @@ export function ClientesAngelList() {
       <table className="table table-bordered">
         <thead>
           <tr>
+            <th scope="col">Cedula</th>
             <th scope="col">Nombre Completo</th>
-            <th scope="col">Productos</th>
-            <th scope="col">Total a pagar</th>
-            <th scope="col">Estado</th>
+            <th scope="col">Direccion</th>
+            <th scope="col">Celular</th>
             <th scope="col">Acciones</th>
           </tr>
         </thead>
         <tbody>
           {currentClientesAngel.map((cliente) => (
             <tr key={cliente.id}>
-              <th>{cliente.nombre_completo}</th>
-              <td>
-                <ul>
-                  {cliente.producto.map((productoId) => {
-                    const producto = inventarios.find(
-                      (inventario) => inventario.id === productoId
-                    );
-                    return producto ? (
-                      <li key={producto.id}>{producto.producto}</li>
-                    ) : null;
-                  })}
-                </ul>
-              </td>
-              <td>{cliente.total_pagar}</td>
-              <td>{cliente.estado}</td>
+              <th>{cliente.cedula}</th>
+              <td>{cliente.nombre_completo}</td>
+              <td>{cliente.direccion}</td>
+              <td>{cliente.celular}</td>
             </tr>
           ))}
         </tbody>
