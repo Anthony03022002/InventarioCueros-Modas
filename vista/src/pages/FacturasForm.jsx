@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
-import { createFacturas } from "../api/facturas.api";
-import { useNavigate } from "react-router-dom";
+import { createFacturas, deleteFacturas } from "../api/facturas.api";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 export function FacturasForm() {
@@ -9,6 +9,8 @@ export function FacturasForm() {
   } } = useForm();
 
   const navigate = useNavigate()
+  const params = useParams();
+
 
   const onSubmit = handleSubmit(async data=>{
    await createFacturas(data)
@@ -37,6 +39,15 @@ export function FacturasForm() {
 
         <button>Guardar</button>
       </form>
+      {params.id && (
+      <button onClick={async()=>{
+        const acepta = window.confirm('Estas seguro de eliminarlo')
+        if (acepta) {
+          await deleteFacturas(params.id)
+          navigate('/facturas')
+        }
+      }}>Eliminar</button>
+      )}
     </div>
   );
 }

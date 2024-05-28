@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { getAllInventario } from "../api/inventario.api";
 import { getAllFacturas } from "../api/facturas.api";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const Inventario = () => {
   const [inventarios, setInventario] = useState([]);
   const [facturas, setFacturas] = useState([]);
-  const currentInventario = inventarios
+  const navigate = useNavigate()
 
   useEffect(() => {
     async function cargarFacturas() {
@@ -26,6 +28,7 @@ export const Inventario = () => {
   return (
     <div className="container pt-4">
       <h1 className="text-center">Inventario</h1>
+      <Link to="/crear-inventario">Ingresar producto</Link>
       <table className="table table-bordered">
         <thead>
           <tr>
@@ -39,7 +42,7 @@ export const Inventario = () => {
           </tr>
         </thead>
         <tbody>
-          {currentInventario.map((inventario) => (
+          {inventarios.map((inventario) => (
             <tr key={inventario.id}>
               <th>{inventario.codigo}</th>
               <td>{inventario.producto}</td>
@@ -47,6 +50,13 @@ export const Inventario = () => {
               <td>{inventario.talla}</td>
               <td>{inventario.stock}</td>
               <td>{facturas.find(factura => factura.id === inventario.proveedor)?.proveedor || 'no se encuentra proveedor'}</td>
+              <td>
+                <button
+                  onClick={()=>{
+                    navigate(`/inventario/${inventario.id}`)
+                  }}
+                ><i className="bi bi-pen-fill"></i></button>
+              </td>
             </tr>
           ))}
         </tbody>

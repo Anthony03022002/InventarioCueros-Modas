@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { getAllFacturas } from "../api/facturas.api";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 export function Facturas() {
   const [facturas, setFacturas] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
     async function cargarFacturas() {
@@ -16,7 +19,9 @@ export function Facturas() {
   return (
     <div className="container pt-4">
       <h1 className="text-center">Facturas</h1>
-      <div><Link to='/crear-factura'>Crear factura</Link></div>
+      <div>
+        <Link to="/crear-factura">Crear factura</Link>
+      </div>
       <table className="table table-bordered">
         <thead>
           <tr>
@@ -27,11 +32,27 @@ export function Facturas() {
           </tr>
         </thead>
         <tbody>
-          {facturas.map((factura)=>(
+          {facturas.map((factura) => (
             <tr key={factura.id}>
               <td>{factura.fecha}</td>
               <td>{factura.proveedor}</td>
-              <td><a href={factura.file} target="_blank" rel="noopener noreferrer">Ver archivo</a></td>
+              <td>
+                <a
+                  href={factura.file}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Ver archivo
+                </a>
+              </td>
+              <td>
+                <button>Editar</button>
+                <button
+                  onClick={()=>{
+                    navigate(`/facturas/${factura.id}`)
+                  }}
+                >Eliminar</button>
+              </td>
             </tr>
           ))}
         </tbody>

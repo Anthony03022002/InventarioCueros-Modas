@@ -6,10 +6,10 @@ const inventarioApi = axios.create({
 
 export const getAllInventario = () => inventarioApi.get('/');
 
-// export const getFacturas = (id) => facturaApi.get(`/${id}/`);
+export const getInventario = (id) => inventarioApi.get(`/${id}/`);
 
-// export const createCliente = (clientes) => clienteApi.post('/', clientes);
+export const createInventario= (producto) => inventarioApi.post('/', producto);
 
-// export const deleteCliente = (id) => clienteApi.delete(`/${id}`)
+export const deleteInventario = (id) => inventarioApi.delete(`/${id}`)
 
-// export const updateCliente= (id, clientes) => clienteApi.put(`/${id}/`, clientes)
+export const updateInventario= (id, producto) => inventarioApi.put(`/${id}/`, producto)

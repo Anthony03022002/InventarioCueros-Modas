@@ -6,10 +6,10 @@ const productoClienteAngelApi = axios.create({
 
 export const getAllproductoClienteAngel = () => productoClienteAngelApi.get('/');
 
-// export const getFacturas = (id) => facturaApi.get(`/${id}/`);
+export const getProductoAngel = (id) => productoClienteAngelApi.get(`/${id}/`);
 
 export const creatproductoClienteAngel = (producto) => productoClienteAngelApi.post('/', producto);
 
-// export const deleteCliente = (id) => clienteApi.delete(`/${id}`)
+export const deleteProductoClienteAngel = (id) => productoClienteAngelApi.delete(`/${id}`)
 
-// export const updateCliente= (id, clientes) => clienteApi.put(`/${id}/`, clientes)
+export const updateProductoClienteAngel= (id, producto) => productoClienteAngelApi.put(`/${id}/`, producto)

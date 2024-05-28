@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useForm, useFieldArray, Controller } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
 import { getAllClientesAngel } from "../api/clientesAngel.api";
 import { getAllInventario } from "../api/inventario.api";
 import Select from "react-select";
-import { creatproductoClienteAngel } from "../api/productoAngel.api";
+import {
+  creatproductoClienteAngel,
+  deleteProductoClienteAngel,
+  updateProductoClienteAngel,
+  getProductoAngel,
+} from "../api/productoAngel.api";
 
 export function ProductoClienteAngelForm() {
   const [clientesAngel, setClientesAngel] = useState([]);
@@ -18,7 +23,7 @@ export function ProductoClienteAngelForm() {
   });
 
   const navigate = useNavigate();
-
+  const params = useParams();
 
   useEffect(() => {
     async function cargarClientesAngel() {
@@ -69,25 +74,67 @@ export function ProductoClienteAngelForm() {
   };
 
   const onSubmit = handleSubmit(async (data) => {
-    await creatproductoClienteAngel(data);
-    const addMore = window.confirm("¿Ingresar otro producto?");
-    if (!addMore) {
-      setRedirect(true);
+    if (params.id) {
+      await updateProductoClienteAngel(params.id, data);
+    } else {
+      await creatproductoClienteAngel(data);
+      const addMore = window.confirm("¿Desea ingresar otro producto?");
+      if (!addMore) {
+        setRedirect(true);
+      }
+      navigate("/productosAngel");
     }
-      navigate("/productosAngel")
   });
 
+  useEffect(() => {
+    async function actualizarProductos() {
+      if (params.id) {
+        try {
+          const { data } = await getProductoAngel(params.id);
 
+          if (clienteOptions && data && data.cliente) {
+
+            const selectedCliente = clienteOptions.find(
+              (option) => option.value === data.cliente
+            );
+            if (selectedCliente) {
+              setValue("cliente", selectedCliente.value);
+              setValue("estado", data.estado);
+              setValue("fecha_venta", data.fecha_venta);
+              setValue("cantidad", data.cantidad);
+              setValue("total_pagar", data.total_pagar);
+            }
+          }
+        } catch (error) {
+          console.error("Error al obtener producto:", error);
+        }
+      }
+    }
+
+    actualizarProductos();
+  }, [params.id, setValue, clienteOptions]);
 
   return (
     <div>
       <form onSubmit={onSubmit}>
-        <Select
-          options={clienteOptions}
-          onChange={(selectedOption) =>
-            setValue("cliente", selectedOption.value)
-          }
-          placeholder="Seleccionar Cliente"
+        <Controller
+          name="cliente"
+          control={control}
+          render={({ field }) => (
+            <Select
+              {...field}
+              options={clienteOptions}
+              onChange={(selectedOption) => {
+                field.onChange(selectedOption.value); // Actualiza solo el valor (ID) en el formulario
+                setValue("cliente", selectedOption.value); // Actualiza solo el valor (ID) del Select
+              }}
+              placeholder="Seleccionar Cliente"
+              value={
+                clienteOptions.find((option) => option.value === field.value) ||
+                null
+              } // Asegúrate de que el valor actual se refleje en el Select
+            />
+          )}
         />
         <input type="date" {...register("fecha_venta")} />
         {fields.map((item, index) => (
@@ -118,9 +165,7 @@ export function ProductoClienteAngelForm() {
         ))}
         <button
           type="button"
-          onClick={() =>
-            append({ producto: "", cantidad: 0, total_pagar: 0 })
-          }
+          onClick={() => append({ producto: "", cantidad: 0, total_pagar: 0 })}
         >
           Agregar Producto
         </button>
@@ -130,9 +175,10 @@ export function ProductoClienteAngelForm() {
           {...register("estado", { required: true })}
         >
           <option value="">Selecciona el Estado del Pago</option>
-          <option value="por_pagar">Por pagar</option>
+          <option value="Pendiente">Pendiente</option>
           <option value="cancelado">Cancelado</option>
         </select>
+
         <button type="submit">Enviar</button>
       </form>
       {fields.map((item, index) => (
@@ -141,6 +187,19 @@ export function ProductoClienteAngelForm() {
           <div>Precio: {productoInfo[index]?.precio}</div>
         </div>
       ))}
+      {params.id && (
+        <button
+          onClick={async () => {
+            const acepta = window.confirm("Estas seguro de eliminarlo");
+            if (acepta) {
+              await deleteProductoClienteAngel(params.id);
+              navigate("/productosAngel");
+            }
+          }}
+        >
+          <i className="bi bi-trash3-fill"></i>
+        </button>
+      )}
     </div>
   );
 }

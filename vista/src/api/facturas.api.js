@@ -21,6 +21,6 @@ export const createFacturas = (factura) => {
     });
 };
 
-// export const deleteCliente = (id) => clienteApi.delete(`/${id}`)
+export const deleteFacturas = (id) => facturaApi.delete(`/${id}`)
 
 // export const updateCliente= (id, clientes) => clienteApi.put(`/${id}/`, clientes)

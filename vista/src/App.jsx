@@ -2,10 +2,10 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Home } from "./components/Home";
 import { Navegacion } from "./components/Navegacion";
-import { Facturas } from "./pages/Facturas";
-import { Inventario } from "./pages/Inventario";
-import { Devoluciones } from "./pages/Devoluciones";
-import { Kardex } from "./pages/Kardex";
+import { Facturas } from "./components/Facturas";
+import { Inventario } from "./components/Inventario";
+import { DevolucionesList } from "./components/DevolucionesList";
+import { Kardex } from "./components/Kardex";
 import { ClientesAngelList } from "./components/ClientesAngelList";
 import { ClientesAtuntaquiList } from "./components/ClientesAtuntaquiList";
 import { ClientesBolivarList } from "./components/ClientesBolivarList";
@@ -19,6 +19,7 @@ import { FacturasForm } from "./pages/FacturasForm";
 import { ClientesAngelForm } from "./pages/ClientesAngelForm";
 import { ProductoClienteAngelList } from "./components/ProductoClienteAngelList";
 import { ProductoClienteAngelForm } from "./pages/ProductoClienteAngelForm";
+import { InventarioForm } from "./pages/InventarioForm";
 function App() {
   return (
     <BrowserRouter>
@@ -27,8 +28,11 @@ function App() {
         <Route path="/" element={<Navigate to='/inicio'/>}/>
         <Route path="/inicio" element={<Home/>}/>
         <Route path="/facturas" element={<Facturas/>}/>
+        <Route path="/facturas/:id" element={<FacturasForm/>}/>
         <Route path="/inventario" element={<Inventario/>}/>
-        <Route path="/devoluciones" element={<Devoluciones/>}/>
+        <Route path="/crear-inventario" element={<InventarioForm/>}/>
+        <Route path="/inventario/:id" element={<InventarioForm/>}/>
+        <Route path="/devoluciones" element={<DevolucionesList/>}/>
         <Route path="/kardex" element={<Kardex/>}/>
         <Route path="/clientesAngel" element={<ClientesAngelList/>}/>
         <Route path="/clientesAtuntaqui" element={<ClientesAtuntaquiList/>}/>
@@ -42,6 +46,7 @@ function App() {
         <Route path="/crear-factura" element={<FacturasForm/>}/>
         <Route path="/crear-clienteAngel" element={<ClientesAngelForm/>}/>
         <Route path="/productosAngel" element={<ProductoClienteAngelList/>}/>
+        <Route path="/productosAngel/:id" element={<ProductoClienteAngelForm/>}/>
         <Route path="/crear-productosAngel" element={<ProductoClienteAngelForm/>}/>
       </Routes>
     </BrowserRouter>
