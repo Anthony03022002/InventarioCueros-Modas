@@ -1,29 +1,47 @@
 import { useForm } from "react-hook-form";
-import { createFacturas, deleteFacturas } from "../api/facturas.api";
+import { createFacturas, deleteFacturas, getFactura, updateFacturas } from "../api/facturas.api";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { useEffect, useState } from "react";
 
 export function FacturasForm() {
-  const { register, handleSubmit, formState:{
-    errors
-  } } = useForm();
-
-  const navigate = useNavigate()
+  const { register, setValue, handleSubmit, formState: { errors } } = useForm();
+  const navigate = useNavigate();
   const params = useParams();
+  const [fileUrl, setFileUrl] = useState(null);
 
+  const onSubmit = handleSubmit(async (data) => {
+    const formData = new FormData();
+    formData.append('proveedor', data.proveedor);
+    formData.append('fecha', data.fecha);
+    if (data.file[0]) {
+      formData.append('file', data.file[0]);
+    }
+    if (params.id) {
+      await updateFacturas(params.id, formData);
+    } else {
+      await createFacturas(formData);
+    }
+    navigate('/facturas');
+  });
 
-  const onSubmit = handleSubmit(async data=>{
-   await createFacturas(data)
-   navigate('/facturas')
-  })
-
+  useEffect(() => {
+    async function actualizarFacturas() {
+      if (params.id) {
+        const { data } = await getFactura(params.id);
+        setValue('proveedor', data.proveedor);
+        setValue('fecha', data.fecha);
+        setFileUrl(data.fileUrl); 
+      }
+    }
+    actualizarFacturas();
+  }, [params.id, setValue]);
 
   return (
     <div>
       <form onSubmit={onSubmit} encType="multipart/form-data">
         <input
           type="text"
-          placeholder="proveedor"
+          placeholder="Proveedor"
           {...register("proveedor", { required: true })}
         />
         {errors.proveedor && <span>Este campo es requerido</span>}
@@ -39,14 +57,19 @@ export function FacturasForm() {
 
         <button>Guardar</button>
       </form>
+      {fileUrl && (
+        <div>
+          <a href={fileUrl} target="_blank" rel="noopener noreferrer">Ver archivo actual</a>
+        </div>
+      )}
       {params.id && (
-      <button onClick={async()=>{
-        const acepta = window.confirm('Estas seguro de eliminarlo')
-        if (acepta) {
-          await deleteFacturas(params.id)
-          navigate('/facturas')
-        }
-      }}>Eliminar</button>
+        <button onClick={async () => {
+          const acepta = window.confirm('Estas seguro de eliminarlo');
+          if (acepta) {
+            await deleteFacturas(params.id);
+            navigate('/facturas');
+          }
+        }}>Eliminar</button>
       )}
     </div>
   );

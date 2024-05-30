@@ -6,7 +6,7 @@ const facturaApi = axios.create({
 
 export const getAllFacturas = () => facturaApi.get('/');
 
-// export const getFacturas = (id) => facturaApi.get(`/${id}/`);
+export const getFactura = (id) => facturaApi.get(`/${id}/`);
 
 export const createFacturas = (factura) => {
     const formData = new FormData();
@@ -23,4 +23,4 @@ export const createFacturas = (factura) => {
 
 export const deleteFacturas = (id) => facturaApi.delete(`/${id}`)
 
-// export const updateCliente= (id, clientes) => clienteApi.put(`/${id}/`, clientes)
+export const updateFacturas= (id, clientes) => facturaApi.put(`/${id}/`, clientes)

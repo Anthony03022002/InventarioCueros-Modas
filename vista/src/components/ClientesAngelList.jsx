@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 export function ClientesAngelList() {
   const [clientesAngel, setClientesAngel] = useState([]);
-  const currentClientesAngel = clientesAngel;
 
   useEffect(() => {
     async function cargarClientesAngel() {
@@ -29,7 +28,7 @@ export function ClientesAngelList() {
           </tr>
         </thead>
         <tbody>
-          {currentClientesAngel.map((cliente) => (
+          {clientesAngel.map((cliente) => (
             <tr key={cliente.id}>
               <th>{cliente.cedula}</th>
               <td>{cliente.nombre_completo}</td>

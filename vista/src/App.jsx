@@ -5,6 +5,7 @@ import { Navegacion } from "./components/Navegacion";
 import { Facturas } from "./components/Facturas";
 import { Inventario } from "./components/Inventario";
 import { DevolucionesList } from "./components/DevolucionesList";
+import { DevolucionForm } from "./pages/DevolucionForm";
 import { Kardex } from "./components/Kardex";
 import { ClientesAngelList } from "./components/ClientesAngelList";
 import { ClientesAtuntaquiList } from "./components/ClientesAtuntaquiList";
@@ -33,6 +34,7 @@ function App() {
         <Route path="/crear-inventario" element={<InventarioForm/>}/>
         <Route path="/inventario/:id" element={<InventarioForm/>}/>
         <Route path="/devoluciones" element={<DevolucionesList/>}/>
+        <Route path="/crear-devolucion" element={<DevolucionForm/>}/>
         <Route path="/kardex" element={<Kardex/>}/>
         <Route path="/clientesAngel" element={<ClientesAngelList/>}/>
         <Route path="/clientesAtuntaqui" element={<ClientesAtuntaquiList/>}/>

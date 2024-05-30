@@ -15,5 +15,4 @@ class ProductoClienteAngel(models.Model):
     class Meta:
         db_table = 'producto_cliente'
 
-    def __str__(self):
-        return f'{self.cliente.nombre_completo} - {self.producto.producto} ({self.cantidad})'
+    

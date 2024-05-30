@@ -46,12 +46,11 @@ export function Facturas() {
                 </a>
               </td>
               <td>
-                <button>Editar</button>
                 <button
                   onClick={()=>{
                     navigate(`/facturas/${factura.id}`)
                   }}
-                >Eliminar</button>
+                ><i className="bi bi-pen-fill"></i></button>
               </td>
             </tr>
           ))}

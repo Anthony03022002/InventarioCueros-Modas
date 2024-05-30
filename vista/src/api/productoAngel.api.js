@@ -8,8 +8,8 @@ export const getAllproductoClienteAngel = () => productoClienteAngelApi.get('/')
 
 export const getProductoAngel = (id) => productoClienteAngelApi.get(`/${id}/`);
 
-export const creatproductoClienteAngel = (producto) => productoClienteAngelApi.post('/', producto);
+export const creatproductoClienteAngel = (cliente) => productoClienteAngelApi.post('/', cliente);
 
 export const deleteProductoClienteAngel = (id) => productoClienteAngelApi.delete(`/${id}`)
 
-export const updateProductoClienteAngel= (id, producto) => productoClienteAngelApi.put(`/${id}/`, producto)
+export const updateProductoClienteAngel= (id, cliente) => productoClienteAngelApi.put(`/${id}/`, cliente)
