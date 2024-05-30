@@ -13,7 +13,7 @@ export function ProductoClienteAngelForm() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [precio, setPrecio] = useState(0);
   const [stock, setStock] = useState(0);
-  const [cantidad, setCantidad] = useState(0);
+  const [setCantidad] = useState(0);
   const {
     register,
     handleSubmit,

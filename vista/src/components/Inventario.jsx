@@ -29,6 +29,7 @@ export const Inventario = () => {
     <div className="container pt-4">
       <h1 className="text-center">Inventario</h1>
       <Link to="/crear-inventario">Ingresar producto</Link>
+      <Link to="/stockHistorial">Historial</Link>
       <table className="table table-bordered">
         <thead>
           <tr>

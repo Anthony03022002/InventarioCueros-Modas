@@ -6,10 +6,10 @@ const devolucionesApi = axios.create({
 
 export const getAlldevoluciones = () => devolucionesApi.get('/');
 
-// export const getFacturas = (id) => facturaApi.get(`/${id}/`);
+export const getDevolucion = (id) => devolucionesApi.get(`/${id}/`);
 
 export const createdevoluciones= (producto) => devolucionesApi.post('/', producto);
 
-// export const deleteCliente = (id) => clienteApi.delete(`/${id}`)
+export const deleteDevoluciones = (id) => devolucionesApi.delete(`/${id}`)
 
-// export const updateCliente= (id, clientes) => clienteApi.put(`/${id}/`, clientes)
+export const updateDevoluciones = (id, producto) => devolucionesApi.put(`/${id}/`, producto)

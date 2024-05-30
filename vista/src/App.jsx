@@ -21,6 +21,7 @@ import { ClientesAngelForm } from "./pages/ClientesAngelForm";
 import { ProductoClienteAngelList } from "./components/ProductoClienteAngelList";
 import { ProductoClienteAngelForm } from "./pages/ProductoClienteAngelForm";
 import { InventarioForm } from "./pages/InventarioForm";
+import { StockHistorial } from "./components/StockHistorial";
 function App() {
   return (
     <BrowserRouter>
@@ -34,8 +35,10 @@ function App() {
         <Route path="/crear-inventario" element={<InventarioForm/>}/>
         <Route path="/inventario/:id" element={<InventarioForm/>}/>
         <Route path="/devoluciones" element={<DevolucionesList/>}/>
+        <Route path="/devoluciones/:id" element={<DevolucionForm/>}/>
         <Route path="/crear-devolucion" element={<DevolucionForm/>}/>
         <Route path="/kardex" element={<Kardex/>}/>
+        <Route path="/stockHistorial" element={<StockHistorial/>}/>
         <Route path="/clientesAngel" element={<ClientesAngelList/>}/>
         <Route path="/clientesAtuntaqui" element={<ClientesAtuntaquiList/>}/>
         <Route path="/clientesBolivar" element={<ClientesBolivarList/>}/>

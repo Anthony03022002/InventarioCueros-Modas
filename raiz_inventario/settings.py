@@ -63,7 +63,8 @@ INSTALLED_APPS = [
     'kardex',
     'rest_framework',
     'corsheaders',
-    'productoClienteAngel'
+    'productoClienteAngel',
+    'stockHistoria'
 ]
 
 MIDDLEWARE = [

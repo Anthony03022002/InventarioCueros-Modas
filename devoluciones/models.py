@@ -7,11 +7,7 @@ from inventario.models import Inventario
 class Devoluciones(models.Model):
     devolucion = models.CharField(max_length=100)
     cantidad_devolver = models.IntegerField()
-    precio = models.DecimalField(max_digits=100,decimal_places=2)
-    stock = models.IntegerField()
-    talla = models.CharField(max_length=30)
     fecha_devolucion = models.DateField()
-    modelo = models.CharField(max_length=30)
     observacion = models.CharField(max_length=500)
     responsable = models.CharField(max_length=50)
  

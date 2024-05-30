@@ -1,15 +1,27 @@
-import { getAllFacturas } from "../api/facturas.api";
-import { useEffect, useState } from "react";
-import { createInventario, deleteInventario, updateInventario, getInventario } from "../api/inventario.api";
-import { useForm } from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
+import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
+import { getAllFacturas } from "../api/facturas.api";
+import { getAllInventario, createInventario, updateInventario, getInventario } from "../api/inventario.api";
+import { createStockHistoria } from "../api/stockhistorial.api";
+
 export function InventarioForm() {
   const [facturas, setFacturas] = useState([]);
-
-  const { register, handleSubmit, setValue } = useForm();
-
+  const [inventarios, setInventario] = useState([]);
+  const { register, handleSubmit, setValue, control, watch } = useForm();
   const navigate = useNavigate();
   const params = useParams();
+  const [existingInventario, setExistingInventario] = useState(null);
+
+  useEffect(() => {
+    async function cargarInventario() {
+      const res = await getAllInventario();
+      setInventario(res.data);
+    }
+    cargarInventario();
+  }, []);
 
   useEffect(() => {
     async function cargarFacturas() {
@@ -19,47 +31,114 @@ export function InventarioForm() {
     cargarFacturas();
   }, []);
 
-  const onSubmit = handleSubmit(async (data) => {
-    if (params.id) {
-      await updateInventario(params.id, data)
-    } else {
-      await createInventario(data);
-    }
-    navigate("/inventario");
-  });
-  useEffect(()=>{
+  useEffect(() => {
     async function actualizarInventario() {
       if (params.id) {
-       const {data}=  await getInventario(params.id);
-       setValue('codigo', data.codigo)
-       setValue('producto', data.producto)
-       setValue('cantidad_ingresar',data.cantidad_ingresar)
-       setValue('precio', data.precio)
-       setValue('stock', data.stock)
-       setValue('descripcion', data.descripcion)
-       setValue('talla', data.talla)
-       setValue('fecha_ingresa_producto', data.fecha_ingresa_producto)
-       setValue('modelo', data.modelo)
-       setValue('proveedor', data.proveedor)
+        const { data } = await getInventario(params.id);
+        setValue('codigo', { value: data.codigo, label: data.codigo });
+        setValue('producto', data.producto);
+        setValue('cantidad_ingresar', data.cantidad_ingresar);
+        setValue('precio', data.precio);
+        setValue('stock', data.stock);
+        setValue('descripcion', data.descripcion);
+        setValue('talla', data.talla);
+        setValue('fecha_ingresa_producto', data.fecha_ingresa_producto);
+        setValue('modelo', data.modelo);
+        setValue('proveedor', { value: data.proveedor, label: data.proveedor });
       }
     }
-    actualizarInventario()
-  },[])
+    actualizarInventario();
+  }, [params.id, setValue]);
 
+  const handleCodigoChange = (selectedOption) => {
+    setValue('codigo', selectedOption);
+
+    const inventario = inventarios.find(item => item.codigo === selectedOption.value);
+    if (inventario) {
+      setExistingInventario(inventario);
+      setValue('producto', inventario.producto);
+      setValue('stock', inventario.stock);
+      setValue('talla', inventario.talla);
+    } else {
+      setExistingInventario(null);
+      setValue('producto', '');
+      setValue('stock', '');
+      setValue('talla', '');
+    }
+  };
+
+  const cantidadIngresar = watch('cantidad_ingresar');
+  const stock = watch('stock');
+
+  useEffect(() => {
+    if (existingInventario) {
+      setValue('stock', parseInt(existingInventario.stock) + parseInt(cantidadIngresar || 0));
+    } else {
+      setValue('stock', cantidadIngresar);
+    }
+  }, [cantidadIngresar, existingInventario, setValue]);
+
+  const onSubmit = handleSubmit(async (data) => {
+    const formData = {
+      ...data,
+      codigo: data.codigo.value,
+      proveedor: data.proveedor.value,
+    };
+  
+    if (existingInventario) {
+      const updatedStock = parseInt(existingInventario.stock) + parseInt(data.cantidad_ingresar);
+      await updateInventario(existingInventario.id, { ...formData, stock: updatedStock });
+  
+      // Registra el historial de stock
+      await createStockHistoria({
+        codigo: data.codigo.value,
+        cantidad_ingresada: data.cantidad_ingresar,
+        fecha: data.fecha_ingresa_producto,
+        comentario: `Actualización de stock para ${data.producto}`,
+      });
+    } else {
+      // Crea un nuevo producto
+      await createInventario(formData);
+    }
+  
+    // Recargar el inventario después de la creación/actualización
+    const res = await getAllInventario();
+    setInventario(res.data);
+  
+    navigate("/inventario");
+  });
 
   return (
     <div>
       <form onSubmit={onSubmit}>
-        <input
-          type="text"
-          placeholder="Ingrese el código"
-          {...register("codigo", { required: true })}
+        <h1 className="text-center">Ingrese un Producto</h1>
+
+        <label htmlFor="codigo">Código</label>
+        <Controller
+          name="codigo"
+          control={control}
+          render={({ field }) => (
+            <CreatableSelect
+              {...field}
+              options={inventarios.map((inventario) => ({
+                value: inventario.codigo,
+                label: inventario.codigo,
+              }))}
+              placeholder="Ingrese o seleccione un código"
+              onChange={(value) => {
+                field.onChange(value);
+                handleCodigoChange(value);
+              }}
+            />
+          )}
         />
+
         <input
           type="text"
           placeholder="Ingrese el producto"
           {...register("producto", { required: true })}
         />
+        <label htmlFor="">Cantidad del producto a Ingresar</label>
         <input
           type="number"
           placeholder="Cantidad del producto"
@@ -76,12 +155,12 @@ export function InventarioForm() {
           {...register("stock", { required: true })}
         />
         <textarea
-          placeholder="Descripcion"
+          placeholder="Descripción"
           {...register("descripcion", { required: true })}
         ></textarea>
         <input
           type="text"
-          placeholder="talla"
+          placeholder="Talla"
           {...register("talla", { required: true })}
         />
         <input
@@ -95,21 +174,28 @@ export function InventarioForm() {
           <option value="mujer">Mujer</option>
         </select>
         <label>Proveedor</label>
-        <select {...register("proveedor", { required: true })}>
-          <option>Seleccione el proveedor</option>
-          {facturas.map((factura) => (
-            <option key={factura.id} value={factura.id}>
-              {factura.proveedor}
-            </option>
-          ))}
-        </select>
+        <Controller
+          name="proveedor"
+          control={control}
+          render={({ field }) => (
+            <Select
+              {...field}
+              options={facturas.map((factura) => ({
+                value: factura.id,
+                label: factura.proveedor,
+              }))}
+              placeholder="Seleccione el proveedor"
+              onChange={(value) => field.onChange(value)}
+            />
+          )}
+        />
         <button>Enviar</button>
       </form>
 
       {params.id && (
         <button
           onClick={async () => {
-            const acepta = window.confirm("Estas seguro de eliminarlo");
+            const acepta = window.confirm("¿Estás seguro de eliminarlo?");
             if (acepta) {
               await deleteInventario(params.id);
               navigate("/inventario");
