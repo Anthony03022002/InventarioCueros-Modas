@@ -38,6 +38,7 @@ export const Inventario = () => {
             <th scope="col">Modelo</th>
             <th scope="col">Talla</th>
             <th scope="col">Stock</th>
+            <th scope="col">Precio Unitario</th>
             <th scope="col">Proveedor</th>
             <th scope="col">Acciones</th>
           </tr>
@@ -50,6 +51,7 @@ export const Inventario = () => {
               <td>{inventario.modelo}</td>
               <td>{inventario.talla}</td>
               <td>{inventario.stock}</td>
+              <td>{inventario.precio}</td>
               <td>{facturas.find(factura => factura.id === inventario.proveedor)?.proveedor || 'no se encuentra proveedor'}</td>
               <td>
                 <button

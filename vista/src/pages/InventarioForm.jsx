@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
 import { getAllFacturas } from "../api/facturas.api";
-import { getAllInventario, createInventario, updateInventario, getInventario } from "../api/inventario.api";
+import { getAllInventario, createInventario, updateInventario, getInventario, deleteInventario } from "../api/inventario.api";
 import { createStockHistoria } from "../api/stockhistorial.api";
 
 export function InventarioForm() {
@@ -84,27 +84,34 @@ export function InventarioForm() {
       codigo: data.codigo.value,
       proveedor: data.proveedor.value,
     };
-  
+
+    const precioTotal = data.cantidad_ingresar * data.precio;
+
     if (existingInventario) {
       const updatedStock = parseInt(existingInventario.stock) + parseInt(data.cantidad_ingresar);
       await updateInventario(existingInventario.id, { ...formData, stock: updatedStock });
-  
-      // Registra el historial de stock
+
       await createStockHistoria({
         codigo: data.codigo.value,
         cantidad_ingresada: data.cantidad_ingresar,
         fecha: data.fecha_ingresa_producto,
-        comentario: `Actualización de stock para ${data.producto}`,
+        precio: precioTotal,
+        comentario: `Se realizo el ingreso del producto: ${data.producto}`,
       });
     } else {
-      // Crea un nuevo producto
       await createInventario(formData);
+
+      await createStockHistoria({
+        codigo: data.codigo.value,
+        cantidad_ingresada: data.cantidad_ingresar,
+        fecha: data.fecha_ingresa_producto,
+        precio: precioTotal,
+        comentario: `Se realizo el ingreso del producto: ${data.producto}`,
+      });
     }
-  
-    // Recargar el inventario después de la creación/actualización
     const res = await getAllInventario();
     setInventario(res.data);
-  
+
     navigate("/inventario");
   });
 

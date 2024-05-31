@@ -6,7 +6,6 @@ import { Facturas } from "./components/Facturas";
 import { Inventario } from "./components/Inventario";
 import { DevolucionesList } from "./components/DevolucionesList";
 import { DevolucionForm } from "./pages/DevolucionForm";
-import { Kardex } from "./components/Kardex";
 import { ClientesAngelList } from "./components/ClientesAngelList";
 import { ClientesAtuntaquiList } from "./components/ClientesAtuntaquiList";
 import { ClientesBolivarList } from "./components/ClientesBolivarList";
@@ -22,6 +21,8 @@ import { ProductoClienteAngelList } from "./components/ProductoClienteAngelList"
 import { ProductoClienteAngelForm } from "./pages/ProductoClienteAngelForm";
 import { InventarioForm } from "./pages/InventarioForm";
 import { StockHistorial } from "./components/StockHistorial";
+import { VentasHistorial } from "./components/VentasHistorial";
+import { DevolucionesHistorial } from "./components/DevolucionesHistorial";
 function App() {
   return (
     <BrowserRouter>
@@ -37,7 +38,6 @@ function App() {
         <Route path="/devoluciones" element={<DevolucionesList/>}/>
         <Route path="/devoluciones/:id" element={<DevolucionForm/>}/>
         <Route path="/crear-devolucion" element={<DevolucionForm/>}/>
-        <Route path="/kardex" element={<Kardex/>}/>
         <Route path="/stockHistorial" element={<StockHistorial/>}/>
         <Route path="/clientesAngel" element={<ClientesAngelList/>}/>
         <Route path="/clientesAtuntaqui" element={<ClientesAtuntaquiList/>}/>
@@ -53,6 +53,8 @@ function App() {
         <Route path="/productosAngel" element={<ProductoClienteAngelList/>}/>
         <Route path="/productosAngel/:id" element={<ProductoClienteAngelForm/>}/>
         <Route path="/crear-productosAngel" element={<ProductoClienteAngelForm/>}/>
+        <Route path="/ventasHistorial" element={<VentasHistorial/>}/>
+        <Route path="/devolucionesHistorial" element={<DevolucionesHistorial/>}/>
       </Routes>
     </BrowserRouter>
   );

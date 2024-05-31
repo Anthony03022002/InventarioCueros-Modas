@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Select from "react-select";
 import { getAllClientesAngel } from "../api/clientesAngel.api";
-import { getAllInventario } from "../api/inventario.api";
+import { getAllInventario, updateInventario } from "../api/inventario.api";
 import { useForm } from "react-hook-form";
 import { creatproductoClienteAngel, deleteProductoClienteAngel, updateProductoClienteAngel, getProductoAngel } from "../api/productoAngel.api";
+import { createVentasHistorial } from "../api/ventasHistorial.api";
 import { useNavigate, useParams } from "react-router-dom";
 
 export function ProductoClienteAngelForm() {
@@ -13,14 +14,9 @@ export function ProductoClienteAngelForm() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [precio, setPrecio] = useState(0);
   const [stock, setStock] = useState(0);
-  const [setCantidad] = useState(0);
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useForm();
+  const [codigo, setCodigo] = useState("");
+  const [cantidad, setCantidad] = useState(0);
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm();
   const navigate = useNavigate();
   const params = useParams();
 
@@ -42,10 +38,25 @@ export function ProductoClienteAngelForm() {
 
   const onSubmit = handleSubmit(async (data) => {
     if (params.id) {
-      updateProductoClienteAngel(params.id, data)
-    }else{
+      await updateProductoClienteAngel(params.id, data);
+    } else {
       await creatproductoClienteAngel(data);
     }
+
+    const selectedProductData = inventarios.find(item => item.id === data.producto);
+    if (selectedProductData) {
+      const updatedStock = selectedProductData.stock - data.cantidad;
+      await updateInventario(data.producto, { ...selectedProductData, stock: updatedStock });
+
+      await createVentasHistorial({
+        codigo: selectedProductData.codigo,
+        cantidad_venta: data.cantidad,
+        fecha: data.fecha_venta,
+        precio: data.total_pagar,
+        comentario: `Se realizó la venta del producto: ${selectedProductData.producto}`,
+      });
+    }
+
     navigate("/productosAngel");
   });
 
@@ -54,12 +65,13 @@ export function ProductoClienteAngelForm() {
       const selectedProductId = selectedOption?.value;
       const product = inventarios.find(
         (item) => item.id === selectedProductId
-      ) || { precio: 0, stock: 0 };
+      ) || { precio: 0, stock: 0, codigo: "" };
 
-      setSelectedProduct(selectedOption);
+      setSelectedProduct(product);
       setValue("producto", selectedProductId || "");
       setPrecio(product.precio);
       setStock(product.stock);
+      setCodigo(product.codigo);
       setValue("total_pagar", product.precio);
     },
     [inventarios, setValue]
@@ -101,6 +113,7 @@ export function ProductoClienteAngelForm() {
 
         setValue("cliente", data.cliente);
         setValue("producto", data.producto);
+        setCodigo(productoSeleccionado ? productoSeleccionado.codigo : "");
       }
     }
     actualizarProducto();
@@ -127,7 +140,7 @@ export function ProductoClienteAngelForm() {
         <label htmlFor="producto">Producto:</label>
         <Select
           {...register("producto", { required: true })}
-          value={selectedProduct}
+          value={selectedProduct && { value: selectedProduct.id, label: selectedProduct.producto }}
           onChange={handleProductChange}
           options={inventarios.map((inventario) => ({
             value: inventario.id,
@@ -198,6 +211,14 @@ export function ProductoClienteAngelForm() {
             </td>
             <td>
               <input type="number" value={stock} placeholder="Stock" readOnly />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label htmlFor="codigo">Código:</label>
+            </td>
+            <td>
+              <input type="text" value={codigo} placeholder="Código" readOnly />
             </td>
           </tr>
         </tbody>

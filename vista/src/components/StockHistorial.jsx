@@ -14,13 +14,15 @@ export  function StockHistorial() {
 
   return (
     <div className="container pt-4">
-      <h1 className="text-center">Inventario</h1>
+      <h1 className="text-center">Kardex Entradas</h1>
       <table className="table table-bordered">
         <thead>
           <tr>
             <th scope="col">Codigo</th>
             <th scope="col">Cantidad Ingresada</th>
             <th scope="col">Fecha de Ingreso</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Comentario</th>
           </tr>
         </thead>
         <tbody>
@@ -29,6 +31,8 @@ export  function StockHistorial() {
               <th>{stock.codigo}</th>
               <td>{stock.cantidad_ingresada}</td>
               <td>{stock.fecha}</td>
+              <td>{stock.precio}</td>
+              <td>{stock.comentario}</td>
             </tr>
           ))}
         </tbody>

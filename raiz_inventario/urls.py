@@ -45,6 +45,8 @@ urlpatterns = [
     path('', include('devoluciones.urls')),
     path('', include('productoClienteAngel.urls')),
     path('', include('stockHistoria.urls')),
+    path('', include('ventasHistorial.urls')),
+    path('', include('devolucionesHistorial.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

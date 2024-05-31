@@ -64,7 +64,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'productoClienteAngel',
-    'stockHistoria'
+    'stockHistoria',
+    'ventasHistorial',
+    'devolucionesHistorial'
 ]
 
 MIDDLEWARE = [

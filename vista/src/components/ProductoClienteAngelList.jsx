@@ -46,6 +46,7 @@ export function ProductoClienteAngelList() {
     <div className="container pt-4">
       <h1 className="text-center">Ventas Angel</h1>
       <Link to="/crear-productosAngel">Crear venta</Link>
+      <Link to='/ventasHistorial'>Historial</Link>
       <table className="table table-bordered">
         <thead>
           <tr>

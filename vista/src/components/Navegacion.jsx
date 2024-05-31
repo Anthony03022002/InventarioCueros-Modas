@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export function Navegacion() {
   const iconStyle = {
-    fontSize: "2rem", // Aquí defines el tamaño del ícono
+    fontSize: "2rem", 
   };
 
   return (
@@ -154,17 +154,42 @@ export function Navegacion() {
                   </li>
                 </ul>
             </li>
+          
             <li className="nav-item">
               <Link className="nav-link navegacion" to='/inventario'>
                 <i className="bi bi-file-earmark-bar-graph p-2 iconos"></i>
                 Inventario
               </Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link navegacion" to='/kardex'>
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle navegacion"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
                 <i className="bi bi-menu-button-wide p-2 iconos"></i>Kardex
-              </Link>
+              </a>
+              <ul className="dropdown-menu">
+                  <li>
+                    <Link className="dropdown-item " to="/stockHistorial">
+                      Entradas
+                    </Link>
+                  </li>
+                  <li>
+                  <Link className="dropdown-item" to="/ventasHistorial">
+                      Salidas
+                    </Link>
+                  </li>
+                  <li>
+                  <Link className="dropdown-item" to="/devolucionesHistorial">
+                      Devoluciones
+                    </Link>
+                  </li>
+                </ul>
             </li>
+
             <li className="nav-item">
               <Link className="nav-link navegacion" to='/facturas'>
                 <i className="bi bi-file-text p-2 iconos"></i>Factura
@@ -175,7 +200,7 @@ export function Navegacion() {
                 <i className="bi bi-arrow-repeat p-2 iconos"></i> Devoluciones
               </Link>
             </li>
-            
+        
           </ul>
         </div>
       </div>

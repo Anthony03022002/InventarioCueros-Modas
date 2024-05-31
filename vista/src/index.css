@@ -31,4 +31,10 @@ h3{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     margin-left: 25px;
 }
+.dropdown-menu{
+    background-color: #C62828;
+}
 
+.dropdown-item:hover {
+    background-color: #fff; 
+  }

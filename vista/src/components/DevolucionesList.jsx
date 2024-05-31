@@ -41,27 +41,31 @@ export function DevolucionesList() {
     getProductoField(productId, "producto");
   const productoModelo = (productId) => getProductoField(productId, "modelo");
   const productoTalla = (productId) => getProductoField(productId, "talla");
+  const productoCodigo = (productId) => getProductoField(productId, "codigo");
 
   return (
     <div className="container pt-4">
       <h1 className="text-center">Devoluciones</h1>
       <Link to="/crear-devolucion">Ingresar devolucion</Link>
+      <Link to="/devolucionesHistorial">Historial</Link>
       <table className="table table-bordered">
         <thead>
           <tr>
-            <th scope="col">Responsable</th>
+            <th scope="col">Codigo</th>
             <th scope="col">Producto</th>
             <th scope="col">Modelo</th>
             <th scope="col">Talla</th>
             <th scope="col">Proveedor</th>
+            <th scope="col">Cantidad a de volver</th>
             <th scope="col">Observacion</th>
+            <th scope="col">Responsable</th>
             <th scope="col">Acciones</th>
           </tr>
         </thead>
         <tbody>
           {devoluciones.map((devolucion) => (
             <tr key={devolucion.id}>
-              <th>{devolucion.responsable}</th>
+              <td>{productoCodigo(devolucion.producto)}</td>
               <td>{productoDevolucion(devolucion.producto)}</td>
               <td>{productoModelo(devolucion.producto)}</td>
               <td>{productoTalla(devolucion.producto)}</td>
@@ -69,7 +73,9 @@ export function DevolucionesList() {
                 {facturas.find((factura) => factura.id === devolucion.proveedor)
                   ?.proveedor || "no se encuentra proveedor"}
               </td>
+              <td>{devolucion.cantidad_devolver}</td>
               <td>{devolucion.observacion}</td>
+              <td>{devolucion.responsable}</td>
               <td>
                 <button
                   onClick={() => {

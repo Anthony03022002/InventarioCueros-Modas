@@ -6,15 +6,20 @@ import {
   updateDevoluciones,
 } from "../api/devoluciones.api";
 import { useNavigate, useParams } from "react-router-dom";
-import { getAllInventario } from "../api/inventario.api";
+import { getAllInventario, updateInventario } from "../api/inventario.api";
 import React, { useEffect, useState, useCallback } from "react";
 import Select from "react-select";
+import { createDevolucionesHistorial } from "../api/devolucionesHistorial.api";
+import { getAllFacturas } from "../api/facturas.api";
 
 export function DevolucionForm() {
   const [inventarios, setInventario] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [precio, setPrecio] = useState(0);
   const [stock, setStock] = useState(0);
+  const [proveedor, setProveedor] = useState("");
+  const [facturas, setFacturas] = useState([]);
+
   const {
     register,
     handleSubmit,
@@ -24,6 +29,14 @@ export function DevolucionForm() {
   const devolucion = "Devolucion";
   const navigate = useNavigate();
   const params = useParams();
+
+  useEffect(() => {
+    async function cargarFacturas() {
+      const res = await getAllFacturas();
+      setFacturas(res.data);
+    }
+    cargarFacturas();
+  }, []);
 
   useEffect(() => {
     async function cargarInventario() {
@@ -39,6 +52,23 @@ export function DevolucionForm() {
     } else {
       await createdevoluciones(data);
     }
+    const precioTotal = data.cantidad_devolver * data.precio;
+    const selectedProductData = inventarios.find(item => item.id === data.producto);
+    if (selectedProductData) {
+      const updatedStock = selectedProductData.stock - data.cantidad_devolver;
+      await updateInventario(data.producto, { ...selectedProductData, stock: updatedStock });
+
+      await createDevolucionesHistorial({
+        codigo: selectedProductData.codigo,
+        cantidad_devolucion: data.cantidad_devolver,
+        fecha: data.fecha_devolucion,
+        proveedor: data.proveedor,
+        comentario: `Se realizó la devolucion del producto: ${selectedProductData.producto}`,
+        responsable: data.responsable,
+        precio: precioTotal
+      });
+    }
+
     navigate("/devoluciones");
   });
 
@@ -58,6 +88,7 @@ export function DevolucionForm() {
         setSelectedProduct({ value: data.producto, label: selectedProduct.producto });
         setPrecio(selectedProduct.precio || 0);
         setStock(selectedProduct.stock || 0);
+        setProveedor(selectedProduct.proveedor || "");
       }
     }
     actualizarDevoluciones();
@@ -68,13 +99,14 @@ export function DevolucionForm() {
       const selectedProductId = selectedOption?.value;
       const product = inventarios.find(
         (item) => item.id === selectedProductId
-      ) || { precio: 0, stock: 0 };
+      ) || { precio: 0, stock: 0, proveedor: "" };
 
       setSelectedProduct(selectedOption);
       setValue("producto", selectedProductId || "");
       setPrecio(product.precio);
       setStock(product.stock);
-      setValue("total_pagar", product.precio);
+      setProveedor(product.proveedor);
+      setValue("proveedor", product.proveedor || "");
     },
     [inventarios, setValue]
   );
@@ -112,6 +144,7 @@ export function DevolucionForm() {
 
         {selectedProduct && (
           <>
+          <label htmlFor="">Precio</label>
             <input
               type="text"
               placeholder="Precio"
@@ -120,7 +153,7 @@ export function DevolucionForm() {
               readOnly
             />
             {errors.precio && <span>Ingrese precio</span>}
-
+            <label htmlFor="">Stock</label>
             <input
               type="text"
               placeholder="Stock"
@@ -129,17 +162,17 @@ export function DevolucionForm() {
               readOnly
             />
             {errors.stock && <span>Ingrese stock</span>}
+            <label htmlFor="">Id Proveedor:</label>
+            <input
+              type="text"
+              placeholder="Proveedor"
+              value={proveedor}
+              {...register("proveedor", { required: true })}
+              readOnly
+            />
+            {errors.proveedor && <span>Ingrese proveedor</span>}
           </>
         )}
-
-        <label>ID Proveedor:</label>
-        <input
-          type="text"
-          placeholder="Proveedor"
-          {...register("proveedor", { required: true })}
-          readOnly
-        />
-        {errors.proveedor && <span>Ingrese proveedor</span>}
 
         <input
           type="date"
