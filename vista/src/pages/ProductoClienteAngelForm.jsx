@@ -3,9 +3,14 @@ import Select from "react-select";
 import { getAllClientesAngel } from "../api/clientesAngel.api";
 import { getAllInventario, updateInventario } from "../api/inventario.api";
 import { useForm } from "react-hook-form";
-import { creatproductoClienteAngel, deleteProductoClienteAngel, updateProductoClienteAngel, getProductoAngel } from "../api/productoAngel.api";
-import { createVentasHistorial } from "../api/ventasHistorial.api";
+import {
+  creatproductoClienteAngel,
+  deleteProductoClienteAngel,
+  updateProductoClienteAngel,
+  getProductoAngel,
+} from "../api/productoAngel.api";
 import { useNavigate, useParams } from "react-router-dom";
+import { createVentasHistorial } from "../api/ventasHistorial.api";
 
 export function ProductoClienteAngelForm() {
   const [clientesAngel, setClientesAngel] = useState([]);
@@ -14,9 +19,17 @@ export function ProductoClienteAngelForm() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [precio, setPrecio] = useState(0);
   const [stock, setStock] = useState(0);
-  const [codigo, setCodigo] = useState("");
   const [cantidad, setCantidad] = useState(0);
-  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm();
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm();
   const navigate = useNavigate();
   const params = useParams();
 
@@ -43,10 +56,15 @@ export function ProductoClienteAngelForm() {
       await creatproductoClienteAngel(data);
     }
 
-    const selectedProductData = inventarios.find(item => item.id === data.producto);
+    const selectedProductData = inventarios.find(
+      (item) => item.id === data.producto
+    );
     if (selectedProductData) {
       const updatedStock = selectedProductData.stock - data.cantidad;
-      await updateInventario(data.producto, { ...selectedProductData, stock: updatedStock });
+      await updateInventario(data.producto, {
+        ...selectedProductData,
+        stock: updatedStock,
+      });
 
       await createVentasHistorial({
         codigo: selectedProductData.codigo,
@@ -65,14 +83,14 @@ export function ProductoClienteAngelForm() {
       const selectedProductId = selectedOption?.value;
       const product = inventarios.find(
         (item) => item.id === selectedProductId
-      ) || { precio: 0, stock: 0, codigo: "" };
+      ) || { precio: 0, stock: 0 };
 
-      setSelectedProduct(product);
+      setSelectedProduct(selectedOption);
       setValue("producto", selectedProductId || "");
       setPrecio(product.precio);
       setStock(product.stock);
-      setCodigo(product.codigo);
       setValue("total_pagar", product.precio);
+      setIsButtonDisabled(product.stock === 0);
     },
     [inventarios, setValue]
   );
@@ -95,6 +113,11 @@ export function ProductoClienteAngelForm() {
     return () => subscription.unsubscribe();
   }, [precio, setValue, watch]);
 
+  const handleDelete = async () => {
+    await deleteProductoClienteAngel(params.id);
+    navigate("/productosAngel");
+  };
+
   useEffect(() => {
     async function actualizarProducto() {
       if (params.id) {
@@ -105,15 +128,35 @@ export function ProductoClienteAngelForm() {
         setValue("fecha_venta", data.fecha_venta);
         setValue("total_pagar", data.total_pagar);
 
-        const clienteSeleccionado = clientesAngel.find(cliente => cliente.id === data.cliente);
-        const productoSeleccionado = inventarios.find(producto => producto.id === data.producto);
+        const clienteSeleccionado = clientesAngel.find(
+          (cliente) => cliente.id === data.cliente
+        );
+        const productoSeleccionado = inventarios.find(
+          (producto) => producto.id === data.producto
+        );
 
-        setSelectedClient(clienteSeleccionado ? { value: clienteSeleccionado.id, label: clienteSeleccionado.nombre_completo } : null);
-        setSelectedProduct(productoSeleccionado ? { value: productoSeleccionado.id, label: productoSeleccionado.producto } : null);
+        setSelectedClient(
+          clienteSeleccionado
+            ? {
+                value: clienteSeleccionado.id,
+                label: clienteSeleccionado.nombre_completo,
+              }
+            : null
+        );
+        setSelectedProduct(
+          productoSeleccionado
+            ? {
+                value: productoSeleccionado.id,
+                label: productoSeleccionado.producto,
+              }
+            : null
+        );
 
         setValue("cliente", data.cliente);
         setValue("producto", data.producto);
-        setCodigo(productoSeleccionado ? productoSeleccionado.codigo : "");
+        setIsButtonDisabled(
+          productoSeleccionado ? productoSeleccionado.stock === 0 : true
+        );
       }
     }
     actualizarProducto();
@@ -140,7 +183,7 @@ export function ProductoClienteAngelForm() {
         <label htmlFor="producto">Producto:</label>
         <Select
           {...register("producto", { required: true })}
-          value={selectedProduct && { value: selectedProduct.id, label: selectedProduct.producto }}
+          value={selectedProduct}
           onChange={handleProductChange}
           options={inventarios.map((inventario) => ({
             value: inventario.id,
@@ -172,22 +215,20 @@ export function ProductoClienteAngelForm() {
         <label>Estado del Pago:</label>
         <select {...register("estado", { required: true })}>
           <option value="">Selecciona el Estado del Pago</option>
-          <option value="pagado">Pagado</option>
+          <option value="pendiente">Pendiente</option>
           <option value="cancelado">Cancelado</option>
         </select>
         {errors.estado && <span>Debe seleccionar un estado.</span>}
         <br />
-        <button>Enviar</button>
+        <button type="submit" disabled={isButtonDisabled}>
+          Enviar
+        </button>
         {params.id && (
-        <button
-          onClick={async()=>{
-            const acepta = window.confirm("Estas seguro de eliminarlo")
-            if (acepta) {
-              await deleteProductoClienteAngel(params.id)
-              navigate("/productosAngel")
-            }
-          }}
-        ><i className="bi bi-trash3-fill"></i></button>
+          <>
+            <button type="button" onClick={() => setShowModal(true)}>
+              <i className="bi bi-trash3-fill"></i>
+            </button>
+          </>
         )}
       </form>
       <table>
@@ -213,16 +254,39 @@ export function ProductoClienteAngelForm() {
               <input type="number" value={stock} placeholder="Stock" readOnly />
             </td>
           </tr>
-          <tr>
-            <td>
-              <label htmlFor="codigo">Código:</label>
-            </td>
-            <td>
-              <input type="text" value={codigo} placeholder="Código" readOnly />
-            </td>
-          </tr>
         </tbody>
       </table>
+      <div
+        className={`modal ${showModal ? "show" : ""}`}
+        style={{
+          display: showModal ? "block" : "none",
+          backgroundColor: "rgba(0,0,0,0.5)",
+        }}
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-body mt-3">
+              <h5>¿Estás seguro de que deseas eliminar este Cliente?</h5>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setShowModal(false)}
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={handleDelete}
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

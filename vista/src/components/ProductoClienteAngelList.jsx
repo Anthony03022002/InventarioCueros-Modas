@@ -4,14 +4,18 @@ import { getAllInventario } from "../api/inventario.api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import "../index.css";
+
 
 
 export function ProductoClienteAngelList() {
   const [productosAngel, setProductosAngel] = useState([]);
   const [clientesAngel, setClientesAngel] = useState([]);
   const [inventarios, setInventario] = useState([]);
-  const navigate = useNavigate()
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+  const [searchTerm, setSearchTerm] = useState(""); 
+  const navigate = useNavigate();
 
   const findProductNameById = (productId) => {
     const producto = inventarios.find((p) => p.id === productId);
@@ -42,12 +46,49 @@ export function ProductoClienteAngelList() {
     cargarProductosAngel();
   }, []);
 
+  const sortedProductosAngel = productosAngel.slice().sort((a, b) => {
+    if (a.estado === "pagado" && b.estado !== "pagado") {
+      return 1;
+    }
+    if (a.estado !== "pagado" && b.estado === "pagado") {
+      return -1;
+    }
+    return 0;
+  });
+
+  const filteredProductosAngel = sortedProductosAngel.filter((productos) => {
+    const cliente = clientesAngel.find((cliente) => cliente.id === productos.cliente);
+    return cliente?.nombre_completo.toLowerCase().includes(searchTerm.toLowerCase());
+  });
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredProductosAngel.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(filteredProductosAngel.length / itemsPerPage);
+
   return (
     <div className="container pt-4">
-      <h1 className="text-center">Ventas Angel</h1>
-      <Link to="/crear-productosAngel">Crear venta</Link>
-      <Link to='/ventasHistorial'>Historial</Link>
-      <table className="table table-bordered">
+        <h1 className="titulos">Ventas Angel</h1>
+        <div className="d-flex justify-content-between align-items-center mb-3">
+        <div className="input-group w-25">
+          <input
+            type="text"
+            placeholder="Buscar cliente"
+            className="form-control"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <div className="input-group-append">
+            <button className="btn btn-outline-secondary" type="button">
+              <i className="bi bi-search"></i>
+            </button>
+          </div>
+        </div>
+        <Link to="/crear-productosAngel" className="btn btn-primary"><i classNa="bi bi-handbag me-2"></i>Crear venta</Link>
+      </div>
+      
+      <table className="table table-hover mt-4">
         <thead>
           <tr>
             <th scope="col">Cliente</th>
@@ -59,7 +100,7 @@ export function ProductoClienteAngelList() {
           </tr>
         </thead>
         <tbody>
-          {productosAngel.map((productos) => (
+          {currentItems.map((productos) => (
             <tr key={productos.id}>
               <th>
                 {
@@ -77,6 +118,7 @@ export function ProductoClienteAngelList() {
                   onClick={()=>{
                     navigate(`/productosAngel/${productos.id}`)
                   }}
+                  className="btn btn-sm btn-warning"
                 >
                   <i className="bi bi-pen-fill"></i>
                 </button>
@@ -85,6 +127,27 @@ export function ProductoClienteAngelList() {
           ))}
         </tbody>
       </table>
+      <nav aria-label="Page navigation example">
+        <ul className="pagination justify-content-center">
+          <li className={`page-item ${currentPage === 1 && 'disabled'}`}>
+            <button className="page-link" onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
+              <i className="bi bi-chevron-left"></i>
+            </button>
+          </li>
+          {Array.from({ length: totalPages }, (_, index) => (
+            <li key={index + 1} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+              <button className="page-link" onClick={() => setCurrentPage(index + 1)}>
+                {index + 1}
+              </button>
+            </li>
+          ))}
+          <li className={`page-item ${currentPage === totalPages && 'disabled'}`}>
+            <button className="page-link" onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>
+              <i className="bi bi-chevron-right"></i>
+            </button>
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 }

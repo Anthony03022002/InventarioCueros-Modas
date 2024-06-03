@@ -28,16 +28,12 @@ function App() {
     <BrowserRouter>
       <Navegacion/>
       <Routes>
+        {/* inicio */}
         <Route path="/" element={<Navigate to='/inicio'/>}/>
         <Route path="/inicio" element={<Home/>}/>
         <Route path="/facturas" element={<Facturas/>}/>
-        <Route path="/facturas/:id" element={<FacturasForm/>}/>
         <Route path="/inventario" element={<Inventario/>}/>
-        <Route path="/crear-inventario" element={<InventarioForm/>}/>
-        <Route path="/inventario/:id" element={<InventarioForm/>}/>
         <Route path="/devoluciones" element={<DevolucionesList/>}/>
-        <Route path="/devoluciones/:id" element={<DevolucionForm/>}/>
-        <Route path="/crear-devolucion" element={<DevolucionForm/>}/>
         <Route path="/stockHistorial" element={<StockHistorial/>}/>
         <Route path="/clientesAngel" element={<ClientesAngelList/>}/>
         <Route path="/clientesAtuntaqui" element={<ClientesAtuntaquiList/>}/>
@@ -48,13 +44,23 @@ function App() {
         <Route path="/clientesMira" element={<ClientesMiraList/>}/>
         <Route path="/clientesOtavalo" element={<ClientesOtavaloList/>}/>
         <Route path="/clientesPimampiro" element={<ClientesPimampiroList/>}/>
-        <Route path="/crear-factura" element={<FacturasForm/>}/>
-        <Route path="/crear-clienteAngel" element={<ClientesAngelForm/>}/>
         <Route path="/productosAngel" element={<ProductoClienteAngelList/>}/>
-        <Route path="/productosAngel/:id" element={<ProductoClienteAngelForm/>}/>
-        <Route path="/crear-productosAngel" element={<ProductoClienteAngelForm/>}/>
         <Route path="/ventasHistorial" element={<VentasHistorial/>}/>
         <Route path="/devolucionesHistorial" element={<DevolucionesHistorial/>}/>
+
+        {/* actualizar */}
+        <Route path="/facturas/:id" element={<FacturasForm/>}/>
+        <Route path="/inventario/:id" element={<InventarioForm/>}/>
+        <Route path="/devoluciones/:id" element={<DevolucionForm/>}/>
+        <Route path="/productosAngel/:id" element={<ProductoClienteAngelForm/>}/>
+        <Route path="/clientesAngel/:id" element={<ClientesAngelForm/>}/>
+        
+        {/* crear fomulario */}
+        <Route path="/crear-devolucion" element={<DevolucionForm/>}/>
+        <Route path="/crear-inventario" element={<InventarioForm/>}/>
+        <Route path="/crear-factura" element={<FacturasForm/>}/>
+        <Route path="/crear-clienteAngel" element={<ClientesAngelForm/>}/>
+        <Route path="/crear-productosAngel" element={<ProductoClienteAngelForm/>}/>
       </Routes>
     </BrowserRouter>
   );

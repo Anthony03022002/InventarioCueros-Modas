@@ -8,6 +8,7 @@ export function FacturasForm() {
   const navigate = useNavigate();
   const params = useParams();
   const [fileUrl, setFileUrl] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const onSubmit = handleSubmit(async (data) => {
     const formData = new FormData();
@@ -36,6 +37,11 @@ export function FacturasForm() {
     actualizarFacturas();
   }, [params.id, setValue]);
 
+  const handleDelete = async () => {
+    await deleteFacturas(params.id);
+    navigate("/facturas");
+  };
+
   return (
     <div>
       <form onSubmit={onSubmit} encType="multipart/form-data">
@@ -56,21 +62,50 @@ export function FacturasForm() {
         {errors.file && <span>Este campo es requerido</span>}
 
         <button>Guardar</button>
-      </form>
       {fileUrl && (
         <div>
           <a href={fileUrl} target="_blank" rel="noopener noreferrer">Ver archivo actual</a>
         </div>
       )}
       {params.id && (
-        <button onClick={async () => {
-          const acepta = window.confirm('Estas seguro de eliminarlo');
-          if (acepta) {
-            await deleteFacturas(params.id);
-            navigate('/facturas');
-          }
-        }}>Eliminar</button>
-      )}
+          <>
+            <button type="button" onClick={() => setShowModal(true)}>
+              <i className="bi bi-trash3-fill"></i>
+            </button>
+          </>
+        )}
+      </form>
+      <div
+        className={`modal ${showModal ? "show" : ""}`}
+        style={{
+          display: showModal ? "block" : "none",
+          backgroundColor: "rgba(0,0,0,0.5)",
+        }}
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-body mt-3">
+              <h5>¿Estás seguro de eliminar está factura?</h5>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setShowModal(false)}
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={handleDelete}
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

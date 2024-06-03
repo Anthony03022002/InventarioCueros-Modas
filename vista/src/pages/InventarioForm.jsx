@@ -4,7 +4,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
 import { getAllFacturas } from "../api/facturas.api";
-import { getAllInventario, createInventario, updateInventario, getInventario, deleteInventario } from "../api/inventario.api";
+import {
+  getAllInventario,
+  createInventario,
+  updateInventario,
+  getInventario,
+  deleteInventario,
+} from "../api/inventario.api";
 import { createStockHistoria } from "../api/stockhistorial.api";
 
 export function InventarioForm() {
@@ -14,6 +20,7 @@ export function InventarioForm() {
   const navigate = useNavigate();
   const params = useParams();
   const [existingInventario, setExistingInventario] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     async function cargarInventario() {
@@ -35,46 +42,55 @@ export function InventarioForm() {
     async function actualizarInventario() {
       if (params.id) {
         const { data } = await getInventario(params.id);
-        setValue('codigo', { value: data.codigo, label: data.codigo });
-        setValue('producto', data.producto);
-        setValue('cantidad_ingresar', data.cantidad_ingresar);
-        setValue('precio', data.precio);
-        setValue('stock', data.stock);
-        setValue('descripcion', data.descripcion);
-        setValue('talla', data.talla);
-        setValue('fecha_ingresa_producto', data.fecha_ingresa_producto);
-        setValue('modelo', data.modelo);
-        setValue('proveedor', { value: data.proveedor, label: data.proveedor });
+        setValue("codigo", { value: data.codigo, label: data.codigo });
+        setValue("producto", data.producto);
+        setValue("cantidad_ingresar", data.cantidad_ingresar);
+        setValue("precio", data.precio);
+        setValue("stock", data.stock);
+        setValue("descripcion", data.descripcion);
+        setValue("talla", data.talla);
+        setValue("fecha_ingresa_producto", data.fecha_ingresa_producto);
+        setValue("modelo", data.modelo);
+        setValue("proveedor", { value: data.proveedor, label: data.proveedor });
       }
     }
     actualizarInventario();
   }, [params.id, setValue]);
 
   const handleCodigoChange = (selectedOption) => {
-    setValue('codigo', selectedOption);
+    setValue("codigo", selectedOption);
 
-    const inventario = inventarios.find(item => item.codigo === selectedOption.value);
+    const inventario = inventarios.find(
+      (item) => item.codigo === selectedOption.value
+    );
     if (inventario) {
       setExistingInventario(inventario);
-      setValue('producto', inventario.producto);
-      setValue('stock', inventario.stock);
-      setValue('talla', inventario.talla);
+      setValue("producto", inventario.producto);
+      setValue("stock", inventario.stock);
+      setValue("talla", inventario.talla);
     } else {
       setExistingInventario(null);
-      setValue('producto', '');
-      setValue('stock', '');
-      setValue('talla', '');
+      setValue("producto", "");
+      setValue("stock", "");
+      setValue("talla", "");
     }
   };
+  const handleDelete = async () => {
+    await deleteInventario(params.id);
+    navigate("/inventario");
+  };
 
-  const cantidadIngresar = watch('cantidad_ingresar');
-  const stock = watch('stock');
+  const cantidadIngresar = watch("cantidad_ingresar");
+  const stock = watch("stock");
 
   useEffect(() => {
     if (existingInventario) {
-      setValue('stock', parseInt(existingInventario.stock) + parseInt(cantidadIngresar || 0));
+      setValue(
+        "stock",
+        parseInt(existingInventario.stock) + parseInt(cantidadIngresar || 0)
+      );
     } else {
-      setValue('stock', cantidadIngresar);
+      setValue("stock", cantidadIngresar);
     }
   }, [cantidadIngresar, existingInventario, setValue]);
 
@@ -88,8 +104,12 @@ export function InventarioForm() {
     const precioTotal = data.cantidad_ingresar * data.precio;
 
     if (existingInventario) {
-      const updatedStock = parseInt(existingInventario.stock) + parseInt(data.cantidad_ingresar);
-      await updateInventario(existingInventario.id, { ...formData, stock: updatedStock });
+      const updatedStock =
+        parseInt(existingInventario.stock) + parseInt(data.cantidad_ingresar);
+      await updateInventario(existingInventario.id, {
+        ...formData,
+        stock: updatedStock,
+      });
 
       await createStockHistoria({
         codigo: data.codigo.value,
@@ -197,21 +217,45 @@ export function InventarioForm() {
           )}
         />
         <button>Enviar</button>
+        {params.id && (
+          <>
+            <button type="button" onClick={() => setShowModal(true)}>
+              <i className="bi bi-trash3-fill"></i>
+            </button>
+          </>
+        )}
       </form>
-
-      {params.id && (
-        <button
-          onClick={async () => {
-            const acepta = window.confirm("¿Estás seguro de eliminarlo?");
-            if (acepta) {
-              await deleteInventario(params.id);
-              navigate("/inventario");
-            }
-          }}
-        >
-          <i className="bi bi-trash3-fill"></i>
-        </button>
-      )}
+      <div
+        className={`modal ${showModal ? "show" : ""}`}
+        style={{
+          display: showModal ? "block" : "none",
+          backgroundColor: "rgba(0,0,0,0.5)",
+        }}
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-body mt-3">
+              <h5>¿Estás seguro de eliminar este Producto?</h5>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setShowModal(false)}
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={handleDelete}
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

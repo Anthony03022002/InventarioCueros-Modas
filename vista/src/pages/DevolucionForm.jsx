@@ -19,6 +19,7 @@ export function DevolucionForm() {
   const [stock, setStock] = useState(0);
   const [proveedor, setProveedor] = useState("");
   const [facturas, setFacturas] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const {
     register,
@@ -53,10 +54,15 @@ export function DevolucionForm() {
       await createdevoluciones(data);
     }
     const precioTotal = data.cantidad_devolver * data.precio;
-    const selectedProductData = inventarios.find(item => item.id === data.producto);
+    const selectedProductData = inventarios.find(
+      (item) => item.id === data.producto
+    );
     if (selectedProductData) {
       const updatedStock = selectedProductData.stock - data.cantidad_devolver;
-      await updateInventario(data.producto, { ...selectedProductData, stock: updatedStock });
+      await updateInventario(data.producto, {
+        ...selectedProductData,
+        stock: updatedStock,
+      });
 
       await createDevolucionesHistorial({
         codigo: selectedProductData.codigo,
@@ -65,27 +71,35 @@ export function DevolucionForm() {
         proveedor: data.proveedor,
         comentario: `Se realizó la devolucion del producto: ${selectedProductData.producto}`,
         responsable: data.responsable,
-        precio: precioTotal
+        precio: precioTotal,
       });
     }
 
     navigate("/devoluciones");
   });
+  const handleDelete = async () => {
+    await deleteDevoluciones(params.id);
+    navigate("/devoluciones");
+  };
 
   useEffect(() => {
     async function actualizarDevoluciones() {
       if (params.id) {
         const { data } = await getDevolucion(params.id);
-        setValue('devolucion', data.devolucion);
-        setValue('cantidad_devolver', data.cantidad_devolver);
-        setValue('proveedor', data.proveedor);
-        setValue('producto', data.producto);
-        setValue('fecha_devolucion', data.fecha_devolucion);
-        setValue('observacion', data.observacion);
-        setValue('responsable', data.responsable);
+        setValue("devolucion", data.devolucion);
+        setValue("cantidad_devolver", data.cantidad_devolver);
+        setValue("proveedor", data.proveedor);
+        setValue("producto", data.producto);
+        setValue("fecha_devolucion", data.fecha_devolucion);
+        setValue("observacion", data.observacion);
+        setValue("responsable", data.responsable);
 
-        const selectedProduct = inventarios.find(item => item.id === data.producto) || {};
-        setSelectedProduct({ value: data.producto, label: selectedProduct.producto });
+        const selectedProduct =
+          inventarios.find((item) => item.id === data.producto) || {};
+        setSelectedProduct({
+          value: data.producto,
+          label: selectedProduct.producto,
+        });
         setPrecio(selectedProduct.precio || 0);
         setStock(selectedProduct.stock || 0);
         setProveedor(selectedProduct.proveedor || "");
@@ -100,6 +114,10 @@ export function DevolucionForm() {
       const product = inventarios.find(
         (item) => item.id === selectedProductId
       ) || { precio: 0, stock: 0, proveedor: "" };
+
+      if (product.stock === 0) {
+        alert("Producto no disponible en nuestro stock");
+      }
 
       setSelectedProduct(selectedOption);
       setValue("producto", selectedProductId || "");
@@ -144,7 +162,7 @@ export function DevolucionForm() {
 
         {selectedProduct && (
           <>
-          <label htmlFor="">Precio</label>
+            <label htmlFor="">Precio</label>
             <input
               type="text"
               placeholder="Precio"
@@ -196,20 +214,57 @@ export function DevolucionForm() {
 
         <button>Enviar</button>
         {params.id && (
-          <button
-            type="button"
-            onClick={async () => {
-              const acepta = window.confirm("Estas seguro de eliminarlo");
-              if (acepta) {
-                await deleteDevoluciones(params.id);
-                navigate("/devoluciones");
-              }
-            }}
-          >
-            <i className="bi bi-trash3-fill"></i>
-          </button>
+          <>
+            <button type="button" onClick={() => setShowModal(true)}>
+              <i className="bi bi-trash3-fill"></i>
+            </button>
+          </>
         )}
       </form>
+      <div
+        className={`modal ${showModal ? "show" : ""}`}
+        style={{
+          display: showModal ? "block" : "none",
+          backgroundColor: "rgba(0,0,0,0.5)",
+        }}
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div class="modal-header">
+              <h5>
+                <i class="bi bi-exclamation-circle-fill text-danger me-2"></i>
+                Confirmación de Eliminación
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={() => setShowModal(false)}
+              ></button>
+            </div>
+            <div className="modal-body mt-3">
+              <h5>¿Estás seguro de eliminar esta Devolución?</h5>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-outline-dark"
+                onClick={() => setShowModal(false)}
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={handleDelete}
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
