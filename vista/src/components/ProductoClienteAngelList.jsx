@@ -85,7 +85,7 @@ export function ProductoClienteAngelList() {
             </button>
           </div>
         </div>
-        <Link to="/crear-productosAngel" className="btn btn-primary"><i classNa="bi bi-handbag me-2"></i>Crear venta</Link>
+        <Link to="/crear-productosAngel" className="btn btn-primary"><i className="bi bi-handbag me-2"></i>Crear venta</Link>
       </div>
       
       <table className="table table-hover mt-4">
@@ -114,11 +114,15 @@ export function ProductoClienteAngelList() {
               <td>{productos.total_pagar}</td>
               <td>{productos.estado}</td>
               <td>
+                <button className="btn btn-info">
+                <Link to={`/productosAngel/${productos.id}/pagosMensualesAngel`}
+                ><i className="bi bi-credit-card-fill text-dark"></i></Link>
+                </button>
                 <button
                   onClick={()=>{
                     navigate(`/productosAngel/${productos.id}`)
                   }}
-                  className="btn btn-sm btn-warning"
+                  className="btn btn-warning ms-2"
                 >
                   <i className="bi bi-pen-fill"></i>
                 </button>

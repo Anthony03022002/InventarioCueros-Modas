@@ -58,7 +58,7 @@ export function ClientesAngelList() {
           </div>
         </div>
         <Link to="/crear-clienteAngel" className="btn btn-primary">
-        <i class="bi bi-person-circle me-2"></i>Crear Cliente
+        <i className="bi bi-person-circle me-2"></i>Crear Cliente
         </Link>
       </div>
 

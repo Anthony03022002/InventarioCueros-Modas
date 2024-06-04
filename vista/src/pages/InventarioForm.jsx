@@ -172,7 +172,7 @@ export function InventarioForm() {
           />
         </div>
         <div className="col-md-3">
-          <label className="form-label">Cantidad del producto a Ingresar</label>
+          <label className="form-label">Cantidad del producto</label>
           <input
             type="number"
             className="form-control form-clientes"

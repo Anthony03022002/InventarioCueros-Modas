@@ -23,6 +23,10 @@ import { InventarioForm } from "./pages/InventarioForm";
 import { StockHistorial } from "./components/StockHistorial";
 import { VentasHistorial } from "./components/VentasHistorial";
 import { DevolucionesHistorial } from "./components/DevolucionesHistorial";
+import { PagosMensualesAngel } from "./components/PagosMensualesAngel";
+import { GenerarPagoAngelForm } from "./pages/GenerarPagoAngelForm";
+import { Pagos } from "./components/Pagos";
+import { PagosForm } from "./pages/PagosForm";
 function App() {
   return (
     <BrowserRouter>
@@ -31,6 +35,7 @@ function App() {
         {/* inicio */}
         <Route path="/" element={<Navigate to='/inicio'/>}/>
         <Route path="/inicio" element={<Home/>}/>
+        <Route path="/pagos" element={<Pagos/>}/>
         <Route path="/facturas" element={<Facturas/>}/>
         <Route path="/inventario" element={<Inventario/>}/>
         <Route path="/devoluciones" element={<DevolucionesList/>}/>
@@ -54,6 +59,7 @@ function App() {
         <Route path="/devoluciones/:id" element={<DevolucionForm/>}/>
         <Route path="/productosAngel/:id" element={<ProductoClienteAngelForm/>}/>
         <Route path="/clientesAngel/:id" element={<ClientesAngelForm/>}/>
+        <Route path="/pagos/:id" element={<PagosForm/>}/>
         
         {/* crear fomulario */}
         <Route path="/crear-devolucion" element={<DevolucionForm/>}/>
@@ -61,6 +67,16 @@ function App() {
         <Route path="/crear-factura" element={<FacturasForm/>}/>
         <Route path="/crear-clienteAngel" element={<ClientesAngelForm/>}/>
         <Route path="/crear-productosAngel" element={<ProductoClienteAngelForm/>}/>
+        <Route path="/crear-pago" element={<PagosForm/>}/>
+
+
+        {/* pago mensuales */}
+        <Route path="/productosAngel/:id/pagosMensualesAngel" element={<PagosMensualesAngel/>}/>
+
+        {/* generar pago */}
+        <Route path="/productosAngel/:id/generarPagoAngel" element={<GenerarPagoAngelForm/>}/>
+
+
       </Routes>
     </BrowserRouter>
   );

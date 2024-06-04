@@ -20,6 +20,8 @@ export function DevolucionForm() {
   const [proveedor, setProveedor] = useState("");
   const [facturas, setFacturas] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
 
   const {
     register,
@@ -103,6 +105,9 @@ export function DevolucionForm() {
         setPrecio(selectedProduct.precio || 0);
         setStock(selectedProduct.stock || 0);
         setProveedor(selectedProduct.proveedor || "");
+        setIsButtonDisabled(
+          productoSeleccionado ? productoSeleccionado.stock === 0 : true
+        );
       }
     }
     actualizarDevoluciones();
@@ -115,9 +120,6 @@ export function DevolucionForm() {
         (item) => item.id === selectedProductId
       ) || { precio: 0, stock: 0, proveedor: "" };
 
-      if (product.stock === 0) {
-        alert("Producto no disponible en nuestro stock");
-      }
 
       setSelectedProduct(selectedOption);
       setValue("producto", selectedProductId || "");
@@ -130,96 +132,138 @@ export function DevolucionForm() {
   );
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
-        <input
-          type="text"
-          defaultValue={devolucion}
-          {...register("devolucion", { required: true })}
-          readOnly
-        />
+    <div className="container mt-3">
+      <form
+        onSubmit={onSubmit}
+        className="row g-3 needs-validation container_clientes_angel"
+      >
+        <h1 className="titulos">Ingrese su Devolucion</h1>
+        <div className="col-md-4">
+          <label className="form-label">Devolucion:</label>
+          <input
+            type="text"
+            className="form-control"
+            defaultValue={devolucion}
+            {...register("devolucion", { required: true })}
+            readOnly
+          />
+        </div>
         {errors.devolucion && <span>Ingrese devolucion</span>}
 
-        <input
-          type="number"
-          placeholder="cantidad a devolver"
-          {...register("cantidad_devolver", { required: true })}
-        />
-        {errors.cantidad_devolver && <span>Ingrese cantidad a devolver</span>}
-
-        <label>Producto</label>
-        <Select
-          value={selectedProduct}
-          onChange={handleProductChange}
-          options={inventarios.map((inventario) => ({
-            value: inventario.id,
-            label: inventario.producto,
-          }))}
-          placeholder="Buscar producto"
-          isSearchable
-        />
+        <div className="col-md-4">
+          <label className="form-label">Producto</label>
+          <Select
+            value={selectedProduct}
+            onChange={handleProductChange}
+            options={inventarios.map((inventario) => ({
+              value: inventario.id,
+              label: inventario.producto,
+            }))}
+            placeholder="Buscar producto"
+            isSearchable
+          />
+        </div>
         {errors.producto && <span>Ingrese producto</span>}
+        <div className="col-md-4">
+          <label className="form-label">Cantidad a devolver:</label>
+          <input
+            type="number"
+            className="form-control form-clientes"
+            placeholder="cantidad a devolver"
+            {...register("cantidad_devolver", { required: true })}
+          />
+        </div>
+        {errors.cantidad_devolver && <span>Ingrese cantidad a devolver</span>}
 
         {selectedProduct && (
           <>
-            <label htmlFor="">Precio</label>
-            <input
-              type="text"
-              placeholder="Precio"
-              value={precio}
-              {...register("precio", { required: true })}
-              readOnly
-            />
+            <div className="col-md-4">
+              <label className="form-label">Precio:</label>
+              <input
+                type="text"
+                placeholder="Precio"
+                className="form-control form-clientes"
+                value={precio}
+                {...register("precio", { required: true })}
+                readOnly
+              />
+            </div>
             {errors.precio && <span>Ingrese precio</span>}
-            <label htmlFor="">Stock</label>
+            <div className="col-md-4">
+            <label className="form-label">Stock:</label>
             <input
               type="text"
               placeholder="Stock"
+              className="form-control form-clientes"
               value={stock}
               {...register("stock", { required: true })}
               readOnly
             />
+            </div>
             {errors.stock && <span>Ingrese stock</span>}
-            <label htmlFor="">Id Proveedor:</label>
+            <div className="col-md-4">
+            <label className="form-label">ID Proveedor:</label>
             <input
               type="text"
               placeholder="Proveedor"
+              className="form-control form-clientes"
               value={proveedor}
               {...register("proveedor", { required: true })}
               readOnly
             />
+            </div>
             {errors.proveedor && <span>Ingrese proveedor</span>}
           </>
         )}
 
+        <div className="col-md-4">
+          <label className="form-label">Fecha devolucion</label>
         <input
           type="date"
+          className="form-control form-clientes"
           {...register("fecha_devolucion", { required: true })}
         />
+        </div>
         {errors.fecha_devolucion && <span>Ingrese fecha_devolucion</span>}
 
+        <div className="col-md-4">
+          <label className="fomr-label">Observacion:</label>
         <textarea
           placeholder="observación"
+          className="form-control"
           {...register("observacion", { required: true })}
         ></textarea>
+        </div>
         {errors.observacion && <span>Ingrese observacion</span>}
 
-        <label>Responsable:</label>
-        <select {...register("responsable", { required: true })}>
+        <div className="col-md-4">
+        <label className="form-label">Responsable:</label>
+        <select className="form-select form-clientes" {...register("responsable", { required: true })}>
           <option value="">Ingrese el responsable</option>
           <option value="persona1">Persona 1</option>
           <option value="persona2">Persona 2</option>
         </select>
+        </div>
         {errors.responsable && <span>Ingrese responsable</span>}
 
-        <button>Enviar</button>
-        {params.id && (
-          <>
-            <button type="button" onClick={() => setShowModal(true)}>
-              <i className="bi bi-trash3-fill"></i>
+        <div className="row mt-3">
+          <div className="col-12 d-flex justify-content-end">
+            {params.id && (
+              <div className="mr-2 me-3">
+                <button
+                  className="btn btn-danger"
+                  type="button"
+                  onClick={() => setShowModal(true)}
+                >
+                  <i className="bi bi-trash3-fill"></i> Eliminar
+                </button>
+              </div>
+            )}
+            <button type="submit"className="btn btn-primary">
+            <i class="bi bi-send-check-fill me-2"></i>Enviar
             </button>
-          </>
-        )}
+          </div>
+        </div>
       </form>
       <div
         className={`modal ${showModal ? "show" : ""}`}
