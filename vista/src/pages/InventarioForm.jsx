@@ -136,94 +136,144 @@ export function InventarioForm() {
   });
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
-        <h1 className="text-center">Ingrese un Producto</h1>
+    <div className="container mt-3">
+      <form onSubmit={onSubmit} className="row g-3 needs-validation container_inventario" novalidate>
+        <h1 className="titulos">Ingrese un Producto</h1>
+        <div className="col-md-4">
+          <label className="form-label">Código:</label>
+          <Controller
+            name="codigo"
+            control={control}
+            render={({ field }) => (
+              <CreatableSelect
+                {...field}
+                className="form-clientes"
+                options={inventarios.map((inventario) => ({
+                  value: inventario.codigo,
+                  label: inventario.codigo,
+                }))}
+                placeholder="Ingrese o seleccione un código"
+                onChange={(value) => {
+                  field.onChange(value);
+                  handleCodigoChange(value);
+                }}
+              />
+            )}
+          />
+        </div>
 
-        <label htmlFor="codigo">Código</label>
-        <Controller
-          name="codigo"
-          control={control}
-          render={({ field }) => (
-            <CreatableSelect
-              {...field}
-              options={inventarios.map((inventario) => ({
-                value: inventario.codigo,
-                label: inventario.codigo,
-              }))}
-              placeholder="Ingrese o seleccione un código"
-              onChange={(value) => {
-                field.onChange(value);
-                handleCodigoChange(value);
-              }}
-            />
-          )}
-        />
-
-        <input
-          type="text"
-          placeholder="Ingrese el producto"
-          {...register("producto", { required: true })}
-        />
-        <label htmlFor="">Cantidad del producto a Ingresar</label>
-        <input
-          type="number"
-          placeholder="Cantidad del producto"
-          {...register("cantidad_ingresar", { required: true })}
-        />
-        <input
-          type="number"
-          placeholder="Precio del producto"
-          {...register("precio", { required: true })}
-        />
-        <input
-          type="number"
-          placeholder="Stock"
-          {...register("stock", { required: true })}
-        />
-        <textarea
-          placeholder="Descripción"
-          {...register("descripcion", { required: true })}
-        ></textarea>
-        <input
-          type="text"
-          placeholder="Talla"
-          {...register("talla", { required: true })}
-        />
-        <input
-          type="date"
-          {...register("fecha_ingresa_producto", { required: true })}
-        />
-        <label>Modelo</label>
-        <select {...register("modelo", { required: true })}>
-          <option value="">Selecciona el Modelo</option>
-          <option value="hombre">Hombre</option>
-          <option value="mujer">Mujer</option>
-        </select>
-        <label>Proveedor</label>
-        <Controller
-          name="proveedor"
-          control={control}
-          render={({ field }) => (
-            <Select
-              {...field}
-              options={facturas.map((factura) => ({
-                value: factura.id,
-                label: factura.proveedor,
-              }))}
-              placeholder="Seleccione el proveedor"
-              onChange={(value) => field.onChange(value)}
-            />
-          )}
-        />
-        <button>Enviar</button>
-        {params.id && (
-          <>
-            <button type="button" onClick={() => setShowModal(true)}>
-              <i className="bi bi-trash3-fill"></i>
+        <div className="col-md-3">
+          <label className="form-label">Ingrese el nombre del producto:</label>
+          <input
+            type="text"
+            placeholder="Nombre Producto"
+            className="form-control form-clientes"
+            {...register("producto", { required: true })}
+          />
+        </div>
+        <div className="col-md-3">
+          <label className="form-label">Cantidad del producto a Ingresar</label>
+          <input
+            type="number"
+            className="form-control form-clientes"
+            placeholder="Cantidad del producto"
+            {...register("cantidad_ingresar", { required: true })}
+          />
+        </div>
+        <div className="col-md-2">
+          <label className="form-label">
+            <i class="bi bi-currency-dollar"></i>Precio
+          </label>
+          <input
+            type="number"
+            className="form-control form-clientes"
+            placeholder="Precio del producto"
+            {...register("precio", { required: true })}
+          />
+        </div>
+        <div className="col-md-4">
+          <label className="form-label">Descripcion:</label>
+          <textarea
+            placeholder="Descripción"
+            className="form-control form-clientes"
+            {...register("descripcion", { required: true })}
+          ></textarea>
+        </div>
+        <div className="col-md-3">
+          <label className="form-label">Stock:</label>
+          <input
+            type="number"
+            placeholder="Stock"
+            className="form-control form-clientes"
+            readOnly
+            {...register("stock", { required: true })}
+          />
+        </div>
+        <div className="col-md-3">
+          <label className="form-label">Talla:</label>
+          <input
+            type="text"
+            placeholder="Talla"
+            className="form-control form-clientes"
+            {...register("talla", { required: true })}
+          />
+        </div>
+        <div className="col-md-2">
+          <label className="form-label">Fecha Ingresa Producto:</label>
+          <input
+            type="date"
+            className="form-control form-clientes"
+            {...register("fecha_ingresa_producto", { required: true })}
+          />
+        </div>
+        <div className="col-md-4">
+          <label className="form-label">Modelo</label>
+          <select
+            className="form-select form-clientes"
+            {...register("modelo", { required: true })}
+          >
+            <option value="">Selecciona el Modelo</option>
+            <option value="hombre">Hombre</option>
+            <option value="mujer">Mujer</option>
+          </select>
+        </div>
+        <div className="col-md-4">
+          <label className="form-label">Proveedor</label>
+          <Controller
+            name="proveedor"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                className="form-clientes"
+                options={facturas.map((factura) => ({
+                  value: factura.id,
+                  label: factura.proveedor,
+                }))}
+                placeholder="Seleccione el proveedor"
+                onChange={(value) => field.onChange(value)}
+              />
+            )}
+          />
+        </div>
+        <div className="row mt-3">
+          <div className="col-12 d-flex justify-content-end">
+            {params.id && (
+              <div className="mr-2 me-3">
+                <button
+                  className="btn btn-danger"
+                  type="button"
+                  onClick={() => setShowModal(true)}
+                >
+                  <i className="bi bi-trash3-fill"></i> Eliminar
+                </button>
+              </div>
+            )}
+            <button type="submit" className="btn btn-primary">
+            <i class="bi bi-send-check-fill me-2"></i>Enviar
             </button>
-          </>
-        )}
+          </div>
+        </div>
       </form>
       <div
         className={`modal ${showModal ? "show" : ""}`}

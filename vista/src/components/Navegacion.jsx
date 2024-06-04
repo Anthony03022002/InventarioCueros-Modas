@@ -18,6 +18,7 @@ export function Navegacion() {
       >
         <i className="bi bi-list" style={iconStyle}></i>
       </button>
+      <img className="imagen_navbar" src="../imagenes/logo_empresa.png" alt="no se encuentra" srcset="" />
       <div
         className="offcanvas offcanvas-start"
         data-bs-scroll="true"
