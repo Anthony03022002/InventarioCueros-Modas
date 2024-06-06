@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
-import { createPagosAngel } from "../api/generarPagoAngel.api";
+import { createPagosBolivar } from "../api/generarPagoBolivar.api";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useEffect} from "react";
 import { jsPDF } from "jspdf";
 
-export function GenerarPagoAngelForm() {
+export function GenerarPagoBolivarForm() {
   const navigate = useNavigate();
   const params = useParams();
   const location = useLocation();
@@ -24,8 +24,8 @@ export function GenerarPagoAngelForm() {
   }, [params.id, setValue]);
 
   const recalculateDebe = async (ventaId) => {
-    const { data: producto } = await getProductoAngel(ventaId);
-    const { data: pagos } = await getAllPagosAngel();
+    const { data: producto } = await getProductoBolivar(ventaId);
+    const { data: pagos } = await getAllPagosBolivar();
     const pagosFiltrados = pagos.filter(
       (pago) => pago.venta === parseInt(ventaId)
     );
@@ -40,46 +40,46 @@ export function GenerarPagoAngelForm() {
     const nuevoDebe = debe - parseFloat(data.cantidad_pagada);
     // Establecer márgenes
     const marginLeft = 10;
-    let marginTop = 20; // Inicialmente establecido en 20
+    let marginTop = 20; 
   
-    // Agregar título centrado
+    
     const pageWidth = doc.internal.pageSize.getWidth();
     const title = "Comprobante de Pago C & M SPORTS";
     doc.setFontSize(18);
     const textWidth = doc.getTextWidth(title);
     const textX = (pageWidth - textWidth) / 2;
-    doc.text(title, textX, marginTop); // Coordenada Y para el título
+    doc.text(title, textX, marginTop); 
   
-    // Agregar contenido del pago
+    
     doc.setFontSize(12);
     doc.text(
       `Usted ha hecho el pago por el monto de $${data.cantidad_pagada}`,
       marginLeft,
-      (marginTop += 20) // Ajuste de coordenada Y
+      (marginTop += 20) 
     );
-    doc.text(`Fecha del pago: ${data.fecha_pago}`, marginLeft, (marginTop += 10)); // Ajuste de coordenada Y
+    doc.text(`Fecha del pago: ${data.fecha_pago}`, marginLeft, (marginTop += 10)); 
     if (data.descuento) {
-      doc.text("Pago por descuento", marginLeft, (marginTop += 10)); // Ajuste de coordenada Y
+      doc.text("Pago por descuento", marginLeft, (marginTop += 10)); 
     }
     doc.text(
       `Monto adeudado: $${nuevoDebe.toFixed(2)}`,
       marginLeft,
-      (marginTop += 10) // Ajuste de coordenada Y
+      (marginTop += 10) 
     );
   
-    // Dibujar línea debajo del monto adeudado
+   
     doc.setLineWidth(0.5);
-    doc.line(marginLeft, marginTop + 5, pageWidth - marginLeft, marginTop + 5); // Línea debajo del monto adeudado
+    doc.line(marginLeft, marginTop + 5, pageWidth - marginLeft, marginTop + 5); 
   
-    // Mejorar vista del PDF
+    
     doc.save(`C_Pago_${data.venta}_${data.fecha_pago}.pdf`);
   };
   
 
   const onSubmit = handleSubmit(async (data) => {
-    await createPagosAngel(data);
+    await createPagosBolivar(data);
     generatePDF(data);
-    navigate(`/productosAngel/${params.id}/pagosMensualesAngel`);
+    navigate(`/ventasBolivar/${params.id}/pagosMensualesBolivar`);
   });
 
   return (
@@ -89,7 +89,7 @@ export function GenerarPagoAngelForm() {
         className="row g-3 needs-validation container_inventario"
         
       >
-        <h1 className="titulos">Formulario de pagos</h1>
+        <h1 className="titulos">Formulario de pagos Bolivar</h1>
         <div className="col-md-4">
           <label className="form-label">Fecha de pago</label>
           <input

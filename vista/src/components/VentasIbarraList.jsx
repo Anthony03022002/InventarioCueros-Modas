@@ -1,5 +1,5 @@
-import { getAllVentasAtuntaqui } from "../api/ventasAtuntaqui.api";
-import { getAllClientesAtuntaqui } from "../api/clientesAtuntaqui.api";
+import { getAllVentasIbarra } from "../api/ventasIbarra.api";
+import { getAllClientesIbarra } from "../api/clientesIbarra.api";
 import { getAllInventario } from "../api/inventario.api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -7,10 +7,9 @@ import { useNavigate } from "react-router-dom";
 import "../index.css";
 
 
-
-export function VentasAtuntaquiList() {
-  const [ventasAtuntaqui, setVentasAtuntaqui] = useState([]);
-  const [clientesAtuntaqui, setClientesAtuntaqui] = useState([]);
+export function VentasIbarraList() {
+  const [ventasIbarra, setVentasIbarra] = useState([]);
+  const [clientesIbarra, setClientesIbarra] = useState([]);
   const [inventarios, setInventario] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
@@ -31,22 +30,22 @@ export function VentasAtuntaquiList() {
   }, []);
 
   useEffect(() => {
-    async function cargarClientesAtuntaqui() {
-      const res = await getAllClientesAtuntaqui();
-      setClientesAtuntaqui(res.data);
+    async function cargarClientesIbarra() {
+      const res = await getAllClientesIbarra();
+      setClientesIbarra(res.data);
     }
-    cargarClientesAtuntaqui();
+    cargarClientesIbarra();
   }, []);
 
   useEffect(() => {
-    async function cargarventasAtuntaqui() {
-      const res = await getAllVentasAtuntaqui();
-      setVentasAtuntaqui(res.data);
+    async function cargarventasIbarra() {
+      const res = await getAllVentasIbarra();
+      setVentasIbarra(res.data);
     }
-    cargarventasAtuntaqui();
+    cargarventasIbarra();
   }, []);
 
-  const sortedventasAtuntaqui = ventasAtuntaqui.slice().sort((a, b) => {
+  const sortedventasIbarra = ventasIbarra.slice().sort((a, b) => {
     if (a.estado === "pagado" && b.estado !== "pagado") {
       return 1;
     }
@@ -56,20 +55,20 @@ export function VentasAtuntaquiList() {
     return 0;
   });
 
-  const filteredventasAtuntaqui = sortedventasAtuntaqui.filter((productos) => {
-    const cliente = clientesAtuntaqui.find((cliente) => cliente.id === productos.cliente);
+  const filteredventasIbarra = sortedventasIbarra.filter((productos) => {
+    const cliente = clientesIbarra.find((cliente) => cliente.id === productos.cliente);
     return cliente?.nombre_completo.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredventasAtuntaqui.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredventasIbarra.slice(indexOfFirstItem, indexOfLastItem);
 
-  const totalPages = Math.ceil(filteredventasAtuntaqui.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredventasIbarra.length / itemsPerPage);
 
   return (
     <div className="container pt-4">
-        <h1 className="titulos">Ventas Atuntaqui</h1>
+        <h1 className="titulos">Ventas Ibarra</h1>
         <div className="d-flex justify-content-between align-items-center mb-3">
         <div className="input-group w-25">
           <input
@@ -85,7 +84,7 @@ export function VentasAtuntaquiList() {
             </button>
           </div>
         </div>
-        <Link to="/crear-ventasAtuntaqui" className="btn btn-primary"><i className="bi bi-handbag me-2"></i>Crear venta</Link>
+        <Link to="/crear-ventasIbarra" className="btn btn-primary"><i className="bi bi-handbag me-2"></i>Crear venta</Link>
       </div>
       
       <table className="table table-hover mt-4">
@@ -104,7 +103,7 @@ export function VentasAtuntaquiList() {
             <tr key={productos.id}>
               <th>
                 {
-                  clientesAtuntaqui.find(
+                  clientesIbarra.find(
                     (cliente) => cliente.id === productos.cliente
                   )?.nombre_completo
                 }
@@ -115,12 +114,12 @@ export function VentasAtuntaquiList() {
               <td>{productos.estado}</td>
               <td>
                 <button className="btn btn-info">
-                <Link to={`/ventasAtuntaqui/${productos.id}/pagosMensualesAtuntaqui`}
+                <Link to={`/ventasIbarra/${productos.id}/pagosMensualesIbarra`}
                 ><i className="bi bi-credit-card-fill text-dark"></i></Link>
                 </button>
                 <button
                   onClick={()=>{
-                    navigate(`/ventasAtuntaqui/${productos.id}`)
+                    navigate(`/ventasIbarra/${productos.id}`)
                   }}
                   className="btn btn-warning ms-2"
                 >

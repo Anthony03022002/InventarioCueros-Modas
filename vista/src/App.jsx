@@ -37,6 +37,30 @@ import { ClientesOtavaloForm } from "./pages/ClientesOtavaloForm";
 import { ClientesPimampiroForm } from "./pages/ClientesPimapiroForm";
 import { VentasAtuntaquiList } from "./components/VentasAtuntaquiList";
 import { VentasAtuntaquiForm } from "./pages/VentasAtuntaquiForm";
+import { PagosMensualesAtuntaqui } from "./components/PagosMensualesAtuntaqui";
+import { GenerarPagoAtuntaquiForm } from "./pages/GenerarPagoAtuntaquiForm";
+import { GenerarPagoBolivarForm } from "./pages/GenerarPagoBolivarForm";
+import { GenerarPagoCayambeForm } from "./pages/GenerarPagoCayambeForm";
+import { GenerarPagoIbarraForm } from "./pages/GenerarPagoIbarraForm";
+import { PagosAtuntaquiForm } from "./pages/PagosAtuntaquiForm";
+import { VentasBolivarList } from "./components/VentasBolivarList";
+import { VentasBolivarForm } from "./pages/VentasBolivarForm";
+import { VentasCayambeList } from "./components/VentasCayambeList";
+import { VentasCayambeForm } from "./pages/VentasCayambeForm";
+import { VentasIbarraList } from "./components/VentasIbarraList";
+import { VentasIbarraForm } from "./pages/VentasIbarraForm";
+import { PagosMensualesBolivar } from "./components/PagosMensualesBolivar";
+import { PagosMensualesIbarra } from "./components/PagosMensualesIbarra";
+import { PagosBolivarForm } from "./pages/PagosBolivarForm";
+import { PagosMensualesCayambe } from "./components/PagosMensualesCayambe";
+import { PagosCayambeForm } from "./pages/PagosCayambeForm";
+import { PagosIbarraForm } from "./pages/PagosIbarraForm";
+import { VentasLagoagrioList } from "./components/VentasLagoagrioList";
+import { VentasLagoagrioForm } from "./pages/VentasLagoagrioForm";
+import { PagosMensualesLagoagrio } from "./components/PagosMensualesLagoagrio";
+import { GenerarPagoLagoagrioForm } from "./pages/GenerarPagoLagoagrioForm";
+import { PagosLagoagrioForm } from "./pages/PagosLagoagrioForm";
+
 function App() {
   return (
     <BrowserRouter>
@@ -50,6 +74,7 @@ function App() {
         <Route path="/inventario" element={<Inventario/>}/>
         <Route path="/devoluciones" element={<DevolucionesList/>}/>
         <Route path="/stockHistorial" element={<StockHistorial/>}/>
+        <Route path="/devolucionesHistorial" element={<DevolucionesHistorial/>}/>
         <Route path="/clientesAngel" element={<ClientesAngelList/>}/>
         <Route path="/clientesAtuntaqui" element={<ClientesAtuntaquiList/>}/>
         <Route path="/clientesBolivar" element={<ClientesBolivarList/>}/>
@@ -62,7 +87,10 @@ function App() {
         <Route path="/productosAngel" element={<ProductoClienteAngelList/>}/>
         <Route path="/ventasHistorial" element={<VentasHistorial/>}/>
         <Route path="/ventasAtuntaqui" element={<VentasAtuntaquiList/>}/>
-        <Route path="/devolucionesHistorial" element={<DevolucionesHistorial/>}/>
+        <Route path="/ventasBolivar" element={<VentasBolivarList/>}/>
+        <Route path="/ventasCayambe" element={<VentasCayambeList/>}/>
+        <Route path="/ventasIbarra" element={<VentasIbarraList/>}/>
+        <Route path="/ventasLagoagrio" element={<VentasLagoagrioList/>}/>
 
         {/* crear fomulario */}
         <Route path="/crear-devolucion" element={<DevolucionForm/>}/>
@@ -79,7 +107,16 @@ function App() {
         <Route path="/crear-clientePimampiro" element={<ClientesPimampiroForm/>}/>
         <Route path="/crear-productosAngel" element={<ProductoClienteAngelForm/>}/>
         <Route path="/crear-ventasAtuntaqui" element={<VentasAtuntaquiForm/>}/>
+        <Route path="/crear-ventasBolivar" element={<VentasBolivarForm/>}/>
+        <Route path="/crear-ventasCayambe" element={<VentasCayambeForm/>}/>
+        <Route path="/crear-ventasIbarra" element={<VentasIbarraForm/>}/>
+        <Route path="/crear-ventasLagoagrio" element={<VentasLagoagrioForm/>}/>
         <Route path="/crear-pago" element={<PagosForm/>}/>
+        <Route path="/crear-pagoAtuntaqui" element={<PagosAtuntaquiForm/>}/>
+        <Route path="/crear-pagoBolivar" element={<PagosBolivarForm/>}/>
+        <Route path="/crear-pagoCayambe" element={<PagosCayambeForm/>}/>
+        <Route path="/crear-pagoIbarra" element={<PagosIbarraForm/>}/>
+        <Route path="/crear-pagoLagoagrio" element={<PagosLagoagrioForm/>}/>
 
         {/* actualizar */}
         <Route path="/facturas/:id" element={<FacturasForm/>}/>
@@ -96,16 +133,36 @@ function App() {
         <Route path="/clientesOtavalo/:id" element={<ClientesOtavaloForm/>}/>
         <Route path="/clientesPimampiro/:id" element={<ClientesPimampiroForm/>}/>
         <Route path="/ventasAtuntaqui/:id" element={<VentasAtuntaquiForm/>}/>
+        <Route path="/ventasBolivar/:id" element={<VentasBolivarForm/>}/>
+        <Route path="/ventasCayambe/:id" element={<VentasCayambeForm/>}/>
+        <Route path="/ventasIbarra/:id" element={<VentasIbarraForm/>}/>
+        <Route path="/ventasLagoagrio/:id" element={<VentasLagoagrioForm/>}/>
 
+
+        {/* pago id */}
         <Route path="/pagos/:id" element={<PagosForm/>}/>
+        <Route path="/pagosAtuntaqui/:id" element={<PagosAtuntaquiForm/>}/>
+        <Route path="/pagosBolivar/:id" element={<PagosBolivarForm/>}/>
+        <Route path="/pagosCayambe/:id" element={<PagosCayambeForm/>}/>
+        <Route path="/pagosIbarra/:id" element={<PagosIbarraForm/>}/>
+        <Route path="/pagosLagoagrio/:id" element={<PagosLagoagrioForm/>}/>
         
-
 
         {/* pago mensuales */}
         <Route path="/productosAngel/:id/pagosMensualesAngel" element={<PagosMensualesAngel/>}/>
+        <Route path="/ventasAtuntaqui/:id/pagosMensualesAtuntaqui" element={<PagosMensualesAtuntaqui/>}/>
+        <Route path="/ventasBolivar/:id/pagosMensualesBolivar" element={<PagosMensualesBolivar/>}/>
+        <Route path="/ventasCayambe/:id/pagosMensualesCayambe" element={<PagosMensualesCayambe/>}/>
+        <Route path="/ventasIbarra/:id/pagosMensualesIbarra" element={<PagosMensualesIbarra/>}/>
+        <Route path="/ventasLagoagrio/:id/pagosMensualesLagoagrio" element={<PagosMensualesLagoagrio/>}/>
 
         {/* generar pago */}
         <Route path="/productosAngel/:id/generarPagoAngel" element={<GenerarPagoAngelForm/>}/>
+        <Route path="/ventasAtuntaqui/:id/generarPagoAtuntaqui" element={<GenerarPagoAtuntaquiForm/>}/>
+        <Route path="/ventasBolivar/:id/generarPagoBolivar" element={<GenerarPagoBolivarForm/>}/>
+        <Route path="/ventasCayambe/:id/generarPagoCayambe" element={<GenerarPagoCayambeForm/>}/>
+        <Route path="/ventasIbarra/:id/generarPagoIbarra" element={<GenerarPagoIbarraForm/>}/>
+        <Route path="/ventasLagoagrio/:id/generarPagoLagoagrio" element={<GenerarPagoLagoagrioForm/>}/>
 
 
       </Routes>
