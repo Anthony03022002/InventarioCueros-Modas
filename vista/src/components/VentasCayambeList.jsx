@@ -47,10 +47,10 @@ export function VentasCayambeList() {
   }, []);
 
   const sortedventasCayambe = ventasCayambe.slice().sort((a, b) => {
-    if (a.estado === "pagado" && b.estado !== "pagado") {
+    if (a.estado === "cancelado" && b.estado !== "cancelado") {
       return 1;
     }
-    if (a.estado !== "pagado" && b.estado === "pagado") {
+    if (a.estado !== "cancelado" && b.estado === "cancelado") {
       return -1;
     }
     return 0;

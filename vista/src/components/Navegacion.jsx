@@ -145,18 +145,18 @@ export function Navegacion() {
                     </Link>
                   </li>
                   <li>
-                  <Link className="dropdown-item" to="/clientesMira">
+                  <Link className="dropdown-item" to="/ventasMira">
                       Mira
                     </Link>
                   </li>
                   <li>
-                  <Link className="dropdown-item" to="/clientesOtavalo">
+                  <Link className="dropdown-item" to="/ventasOtavalo">
                       Otavalo
                     </Link>
                   </li>
                   
                   <li>
-                  <Link className="dropdown-item" to="/clientesPimampiro">
+                  <Link className="dropdown-item" to="/ventasPimampiro">
                       Pimampiro
                     </Link>
                   </li>
