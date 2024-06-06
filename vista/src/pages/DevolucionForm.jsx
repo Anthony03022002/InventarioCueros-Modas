@@ -5,7 +5,7 @@ import {
   getDevolucion,
   updateDevoluciones,
 } from "../api/devoluciones.api";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { getAllInventario, updateInventario } from "../api/inventario.api";
 import React, { useEffect, useState, useCallback } from "react";
 import Select from "react-select";
@@ -137,6 +137,7 @@ export function DevolucionForm() {
         onSubmit={onSubmit}
         className="row g-3 needs-validation container_clientes_angel"
       >
+      <Link to='/devoluciones' className="fs-3"><i className="bi bi-arrow-left-circle-fill"></i></Link>
         <h1 className="titulos">Ingrese su Devolucion</h1>
         <div className="col-md-4">
           <label className="form-label">Devolucion:</label>

@@ -13,6 +13,6 @@ class ProductoClienteAngel(models.Model):
     cantidad = models.IntegerField()
 
     class Meta:
-        db_table = 'producto_cliente'
+        db_table = 'ventas_angel'
 
     

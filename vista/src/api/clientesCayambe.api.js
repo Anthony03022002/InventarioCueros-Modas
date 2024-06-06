@@ -6,10 +6,10 @@ const clientesCayambeApi = axios.create({
 
 export const getAllClientesCayambe = () => clientesCayambeApi.get('/');
 
-// export const getFacturas = (id) => facturaApi.get(`/${id}/`);
+export const getClienteCayambe = (id) => clientesCayambeApi.get(`/${id}/`);
 
-// export const createCliente = (clientes) => clienteApi.post('/', clientes);
+export const createClientesCayambe = (clientes) => clientesCayambeApi.post('/', clientes);
 
-// export const deleteCliente = (id) => clienteApi.delete(`/${id}`)
+export const deleteClientesCayambe = (id) => clientesCayambeApi.delete(`/${id}`)
 
-// export const updateCliente= (id, clientes) => clienteApi.put(`/${id}/`, clientes)
+export const updateClientesCayambe= (id, clientes) => clientesCayambeApi.put(`/${id}/`, clientes)

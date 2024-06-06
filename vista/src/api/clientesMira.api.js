@@ -6,10 +6,10 @@ const clientesMiraApi = axios.create({
 
 export const getAllClientesMira = () => clientesMiraApi.get('/');
 
-// export const getFacturas = (id) => facturaApi.get(`/${id}/`);
+export const getClienteMira = (id) => clientesMiraApi.get(`/${id}/`);
 
-// export const createCliente = (clientes) => clienteApi.post('/', clientes);
+export const createClientesMira = (clientes) => clientesMiraApi.post('/', clientes);
 
-// export const deleteCliente = (id) => clienteApi.delete(`/${id}`)
+export const deleteClientesMira = (id) => clientesMiraApi.delete(`/${id}`)
 
-// export const updateCliente= (id, clientes) => clienteApi.put(`/${id}/`, clientes)
+export const updateClientesMira= (id, clientes) => clientesMiraApi.put(`/${id}/`, clientes)

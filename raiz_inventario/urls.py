@@ -45,8 +45,16 @@ urlpatterns = [
     path('', include('devoluciones.urls')),
     path('', include('productoClienteAngel.urls')),
     path('', include('stockHistoria.urls')),
-    path('', include('ventasHistorial.urls')),
     path('', include('devolucionesHistorial.urls')),
+    path('', include('ventasHistorial.urls')),
+    path('', include('ventasAtuntaqui.urls')),
+    path('', include('ventasBolivar.urls')),
+    path('', include('ventasCayambe.urls')),
+    path('', include('ventasIbarra.urls')),
+    path('', include('ventasLagoagrio.urls')),
+    path('', include('ventasMira.urls')),
+    path('', include('ventasOtavalo.urls')),
+    path('', include('ventasPimampiro.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

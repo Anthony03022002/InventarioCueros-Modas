@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { getAllClientesAngel } from "../api/clientesAngel.api";
 import { getProductoAngel } from "../api/productoAngel.api";
@@ -68,6 +68,7 @@ export function PagosMensualesAngel() {
 
   return (
     <div className="container mt-3">
+      <Link to='/productosAngel' className="fs-3"><i className="bi bi-arrow-left-circle-fill"></i></Link>
       <h1 className="titulos">Pagos Mensuales del cliente</h1>
       {productoAngel.map((producto) => {
         const debe = parseFloat(producto.total_pagar) - totalPagado;

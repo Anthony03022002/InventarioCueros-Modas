@@ -40,45 +40,41 @@ export function GenerarPagoAngelForm() {
     const nuevoDebe = debe - parseFloat(data.cantidad_pagada);
     // Establecer márgenes
     const marginLeft = 10;
-    const marginTop = 20;
-
+    let marginTop = 20; // Inicialmente establecido en 20
+  
     // Agregar título centrado
     const pageWidth = doc.internal.pageSize.getWidth();
-    const title = "Comprobante de Pago";
+    const title = "Comprobante de Pago C & M SPORTS";
     doc.setFontSize(18);
     const textWidth = doc.getTextWidth(title);
     const textX = (pageWidth - textWidth) / 2;
     doc.text(title, textX, marginTop); // Coordenada Y para el título
-
+  
     // Agregar contenido del pago
     doc.setFontSize(12);
     doc.text(
       `Usted ha hecho el pago por el monto de $${data.cantidad_pagada}`,
       marginLeft,
-      marginTop + 20
+      (marginTop += 20) // Ajuste de coordenada Y
     );
-    doc.text(`Fecha del pago: ${data.fecha_pago}`, marginLeft, marginTop + 30);
+    doc.text(`Fecha del pago: ${data.fecha_pago}`, marginLeft, (marginTop += 10)); // Ajuste de coordenada Y
     if (data.descuento) {
-      doc.text("Pago por descuento", marginLeft, marginTop + 40);
+      doc.text("Pago por descuento", marginLeft, (marginTop += 10)); // Ajuste de coordenada Y
     }
     doc.text(
       `Monto adeudado: $${nuevoDebe.toFixed(2)}`,
       marginLeft,
-      marginTop + 50
+      (marginTop += 10) // Ajuste de coordenada Y
     );
-
-    // Mejorar vista del PDF
+  
+    // Dibujar línea debajo del monto adeudado
     doc.setLineWidth(0.5);
-    doc.line(marginLeft, marginTop + 5, pageWidth - marginLeft, marginTop + 5); // Línea debajo del título
-    doc.line(
-      marginLeft,
-      marginTop + 15,
-      pageWidth - marginLeft,
-      marginTop + 15
-    ); // Línea debajo de la sección de contenido
-
-    doc.save(`pago_${data.venta}_${data.fecha_pago}.pdf`);
+    doc.line(marginLeft, marginTop + 5, pageWidth - marginLeft, marginTop + 5); // Línea debajo del monto adeudado
+  
+    // Mejorar vista del PDF
+    doc.save(`C_Pago_${data.venta}_${data.fecha_pago}.pdf`);
   };
+  
 
   const onSubmit = handleSubmit(async (data) => {
     await createPagosAngel(data);

@@ -5,7 +5,7 @@ import {
   getFactura,
   updateFacturas,
 } from "../api/facturas.api";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export function FacturasForm() {
@@ -59,6 +59,7 @@ export function FacturasForm() {
         encType="multipart/form-data"
         className="row g-3 needs-validation container_clientes_angel"
       >
+      <Link to='/facturas' className="fs-3"><i className="bi bi-arrow-left-circle-fill"></i></Link>
         <h1 className="titulos">Ingrese su Factura</h1>
         <div className="col-md-6">
           <label className="form-label">Proveedor:</label>
@@ -94,7 +95,7 @@ export function FacturasForm() {
             </a>
           </div>
         )}
-       <div className="row mt-3">
+       <div className="row mt-4">
           <div className="col-12 d-flex justify-content-end">
             {params.id && (
               <div className="mr-2 me-3">

@@ -20,9 +20,8 @@ export function Navegacion() {
       </button>
       <img 
         className="imagen_navbar" 
-        src="../imagenes/logo_empresa.png" 
+        src="../imagenes//logo_empresa.png" 
         alt="no se encuentra" 
-        srcSet="../imagenes/logo_empresa.png 1x, ../imagenes/logo_empresa@2x.png 2x" 
       />
       <div
         className="offcanvas offcanvas-start"
@@ -56,11 +55,6 @@ export function Navegacion() {
               </a>
               <ul className="dropdown-menu">
                   <li>
-                    <Link className="dropdown-item " to="/clientesIbarra">
-                      Ibarra
-                    </Link>
-                  </li>
-                  <li>
                   <Link className="dropdown-item" to="/clientesAngel">
                       El Angel
                     </Link>
@@ -81,13 +75,13 @@ export function Navegacion() {
                     </Link>
                   </li>
                   <li>
-                  <Link className="dropdown-item" to="/clientesLagoagrio">
-                      LagoAgrio
+                    <Link className="dropdown-item " to="/clientesIbarra">
+                      Ibarra
                     </Link>
                   </li>
                   <li>
-                  <Link className="dropdown-item" to="/clientesOtavalo">
-                      Otavalo
+                  <Link className="dropdown-item" to="/clientesLagoagrio">
+                      LagoAgrio
                     </Link>
                   </li>
                   <li>
@@ -95,6 +89,12 @@ export function Navegacion() {
                       Mira
                     </Link>
                   </li>
+                  <li>
+                  <Link className="dropdown-item" to="/clientesOtavalo">
+                      Otavalo
+                    </Link>
+                  </li>
+                  
                   <li>
                   <Link className="dropdown-item" to="/clientesPimampiro">
                       Pimampiro
@@ -113,18 +113,14 @@ export function Navegacion() {
                 <i className="bi bi-bag-plus p-2 iconos"></i>Ventas
               </a>
               <ul className="dropdown-menu">
-                  <li>
-                    <Link className="dropdown-item " to="/clientesIbarra">
-                      Ibarra
-                    </Link>
-                  </li>
+                  
                   <li>
                   <Link className="dropdown-item" to="/productosAngel">
                       El Angel
                     </Link>
                   </li>
                   <li>
-                  <Link className="dropdown-item" to="/clientesAtuntaqui">
+                  <Link className="dropdown-item" to="/ventasAtuntaqui">
                       Atuntaqui
                     </Link>
                   </li>
@@ -139,13 +135,13 @@ export function Navegacion() {
                     </Link>
                   </li>
                   <li>
-                  <Link className="dropdown-item" to="/clientesLagoagrio">
-                      LagoAgrio
+                    <Link className="dropdown-item " to="/clientesIbarra">
+                      Ibarra
                     </Link>
                   </li>
                   <li>
-                  <Link className="dropdown-item" to="/clientesOtavalo">
-                      Otavalo
+                  <Link className="dropdown-item" to="/clientesLagoagrio">
+                      LagoAgrio
                     </Link>
                   </li>
                   <li>
@@ -153,6 +149,12 @@ export function Navegacion() {
                       Mira
                     </Link>
                   </li>
+                  <li>
+                  <Link className="dropdown-item" to="/clientesOtavalo">
+                      Otavalo
+                    </Link>
+                  </li>
+                  
                   <li>
                   <Link className="dropdown-item" to="/clientesPimampiro">
                       Pimampiro

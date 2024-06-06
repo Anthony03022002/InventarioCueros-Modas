@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
   createClientesAngel,
@@ -71,6 +71,7 @@ export function ClientesAngelForm() {
         className="row g-3 needs-validation container_clientes_angel"
         novalidate
       >
+      <Link to='/clientesAngel' className="fs-3"><i className="bi bi-arrow-left-circle-fill"></i></Link>
         <h1 className="titulos">Formulario Clientes Angel</h1>
         <div className="col-md-4">
           <label className="form-label">Cedula:</label>
@@ -132,7 +133,7 @@ export function ClientesAngelForm() {
         </div>
         {errors.direccion && <span>Este campo es requerido</span>}
 
-        <div className="row mt-3">
+        <div className="row mt-4">
           <div className="col-12 d-flex justify-content-end">
             {params.id && (
               <div className="mr-2 me-3">

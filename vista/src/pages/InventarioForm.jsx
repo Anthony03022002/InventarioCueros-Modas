@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
 import { getAllFacturas } from "../api/facturas.api";
@@ -137,7 +137,8 @@ export function InventarioForm() {
 
   return (
     <div className="container mt-3">
-      <form onSubmit={onSubmit} className="row g-3 needs-validation container_inventario" novalidate>
+      <form onSubmit={onSubmit} className="row g-3 needs-validation container_inventario">
+      <Link to='/inventario' className="fs-3"><i className="bi bi-arrow-left-circle-fill"></i></Link>
         <h1 className="titulos">Ingrese un Producto</h1>
         <div className="col-md-4">
           <label className="form-label">Código:</label>
@@ -182,7 +183,7 @@ export function InventarioForm() {
         </div>
         <div className="col-md-2">
           <label className="form-label">
-            <i class="bi bi-currency-dollar"></i>Precio
+            <i className="bi bi-currency-dollar"></i>Precio
           </label>
           <input
             type="number"
@@ -256,7 +257,7 @@ export function InventarioForm() {
             )}
           />
         </div>
-        <div className="row mt-3">
+        <div className="row mt-4">
           <div className="col-12 d-flex justify-content-end">
             {params.id && (
               <div className="mr-2 me-3">
@@ -270,7 +271,7 @@ export function InventarioForm() {
               </div>
             )}
             <button type="submit" className="btn btn-primary">
-            <i class="bi bi-send-check-fill me-2"></i>Enviar
+            <i className="bi bi-send-check-fill me-2"></i>Enviar
             </button>
           </div>
         </div>

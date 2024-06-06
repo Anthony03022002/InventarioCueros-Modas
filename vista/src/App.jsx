@@ -27,6 +27,16 @@ import { PagosMensualesAngel } from "./components/PagosMensualesAngel";
 import { GenerarPagoAngelForm } from "./pages/GenerarPagoAngelForm";
 import { Pagos } from "./components/Pagos";
 import { PagosForm } from "./pages/PagosForm";
+import { ClientesAtuntaquiForm } from "./pages/ClientesAtuntaquiForm";
+import { ClientesBolivarForm } from "./pages/ClientesBolivarForm";
+import { ClientesCayambeForm } from "./pages/ClientesCayambeForm";
+import { ClientesIbarraForm } from "./pages/ClientesIbarraForm";
+import { ClientesLagoagrioForm } from "./pages/ClientesLagoagrioForm";
+import { ClientesMiraForm } from "./pages/ClientesMiraForm";
+import { ClientesOtavaloForm } from "./pages/ClientesOtavaloForm";
+import { ClientesPimampiroForm } from "./pages/ClientesPimapiroForm";
+import { VentasAtuntaquiList } from "./components/VentasAtuntaquiList";
+import { VentasAtuntaquiForm } from "./pages/VentasAtuntaquiForm";
 function App() {
   return (
     <BrowserRouter>
@@ -51,7 +61,25 @@ function App() {
         <Route path="/clientesPimampiro" element={<ClientesPimampiroList/>}/>
         <Route path="/productosAngel" element={<ProductoClienteAngelList/>}/>
         <Route path="/ventasHistorial" element={<VentasHistorial/>}/>
+        <Route path="/ventasAtuntaqui" element={<VentasAtuntaquiList/>}/>
         <Route path="/devolucionesHistorial" element={<DevolucionesHistorial/>}/>
+
+        {/* crear fomulario */}
+        <Route path="/crear-devolucion" element={<DevolucionForm/>}/>
+        <Route path="/crear-inventario" element={<InventarioForm/>}/>
+        <Route path="/crear-factura" element={<FacturasForm/>}/>
+        <Route path="/crear-clienteAngel" element={<ClientesAngelForm/>}/>
+        <Route path="/crear-clienteAtuntaqui" element={<ClientesAtuntaquiForm/>}/>
+        <Route path="/crear-clienteBolivar" element={<ClientesBolivarForm/>}/>
+        <Route path="/crear-clienteCayambe" element={<ClientesCayambeForm/>}/>
+        <Route path="/crear-clienteIbarra" element={<ClientesIbarraForm/>}/>
+        <Route path="/crear-clienteLagoagrio" element={<ClientesLagoagrioForm/>}/>
+        <Route path="/crear-clienteMira" element={<ClientesMiraForm/>}/>
+        <Route path="/crear-clienteOtavalo" element={<ClientesOtavaloForm/>}/>
+        <Route path="/crear-clientePimampiro" element={<ClientesPimampiroForm/>}/>
+        <Route path="/crear-productosAngel" element={<ProductoClienteAngelForm/>}/>
+        <Route path="/crear-ventasAtuntaqui" element={<VentasAtuntaquiForm/>}/>
+        <Route path="/crear-pago" element={<PagosForm/>}/>
 
         {/* actualizar */}
         <Route path="/facturas/:id" element={<FacturasForm/>}/>
@@ -59,15 +87,18 @@ function App() {
         <Route path="/devoluciones/:id" element={<DevolucionForm/>}/>
         <Route path="/productosAngel/:id" element={<ProductoClienteAngelForm/>}/>
         <Route path="/clientesAngel/:id" element={<ClientesAngelForm/>}/>
+        <Route path="/clientesAtuntaqui/:id" element={<ClientesAtuntaquiForm/>}/>
+        <Route path="/clientesBolivar/:id" element={<ClientesBolivarForm/>}/>
+        <Route path="/clientesCayambe/:id" element={<ClientesCayambeForm/>}/>
+        <Route path="/clientesIbarra/:id" element={<ClientesIbarraForm/>}/>
+        <Route path="/clientesLagoagrio/:id" element={<ClientesLagoagrioForm/>}/>
+        <Route path="/clientesMira/:id" element={<ClientesMiraForm/>}/>
+        <Route path="/clientesOtavalo/:id" element={<ClientesOtavaloForm/>}/>
+        <Route path="/clientesPimampiro/:id" element={<ClientesPimampiroForm/>}/>
+        <Route path="/ventasAtuntaqui/:id" element={<VentasAtuntaquiForm/>}/>
+
         <Route path="/pagos/:id" element={<PagosForm/>}/>
         
-        {/* crear fomulario */}
-        <Route path="/crear-devolucion" element={<DevolucionForm/>}/>
-        <Route path="/crear-inventario" element={<InventarioForm/>}/>
-        <Route path="/crear-factura" element={<FacturasForm/>}/>
-        <Route path="/crear-clienteAngel" element={<ClientesAngelForm/>}/>
-        <Route path="/crear-productosAngel" element={<ProductoClienteAngelForm/>}/>
-        <Route path="/crear-pago" element={<PagosForm/>}/>
 
 
         {/* pago mensuales */}

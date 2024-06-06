@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Select from "react-select";
 import { getAllClientesAngel } from "../api/clientesAngel.api";
 import { getAllInventario, updateInventario } from "../api/inventario.api";
@@ -9,7 +9,7 @@ import {
   updateProductoClienteAngel,
   getProductoAngel,
 } from "../api/productoAngel.api";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { createVentasHistorial } from "../api/ventasHistorial.api";
 
 export function ProductoClienteAngelForm() {
@@ -21,6 +21,8 @@ export function ProductoClienteAngelForm() {
   const [stock, setStock] = useState(0);
   const [cantidad, setCantidad] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [showOutOfStockModal, setShowOutOfStockModal] = useState(false);
 
   const {
     register,
@@ -74,7 +76,7 @@ export function ProductoClienteAngelForm() {
       });
     }
 
-    navigate("/productosAngel");
+    setShowConfirmationModal(true);
   });
 
   const handleProductChange = useCallback(
@@ -89,12 +91,18 @@ export function ProductoClienteAngelForm() {
       setPrecio(product.precio);
       setStock(product.stock);
       setValue("total_pagar", product.precio);
-      if(product.stock === 0){
-        alert('Producto no disponible');
-      };
+      if (product.stock === 0) {
+        setShowOutOfStockModal(true);
+      }
     },
     [inventarios, setValue]
   );
+  const handleConfirmation = (decision) => {
+    setShowConfirmationModal(false);
+    if (!decision) {
+      navigate("/productosAngel");
+    }
+  };
 
   const handleCantidadChange = (e) => {
     const nuevaCantidad = parseInt(e.target.value, 10) || 0;
@@ -169,6 +177,7 @@ export function ProductoClienteAngelForm() {
         onSubmit={onSubmit}
         className="row g-3 needs-validation container_clientes_angel"
       >
+      <Link to='/productosAngel' className="fs-3"><i className="bi bi-arrow-left-circle-fill"></i></Link>
         <h1 className="titulos">Ingrese su venta Clientes Angel</h1>
         <div className="col-md-3">
           <label className="form-label">Cliente:</label>
@@ -215,7 +224,7 @@ export function ProductoClienteAngelForm() {
 
         <div className="col-md-3">
           <label className="form-label">
-            <i class="bi bi-currency-dollar"></i>Precio:
+            <i className="bi bi-currency-dollar"></i>Precio:
           </label>
           <input
             type="number"
@@ -237,7 +246,7 @@ export function ProductoClienteAngelForm() {
         </div>
         <div className="col-md-3">
           <label className="form-label">
-            <i class="bi bi-currency-dollar"></i>Total a Pagar:
+            <i className="bi bi-currency-dollar"></i>Total a Pagar:
           </label>
           <input
             type="number"
@@ -259,16 +268,19 @@ export function ProductoClienteAngelForm() {
         {errors.fecha_venta && (
           <span>Debe seleccionar una fecha de venta.</span>
         )}
-      <div className="col-md-3">
-      <label className="form-label">Estado del Pago:</label>
-        <select className="form-select form-clientes" {...register("estado", { required: true })}>
-          <option value="">Selecciona el Estado del Pago</option>
-          <option value="pendiente">Pendiente</option>
-          <option value="cancelado">Cancelado</option>
-        </select>
-      </div>
+        <div className="col-md-3">
+          <label className="form-label">Estado del Pago:</label>
+          <select
+            className="form-select form-clientes"
+            {...register("estado", { required: true })}
+          >
+            <option value="">Selecciona el Estado del Pago</option>
+            <option value="pendiente">Pendiente</option>
+            <option value="cancelado">Cancelado</option>
+          </select>
+        </div>
         {errors.estado && <span>Debe seleccionar un estado.</span>}
-        <div className="row mt-3">
+        <div className="row mt-3 pt-3">
           <div className="col-12 d-flex justify-content-end">
             {params.id && (
               <div className="mr-2 me-3">
@@ -281,8 +293,8 @@ export function ProductoClienteAngelForm() {
                 </button>
               </div>
             )}
-            <button type="submit"  className="btn btn-primary">
-            <i class="bi bi-send-check-fill me-2"></i>Enviar
+            <button type="submit" className="btn btn-primary">
+              <i className="bi bi-send-check-fill me-2"></i>Enviar
             </button>
           </div>
         </div>
@@ -297,7 +309,7 @@ export function ProductoClienteAngelForm() {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-body mt-3">
-              <h5>¿Estás seguro de que deseas eliminar este Cliente?</h5>
+              <h5>¿Estás seguro de que deseas eliminar esta venta?</h5>
             </div>
             <div className="modal-footer">
               <button
@@ -318,6 +330,77 @@ export function ProductoClienteAngelForm() {
           </div>
         </div>
       </div>
+      {showConfirmationModal && (
+        <div
+          className="modal show"
+          style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">
+                  <i class="bi bi-check-circle-fill text-success me-2"></i>
+                  Producto registrado correctamente
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setShowConfirmationModal(false)}
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body text-start">
+                <p>¿Desea ingresar otro producto?</p>
+              </div>
+              <div className="modal-footer">
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => handleConfirmation(false)}
+                >
+                  Cancelar
+                </button>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => handleConfirmation(true)}
+                >
+                  Confirmar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {showOutOfStockModal && (
+        <div
+          className="modal show"
+          style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title"><i class="bi bi-exclamation-circle-fill text-danger me-2"></i>Producto no disponible</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setShowOutOfStockModal(false)}
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body text-start">
+                <p>El producto seleccionado no tiene stock disponible.</p>
+              </div>
+              <div className="modal-footer">
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => setShowOutOfStockModal(false)}
+                >
+                  Cerrar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

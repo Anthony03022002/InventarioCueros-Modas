@@ -66,7 +66,15 @@ INSTALLED_APPS = [
     'productoClienteAngel',
     'stockHistoria',
     'ventasHistorial',
-    'devolucionesHistorial'
+    'devolucionesHistorial',
+    'ventasAtuntaqui',
+    'ventasBolivar',
+    'ventasCayambe',
+    'ventasIbarra',
+    'ventasLagoagrio',
+    'ventasMira',
+    'ventasOtavalo',
+    'ventasPimampiro',
 ]
 
 MIDDLEWARE = [

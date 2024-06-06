@@ -4,12 +4,12 @@ const clientesBolivarApi = axios.create({
     baseURL: 'http://localhost:8000/clientesBolivar/clientesBolivar/'
 })
 
-export const getAllClientesBolivar = () => clientesBolivarApi.get('/');
+export const getAllClientesBolivar  = () => clientesBolivarApi.get('/');
 
-// export const getFacturas = (id) => facturaApi.get(`/${id}/`);
+export const getClienteBolivar  = (id) => clientesBolivarApi.get(`/${id}/`);
 
-// export const createCliente = (clientes) => clienteApi.post('/', clientes);
+export const createClientesBolivar  = (clientes) => clientesBolivarApi.post('/', clientes);
 
-// export const deleteCliente = (id) => clienteApi.delete(`/${id}`)
+export const deleteClientesBolivar  = (id) => clientesBolivarApi.delete(`/${id}`)
 
-// export const updateCliente= (id, clientes) => clienteApi.put(`/${id}/`, clientes)
+export const updateClientesBolivar = (id, clientes) => clientesBolivarApi.put(`/${id}/`, clientes)

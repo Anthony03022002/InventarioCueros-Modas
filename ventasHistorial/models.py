@@ -8,5 +8,8 @@ class VentasHistorial(models.Model):
     precio = models.DecimalField(max_digits=50,decimal_places=2)
     comentario = models.TextField(blank=True, null=True)
 
+    class Meta:
+        db_table = 'ventas_historial'
+
     def __str__(self):
         return f"Historial de {self.codigo} - {self.cantidad_venta} unidades el {self.fecha}"

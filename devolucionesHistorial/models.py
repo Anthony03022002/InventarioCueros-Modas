@@ -9,6 +9,8 @@ class DevolucionesHistorial(models.Model):
     responsable = models.CharField(max_length=150)
     proveedor = models.CharField(max_length=150)
     comentario = models.TextField(blank=True, null=True)
+    class Meta:
+        db_table = 'devoluciones_historial'
 
     def __str__(self):
         return f"Historial de {self.codigo} - {self.cantidad_devolucion} unidades el {self.fecha}"
