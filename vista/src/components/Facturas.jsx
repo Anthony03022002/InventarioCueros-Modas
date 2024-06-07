@@ -71,7 +71,7 @@ export function Facturas() {
           </div>
         </div>
         <div className="col-auto">
-          <Link to="/crear-factura" className="btn btn-primary"><i class="bi bi-file-earmark-text-fill me-2"></i>Crear factura</Link>
+          <Link to="/crear-factura" className="btn btn-primary"><i className="bi bi-file-earmark-text-fill me-2"></i>Crear factura</Link>
         </div>
       </div>
 

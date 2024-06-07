@@ -24,15 +24,18 @@ export function FacturasForm() {
     const formData = new FormData();
     formData.append("proveedor", data.proveedor);
     formData.append("fecha", data.fecha);
-    if (data.file[0]) {
-      formData.append("file", data.file[0]);
+    formData.append("file", data.file[0]);
+
+    try {
+      if (params.id) {
+        await updateFacturas(params.id, formData);
+      } else {
+        await createFacturas(data);
+      }
+      navigate("/facturas");
+    } catch (error) {
+      console.error("Error al crear/actualizar la factura:", error);
     }
-    if (params.id) {
-      await updateFacturas(params.id, formData);
-    } else {
-      await createFacturas(formData);
-    }
-    navigate("/facturas");
   });
 
   useEffect(() => {
@@ -48,8 +51,11 @@ export function FacturasForm() {
   }, [params.id, setValue]);
 
   const handleDelete = async () => {
-    await deleteFacturas(params.id);
-    navigate("/facturas");
+    const acepta = window.confirm("¿Estás seguro de eliminar esta factura?");
+    if (acepta) {
+      await deleteFacturas(params.id);
+      navigate("/facturas");
+    }
   };
 
   return (
@@ -59,8 +65,17 @@ export function FacturasForm() {
         encType="multipart/form-data"
         className="row g-3 needs-validation container_clientes_angel"
       >
-      <Link to='/facturas' className="fs-3"><i className="bi bi-arrow-left-circle-fill"></i></Link>
-        <h1 className="titulos">Ingrese su Factura</h1>
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <Link to="/facturas" className="fs-3">
+            <i className="bi bi-arrow-left-circle-fill"></i>
+          </Link>
+          <div className="flex-grow-1 d-flex justify-content-center">
+            <h1 className="titulos">Ingrese su factura</h1>
+          </div>
+          <div className="fs-3" style={{ visibility: "hidden" }}>
+            <i className="bi bi-arrow-left-circle-fill"></i>
+          </div>
+        </div>
         <div className="col-md-6">
           <label className="form-label">Proveedor:</label>
           <input
@@ -82,10 +97,10 @@ export function FacturasForm() {
         </div>
         {errors.fecha && <span>Este campo es requerido</span>}
 
-          <div className="col-md-12">
-            <label className="form-label">Ingrese archivo de factura (img, png, jpg, pdf.)</label>
-        <input className="form-control form-clientes" type="file" {...register("file", { required: true })} />
-          </div>
+        <div className="col-md-12">
+          <label className="form-label">Ingrese archivo de factura (img, png, jpg, pdf.)</label>
+          <input className="form-control form-clientes" type="file" {...register("file", { required: true })} />
+        </div>
         {errors.file && <span>Este campo es requerido</span>}
 
         {fileUrl && (
@@ -95,7 +110,7 @@ export function FacturasForm() {
             </a>
           </div>
         )}
-       <div className="row mt-4">
+        <div className="row mt-4">
           <div className="col-12 d-flex justify-content-end">
             {params.id && (
               <div className="mr-2 me-3">
@@ -109,7 +124,7 @@ export function FacturasForm() {
               </div>
             )}
             <button type="submit" className="btn btn-primary">
-            <i class="bi bi-send-check-fill me-2"></i>Enviar
+              <i className="bi bi-send-check-fill me-2"></i>Enviar
             </button>
           </div>
         </div>
