@@ -71,8 +71,17 @@ export function ClientesMiraForm() {
         className="row g-3 needs-validation container_clientes_angel"
         
       >
-      <Link to='/clientesMira' className="fs-3"><i className="bi bi-arrow-left-circle-fill"></i></Link>
-        <h1 className="titulos">Formulario Clientes Mira</h1>
+       <div className="d-flex justify-content-between align-items-center mb-4">
+          <Link to="/clientesMira" className="fs-3">
+            <i className="bi bi-arrow-left-circle-fill"></i>
+          </Link>
+          <div className="flex-grow-1 d-flex justify-content-center">
+            <h1 className="titulos">Formulario Clientes Mira</h1>
+          </div>
+          <div className="fs-3" style={{ visibility: "hidden" }}>
+            <i className="bi bi-arrow-left-circle-fill"></i>
+          </div>
+        </div>
         <div className="col-md-4">
           <label className="form-label">Cedula:</label>
           <input

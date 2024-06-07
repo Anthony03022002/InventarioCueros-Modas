@@ -136,10 +136,22 @@ export function InventarioForm() {
   });
 
   return (
-    <div className="container mt-3">
-      <form onSubmit={onSubmit} className="row g-3 needs-validation container_inventario">
-      <Link to='/inventario' className="fs-3"><i className="bi bi-arrow-left-circle-fill"></i></Link>
-        <h1 className="titulos">Ingrese un Producto</h1>
+    <div className="container">
+      <form
+        onSubmit={onSubmit}
+        className="row g-3 needs-validation container_inventario"
+      >
+        <div className="d-flex justify-content-between align-items-center">
+          <Link to="/inventario" className="fs-3">
+            <i className="bi bi-arrow-left-circle-fill"></i>
+          </Link>
+          <div className="flex-grow-1 d-flex justify-content-center">
+            <h1 className="titulos">Ingrese un Producto</h1>
+          </div>
+          <div className="fs-3" style={{ visibility: "hidden" }}>
+            <i className="bi bi-arrow-left-circle-fill"></i>
+          </div>
+        </div>
         <div className="col-md-4">
           <label className="form-label">Código:</label>
           <Controller
@@ -271,7 +283,7 @@ export function InventarioForm() {
               </div>
             )}
             <button type="submit" className="btn btn-primary">
-            <i className="bi bi-send-check-fill me-2"></i>Enviar
+              <i className="bi bi-send-check-fill me-2"></i>Enviar
             </button>
           </div>
         </div>
