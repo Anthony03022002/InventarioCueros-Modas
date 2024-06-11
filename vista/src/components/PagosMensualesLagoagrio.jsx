@@ -94,6 +94,12 @@ export function PagosMensualesLagoagrio() {
                   <p>
                     <strong>Debe:</strong> ${debe.toFixed(2)}
                   </p>
+                  <button
+                  className="btn btn-primary"
+                   onClick={()=>{
+                    navigate(`/ventasLagoagrio/${producto.id}`)
+                  }}
+                  >Cambiar estado del pago</button>
                 </div>
               </div>
               <div className="col-auto">

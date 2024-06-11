@@ -137,8 +137,26 @@ export function DevolucionForm() {
         onSubmit={onSubmit}
         className="row g-3 needs-validation container_clientes_angel"
       >
-      <Link to='/devoluciones' className="fs-3"><i className="bi bi-arrow-left-circle-fill"></i></Link>
-        <h1 className="titulos">Ingrese su Devolucion</h1>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+          <Link to="/devoluciones" className="fs-3">
+            <i className="bi bi-arrow-left-circle-fill"></i>
+          </Link>
+          <div className="flex-grow-1 d-flex justify-content-center">
+            <h1 className="titulos">Ingrese su devolucion</h1>
+          </div>
+          <div className="fs-3" style={{ visibility: "hidden" }}>
+            <i className="bi bi-arrow-left-circle-fill"></i>
+          </div>
+        </div>
+        <div className="col-md-4">
+          <label className="form-label">Cedula:</label>
+          <input
+            type="number"
+            placeholder="Cedula"
+            className="form-control form-clientes"
+            {...register("cedula", { required: true })}
+          />
+        </div>
         <div className="col-md-4">
           <label className="form-label">Devolucion:</label>
           <input

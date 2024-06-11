@@ -19,7 +19,7 @@ export function ProductoClienteAngelList() {
 
   const findProductNameById = (productId) => {
     const producto = inventarios.find((p) => p.id === productId);
-    return producto ? producto.producto : "Producto no encontrado";
+    return producto ? producto.codigo : "Producto no encontrado";
   };
 
   useEffect(() => {
@@ -92,7 +92,7 @@ export function ProductoClienteAngelList() {
         <thead>
           <tr>
             <th scope="col">Cliente</th>
-            <th scope="col">Producto</th>
+            <th scope="col">Codigo del producto</th>
             <th scope="col">Cantidad del producto</th>
             <th scope="col">Total a pagar</th>
             <th scope="col">Estado</th>

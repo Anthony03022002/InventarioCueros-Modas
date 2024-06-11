@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 export function ClientesCayambeList() {
   const [clientesCayambe, setClientesCayambe] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [clientesPerPage] = useState(5);
+  const [clientesPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 

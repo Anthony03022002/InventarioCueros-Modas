@@ -11,7 +11,7 @@ export function DevolucionesList() {
   const [inventarios, setInventario] = useState([]);
   const [searchCodigo, setSearchCodigo] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5); // Change the number of items per page as needed
+  const [itemsPerPage] = useState(10); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -84,7 +84,7 @@ export function DevolucionesList() {
           </div>
         </div>
         <div className="col-auto">
-          <Link to="/crear-devolucion" className="btn btn-primary"><i class="bi bi-arrow-repeat me-2"></i>Ingresar devolucion</Link>
+          <Link to="/crear-devolucion" className="btn btn-primary"><i className="bi bi-arrow-repeat me-2"></i>Ingresar devolucion</Link>
         </div>
       </div>
 

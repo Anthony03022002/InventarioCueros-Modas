@@ -19,7 +19,7 @@ export function VentasBolivarList() {
 
   const findProductNameById = (productId) => {
     const producto = inventarios.find((p) => p.id === productId);
-    return producto ? producto.producto : "Producto no encontrado";
+    return producto ? producto.codigo : "Producto no encontrado";
   };
 
   useEffect(() => {

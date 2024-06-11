@@ -84,7 +84,7 @@ export function ProductoClienteAngelForm() {
       const selectedProductId = selectedOption?.value;
       const product = inventarios.find(
         (item) => item.id === selectedProductId
-      ) || { precio: 0, stock: 0 };
+      ) || { precio: 0, stock: 0, codigo: "" };
 
       setSelectedProduct(selectedOption);
       setValue("producto", selectedProductId || "");
@@ -131,19 +131,19 @@ export function ProductoClienteAngelForm() {
     async function actualizarProducto() {
       if (params.id) {
         const { data } = await getProductoAngel(params.id);
-
+  
         setValue("cantidad", data.cantidad);
         setValue("estado", data.estado);
         setValue("fecha_venta", data.fecha_venta);
         setValue("total_pagar", data.total_pagar);
-
+  
         const clienteSeleccionado = clientesAngel.find(
           (cliente) => cliente.id === data.cliente
         );
         const productoSeleccionado = inventarios.find(
           (producto) => producto.id === data.producto
         );
-
+  
         setSelectedClient(
           clienteSeleccionado
             ? {
@@ -156,20 +156,19 @@ export function ProductoClienteAngelForm() {
           productoSeleccionado
             ? {
                 value: productoSeleccionado.id,
-                label: productoSeleccionado.producto,
+                label: productoSeleccionado.codigo,
               }
             : null
         );
-
+  
         setValue("cliente", data.cliente);
-        setValue("producto", data.producto);
-        setIsButtonDisabled(
-          productoSeleccionado ? productoSeleccionado.stock === 0 : true
-        );
+        setValue("producto", productoSeleccionado ? productoSeleccionado.id : "");
+
       }
     }
     actualizarProducto();
-  }, [params.id, clientesAngel, inventarios]);
+  }, [params.id, clientesAngel, inventarios, setValue]);
+  
 
   return (
     <div className="container mt-3">
@@ -212,7 +211,7 @@ export function ProductoClienteAngelForm() {
             onChange={handleProductChange}
             options={inventarios.map((inventario) => ({
               value: inventario.id,
-              label: inventario.producto,
+              label: inventario.codigo,
             }))}
             placeholder="Buscar Producto..."
             isSearchable
@@ -262,7 +261,6 @@ export function ProductoClienteAngelForm() {
             className="form-control form-clientes"
             placeholder="Total a Pagar"
             {...register("total_pagar", { required: true })}
-            readOnly
           />
         </div>
         {errors.total_pagar && <span>Debe ingresar el total a pagar.</span>}
@@ -348,7 +346,7 @@ export function ProductoClienteAngelForm() {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">
-                  <i class="bi bi-check-circle-fill text-success me-2"></i>
+                  <i className="bi bi-check-circle-fill text-success me-2"></i>
                   Producto registrado correctamente
                 </h5>
                 <button
@@ -387,7 +385,7 @@ export function ProductoClienteAngelForm() {
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title"><i class="bi bi-exclamation-circle-fill text-danger me-2"></i>Producto no disponible</h5>
+                <h5 className="modal-title"><i className="bi bi-exclamation-circle-fill text-danger me-2"></i>Producto no disponible</h5>
                 <button
                   type="button"
                   className="btn-close"

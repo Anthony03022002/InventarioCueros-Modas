@@ -5,7 +5,7 @@ export function VentasHistorial() {
   const [ventasHistorial, setVentasHistorial] = useState([]);
   const [searchCodigo, setSearchCodigo] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(9);
+  const [itemsPerPage] = useState(10);
 
   useEffect(() => {
     async function cargarVentasHistorial() {

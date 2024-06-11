@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 export function DevolucionesHistorial() {
   const [devolucionesHistorial, setDevolucionesHistorial] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(9);
+  const [itemsPerPage] = useState(10);
   const [searchCodigo, setSearchCodigo] = useState("");
 
   useEffect(() => {

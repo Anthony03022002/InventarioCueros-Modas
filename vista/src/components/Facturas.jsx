@@ -9,7 +9,7 @@ export function Facturas() {
   const [searchFecha, setSearchFecha] = useState("");
   const [searchProveedor, setSearchProveedor] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5); // Change the number of items per page as needed
+  const [itemsPerPage] = useState(10); // Change the number of items per page as needed
   const navigate = useNavigate();
 
   useEffect(() => {

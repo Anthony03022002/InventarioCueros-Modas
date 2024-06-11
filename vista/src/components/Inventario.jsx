@@ -11,7 +11,7 @@ export const Inventario = () => {
   const [searchNombre, setSearchNombre] = useState("");
   const [searchTalla, setSearchTalla] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
+  const [itemsPerPage] = useState(10);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -97,7 +97,7 @@ export const Inventario = () => {
           </div>
         </div>
         <div className="col-auto">
-          <Link to="/crear-inventario" className="btn btn-primary"><i class="bi bi-cart4 me-2"></i>Ingresar producto</Link>
+          <Link to="/crear-inventario" className="btn btn-primary"><i className="bi bi-cart4 me-2"></i>Ingresar producto</Link>
         </div>
       </div>
 

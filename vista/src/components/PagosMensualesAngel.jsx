@@ -94,6 +94,12 @@ export function PagosMensualesAngel() {
                   <p>
                     <strong>Debe:</strong> ${debe.toFixed(2)}
                   </p>
+                  <button
+                  className="btn btn-primary"
+                   onClick={()=>{
+                    navigate(`/productosAngel/${producto.id}`)
+                  }}
+                  >Cambiar estado del pago</button>
                 </div>
               </div>
               <div className="col-auto">
