@@ -100,14 +100,11 @@ export function DevolucionForm() {
           inventarios.find((item) => item.id === data.producto) || {};
         setSelectedProduct({
           value: data.producto,
-          label: selectedProduct.producto,
+          label: selectedProduct.codigo,
         });
         setPrecio(selectedProduct.precio || 0);
         setStock(selectedProduct.stock || 0);
         setProveedor(selectedProduct.proveedor || "");
-        setIsButtonDisabled(
-          productoSeleccionado ? productoSeleccionado.stock === 0 : true
-        );
       }
     }
     actualizarDevoluciones();
@@ -118,7 +115,7 @@ export function DevolucionForm() {
       const selectedProductId = selectedOption?.value;
       const product = inventarios.find(
         (item) => item.id === selectedProductId
-      ) || { precio: 0, stock: 0, proveedor: "" };
+      ) || { precio: 0, stock: 0,codigo:"", proveedor: "" };
 
 
       setSelectedProduct(selectedOption);
@@ -149,15 +146,6 @@ export function DevolucionForm() {
           </div>
         </div>
         <div className="col-md-4">
-          <label className="form-label">Cedula:</label>
-          <input
-            type="number"
-            placeholder="Cedula"
-            className="form-control form-clientes"
-            {...register("cedula", { required: true })}
-          />
-        </div>
-        <div className="col-md-4">
           <label className="form-label">Devolucion:</label>
           <input
             type="text"
@@ -176,7 +164,7 @@ export function DevolucionForm() {
             onChange={handleProductChange}
             options={inventarios.map((inventario) => ({
               value: inventario.id,
-              label: inventario.producto,
+              label: inventario.codigo,
             }))}
             placeholder="Buscar producto"
             isSearchable
