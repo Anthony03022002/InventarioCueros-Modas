@@ -36,7 +36,7 @@ export function ClientesIbarraForm() {
   const handleConfirmSale = async () => {
     setShowSaleModal(false);
     await createClientesIbarra(formData);
-    navigate("/crear-productosAngel");
+    navigate("/crear-ventasIbarra");
   };
 
   const handleCancelSale = async () => {

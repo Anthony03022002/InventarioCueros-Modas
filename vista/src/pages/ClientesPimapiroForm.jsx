@@ -36,7 +36,7 @@ export function ClientesPimampiroForm() {
   const handleConfirmSale = async () => {
     setShowSaleModal(false);
     await createClientesPimampiro(formData);
-    navigate("/crear-productosAngel");
+    navigate("/crear-ventasPimampiro");
   };
 
   const handleCancelSale = async () => {

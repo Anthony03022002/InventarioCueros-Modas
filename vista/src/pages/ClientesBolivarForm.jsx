@@ -36,7 +36,7 @@ export function ClientesBolivarForm() {
   const handleConfirmSale = async () => {
     setShowSaleModal(false);
     await createClientesBolivar(formData);
-    navigate("/crear-productosAngel");
+    navigate("/crear-ventasBolivar");
   };
 
   const handleCancelSale = async () => {

@@ -36,7 +36,7 @@ export function ClientesMiraForm() {
   const handleConfirmSale = async () => {
     setShowSaleModal(false);
     await createClientesMira(formData);
-    navigate("/crear-productosAngel");
+    navigate("/crear-ventasMira");
   };
 
   const handleCancelSale = async () => {

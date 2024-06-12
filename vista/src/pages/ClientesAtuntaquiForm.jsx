@@ -36,7 +36,7 @@ export function ClientesAtuntaquiForm() {
   const handleConfirmSale = async () => {
     setShowSaleModal(false);
     await createClientesAtuntaqui(formData);
-    navigate("/crear-productosAngel");
+    navigate("/crear-ventasAtuntaqui");
   };
 
   const handleCancelSale = async () => {

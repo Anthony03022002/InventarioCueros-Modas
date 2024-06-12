@@ -36,7 +36,7 @@ export function ClientesOtavaloForm() {
   const handleConfirmSale = async () => {
     setShowSaleModal(false);
     await createClientesOtavalo(formData);
-    navigate("/crear-productosAngel");
+    navigate("/crear-ventasOtavalo");
   };
 
   const handleCancelSale = async () => {

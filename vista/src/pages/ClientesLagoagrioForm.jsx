@@ -36,7 +36,7 @@ export function ClientesLagoagrioForm() {
   const handleConfirmSale = async () => {
     setShowSaleModal(false);
     await createClientesLagoagrio(formData);
-    navigate("/crear-productosAngel");
+    navigate("/crear-ventasLagoagrio");
   };
 
   const handleCancelSale = async () => {

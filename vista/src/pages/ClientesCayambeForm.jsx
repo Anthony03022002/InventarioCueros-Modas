@@ -36,7 +36,7 @@ export function ClientesCayambeForm() {
   const handleConfirmSale = async () => {
     setShowSaleModal(false);
     await createClientesCayambe(formData);
-    navigate("/crear-productosAngel");
+    navigate("/crear-ventasCayambe");
   };
 
   const handleCancelSale = async () => {
