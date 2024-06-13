@@ -55,25 +55,25 @@ export function VentasPimampiroForm() {
       await updateVentasPimampiro(params.id, data);
     } else {
       await creatVentasPimampiro(data);
-    }
 
-    const selectedProductData = inventarios.find(
-      (item) => item.id === data.producto
-    );
-    if (selectedProductData) {
-      const updatedStock = selectedProductData.stock - data.cantidad;
-      await updateInventario(data.producto, {
-        ...selectedProductData,
-        stock: updatedStock,
-      });
+      const selectedProductData = inventarios.find(
+        (item) => item.id === data.producto
+      );
+      if (selectedProductData) {
+        const updatedStock = selectedProductData.stock - data.cantidad;
+        await updateInventario(data.producto, {
+          ...selectedProductData,
+          stock: updatedStock,
+        });
 
-      await createVentasHistorial({
-        codigo: selectedProductData.codigo,
-        cantidad_venta: data.cantidad,
-        fecha: data.fecha_venta,
-        precio: data.total_pagar,
-        comentario: `Se realizó la venta del producto: ${selectedProductData.producto}`,
-      });
+        await createVentasHistorial({
+          codigo: selectedProductData.codigo,
+          cantidad_venta: data.cantidad,
+          fecha: data.fecha_venta,
+          precio: data.total_pagar,
+          comentario: `Se realizó la venta del producto: ${selectedProductData.producto}`,
+        });
+      }
     }
 
     setShowConfirmationModal(true);
@@ -84,7 +84,7 @@ export function VentasPimampiroForm() {
       const selectedProductId = selectedOption?.value;
       const product = inventarios.find(
         (item) => item.id === selectedProductId
-      ) || { precio: 0, stock: 0, codigo:"" };
+      ) || { precio: 0, stock: 0, codigo: "" };
 
       setSelectedProduct(selectedOption);
       setValue("producto", selectedProductId || "");
@@ -162,7 +162,10 @@ export function VentasPimampiroForm() {
         );
 
         setValue("cliente", data.cliente);
-        setValue("producto", productoSeleccionado ? productoSeleccionado.id : "");
+        setValue(
+          "producto",
+          productoSeleccionado ? productoSeleccionado.id : ""
+        );
       }
     }
     actualizarProducto();
@@ -174,7 +177,7 @@ export function VentasPimampiroForm() {
         onSubmit={onSubmit}
         className="row g-3 needs-validation container_clientes_angel"
       >
-      <div className="d-flex justify-content-between align-items-center mb-4">
+        <div className="d-flex justify-content-between align-items-center mb-4">
           <Link to="/ventasPimampiro" className="fs-3">
             <i className="bi bi-arrow-left-circle-fill"></i>
           </Link>
@@ -383,7 +386,10 @@ export function VentasPimampiroForm() {
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title"><i className="bi bi-exclamation-circle-fill text-danger me-2"></i>Producto no disponible</h5>
+                <h5 className="modal-title">
+                  <i className="bi bi-exclamation-circle-fill text-danger me-2"></i>
+                  Producto no disponible
+                </h5>
                 <button
                   type="button"
                   className="btn-close"

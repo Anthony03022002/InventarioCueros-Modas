@@ -55,25 +55,25 @@ export function ProductoClienteAngelForm() {
       await updateProductoClienteAngel(params.id, data);
     } else {
       await creatproductoClienteAngel(data);
-    }
 
-    const selectedProductData = inventarios.find(
-      (item) => item.id === data.producto
-    );
-    if (selectedProductData) {
-      const updatedStock = selectedProductData.stock - data.cantidad;
-      await updateInventario(data.producto, {
-        ...selectedProductData,
-        stock: updatedStock,
-      });
+      const selectedProductData = inventarios.find(
+        (item) => item.id === data.producto
+      );
+      if (selectedProductData) {
+        const updatedStock = selectedProductData.stock - data.cantidad;
+        await updateInventario(data.producto, {
+          ...selectedProductData,
+          stock: updatedStock,
+        });
 
-      await createVentasHistorial({
-        codigo: selectedProductData.codigo,
-        cantidad_venta: data.cantidad,
-        fecha: data.fecha_venta,
-        precio: data.total_pagar,
-        comentario: `Se realizó la venta del producto: ${selectedProductData.producto}`,
-      });
+        await createVentasHistorial({
+          codigo: selectedProductData.codigo,
+          cantidad_venta: data.cantidad,
+          fecha: data.fecha_venta,
+          precio: data.total_pagar,
+          comentario: `Se realizó la venta del producto: ${selectedProductData.producto}`,
+        });
+      }
     }
 
     setShowConfirmationModal(true);
@@ -131,19 +131,19 @@ export function ProductoClienteAngelForm() {
     async function actualizarProducto() {
       if (params.id) {
         const { data } = await getProductoAngel(params.id);
-  
+
         setValue("cantidad", data.cantidad);
         setValue("estado", data.estado);
         setValue("fecha_venta", data.fecha_venta);
         setValue("total_pagar", data.total_pagar);
-  
+
         const clienteSeleccionado = clientesAngel.find(
           (cliente) => cliente.id === data.cliente
         );
         const productoSeleccionado = inventarios.find(
           (producto) => producto.id === data.producto
         );
-  
+
         setSelectedClient(
           clienteSeleccionado
             ? {
@@ -160,15 +160,16 @@ export function ProductoClienteAngelForm() {
               }
             : null
         );
-  
-        setValue("cliente", data.cliente);
-        setValue("producto", productoSeleccionado ? productoSeleccionado.id : "");
 
+        setValue("cliente", data.cliente);
+        setValue(
+          "producto",
+          productoSeleccionado ? productoSeleccionado.id : ""
+        );
       }
     }
     actualizarProducto();
   }, [params.id, clientesAngel, inventarios, setValue]);
-  
 
   return (
     <div className="container mt-3">
@@ -176,7 +177,7 @@ export function ProductoClienteAngelForm() {
         onSubmit={onSubmit}
         className="row g-3 needs-validation container_clientes_angel"
       >
-       <div className="d-flex justify-content-between align-items-center mb-4">
+        <div className="d-flex justify-content-between align-items-center mb-4">
           <Link to="/productosAngel" className="fs-3">
             <i className="bi bi-arrow-left-circle-fill"></i>
           </Link>
@@ -385,7 +386,10 @@ export function ProductoClienteAngelForm() {
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title"><i className="bi bi-exclamation-circle-fill text-danger me-2"></i>Producto no disponible</h5>
+                <h5 className="modal-title">
+                  <i className="bi bi-exclamation-circle-fill text-danger me-2"></i>
+                  Producto no disponible
+                </h5>
                 <button
                   type="button"
                   className="btn-close"

@@ -55,29 +55,30 @@ export function VentasCayambeForm() {
       await updateVentasCayambe(params.id, data);
     } else {
       await creatVentasCayambe(data);
+  
+      const selectedProductData = inventarios.find(
+        (item) => item.id === data.producto
+      );
+      if (selectedProductData) {
+        const updatedStock = selectedProductData.stock - data.cantidad;
+        await updateInventario(data.producto, {
+          ...selectedProductData,
+          stock: updatedStock,
+        });
+  
+        await createVentasHistorial({
+          codigo: selectedProductData.codigo,
+          cantidad_venta: data.cantidad,
+          fecha: data.fecha_venta,
+          precio: data.total_pagar,
+          comentario: `Se realizó la venta del producto: ${selectedProductData.producto}`,
+        });
+      }
     }
-
-    const selectedProductData = inventarios.find(
-      (item) => item.id === data.producto
-    );
-    if (selectedProductData) {
-      const updatedStock = selectedProductData.stock - data.cantidad;
-      await updateInventario(data.producto, {
-        ...selectedProductData,
-        stock: updatedStock,
-      });
-
-      await createVentasHistorial({
-        codigo: selectedProductData.codigo,
-        cantidad_venta: data.cantidad,
-        fecha: data.fecha_venta,
-        precio: data.total_pagar,
-        comentario: `Se realizó la venta del producto: ${selectedProductData.producto}`,
-      });
-    }
-
+  
     setShowConfirmationModal(true);
   });
+  
 
   const handleProductChange = useCallback(
     (selectedOption) => {
