@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const stockHistoriaApi = axios.create({
-    baseURL: 'http://localhost:8000/stockHistoria/stockHistoria/'
+    baseURL: 'http://localhost:9000/stockHistoria/stockHistoria/'
 })
 
 export const getAllStockHistoria = () => stockHistoriaApi.get('/');

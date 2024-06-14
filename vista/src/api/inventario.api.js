@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const inventarioApi = axios.create({
-    baseURL: 'http://localhost:8000/inventario/inventario/'
+    baseURL: 'http://localhost:9000/inventario/inventario/'
 })
 
 export const getAllInventario = () => inventarioApi.get('/');

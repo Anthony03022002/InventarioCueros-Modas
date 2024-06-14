@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const ventasLagoagrioApi = axios.create({
-    baseURL: 'http://localhost:8000/ventasLagoagrio/ventasLagoagrio'
+    baseURL: 'http://localhost:9000/ventasLagoagrio/ventasLagoagrio'
 })
 
 export const getAllVentasLagoagrio = () => ventasLagoagrioApi.get('/');

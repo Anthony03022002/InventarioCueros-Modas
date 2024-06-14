@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const generarPagoCayambeApi = axios.create({
-    baseURL: 'http://localhost:8000/generarPagoCayambe/generarPagoCayambe/'
+    baseURL: 'http://localhost:9000/generarPagoCayambe/generarPagoCayambe/'
 })
 export const getAllPagosCayambe = () => generarPagoCayambeApi.get('/')
 

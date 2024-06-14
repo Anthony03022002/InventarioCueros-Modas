@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const generarPagoBolivarApi = axios.create({
-    baseURL: 'http://localhost:8000/generarPagoBolivar/generarPagoBolivar/'
+    baseURL: 'http://localhost:9000/generarPagoBolivar/generarPagoBolivar/'
 })
 export const getAllPagosBolivar = () => generarPagoBolivarApi.get('/')
 

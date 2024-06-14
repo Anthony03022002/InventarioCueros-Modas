@@ -23,6 +23,7 @@ export function VentasIbarraForm() {
   const [showModal, setShowModal] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showOutOfStockModal, setShowOutOfStockModal] = useState(false);
+  const [saldoAnterior, setSaldoAnterior] = useState(0);
 
   const {
     register,
@@ -55,7 +56,7 @@ export function VentasIbarraForm() {
       await updateVentasIbarra(params.id, data);
     } else {
       await creatVentasIbarra(data);
-  
+
       const selectedProductData = inventarios.find(
         (item) => item.id === data.producto
       );
@@ -65,7 +66,7 @@ export function VentasIbarraForm() {
           ...selectedProductData,
           stock: updatedStock,
         });
-  
+
         await createVentasHistorial({
           codigo: selectedProductData.codigo,
           cantidad_venta: data.cantidad,
@@ -75,10 +76,9 @@ export function VentasIbarraForm() {
         });
       }
     }
-  
+
     setShowConfirmationModal(true);
   });
-  
 
   const handleProductChange = useCallback(
     (selectedOption) => {
@@ -108,15 +108,16 @@ export function VentasIbarraForm() {
   const handleCantidadChange = (e) => {
     const nuevaCantidad = parseInt(e.target.value, 10) || 0;
     setCantidad(nuevaCantidad);
-    const totalPagar = nuevaCantidad * precio;
+    const totalPagar = nuevaCantidad * precio + saldoAnterior;
     setValue("total_pagar", totalPagar);
   };
 
   useEffect(() => {
     const subscription = watch((value, { name }) => {
-      if (name === "cantidad") {
+      if (name === "cantidad" || name === "cantidad_adeudada") {
         const nuevaCantidad = parseInt(value.cantidad, 10) || 0;
-        const totalPagar = nuevaCantidad * precio;
+        const nuevoSaldoAnterior = parseInt(value.cantidad_adeudada, 10) || 0;
+        const totalPagar = nuevaCantidad * precio + nuevoSaldoAnterior;
         setValue("total_pagar", totalPagar);
       }
     });
@@ -135,8 +136,11 @@ export function VentasIbarraForm() {
 
         setValue("cantidad", data.cantidad);
         setValue("estado", data.estado);
+        setValue("cantidad_adeudada", data.cantidad_adeudada);
         setValue("fecha_venta", data.fecha_venta);
         setValue("total_pagar", data.total_pagar);
+
+        setSaldoAnterior(data.cantidad_adeudada);
 
         const clienteSeleccionado = clientesIbarra.find(
           (cliente) => cliente.id === data.cliente
@@ -163,7 +167,10 @@ export function VentasIbarraForm() {
         );
 
         setValue("cliente", data.cliente);
-        setValue("producto", productoSeleccionado ? productoSeleccionado.id : "");
+        setValue(
+          "producto",
+          productoSeleccionado ? productoSeleccionado.id : ""
+        );
       }
     }
     actualizarProducto();
@@ -175,7 +182,7 @@ export function VentasIbarraForm() {
         onSubmit={onSubmit}
         className="row g-3 needs-validation container_clientes_angel"
       >
-      <div className="d-flex justify-content-between align-items-center mb-4">
+        <div className="d-flex justify-content-between align-items-center mb-4">
           <Link to="/ventasIbarra" className="fs-3">
             <i className="bi bi-arrow-left-circle-fill"></i>
           </Link>
@@ -228,7 +235,15 @@ export function VentasIbarraForm() {
           />
         </div>
         {errors.cantidad && <span>Debe ingresar una cantidad.</span>}
-
+        <div className="col-md-3">
+          <label className="form-label">Saldo anterior:</label>
+          <input
+            type="number"
+            placeholder="Cantidad del producto"
+            className="form-control form-clientes"
+            {...register("cantidad_adeudada", { required: true })}
+          />
+        </div>
         <div className="col-md-3">
           <label className="form-label">
             <i className="bi bi-currency-dollar"></i>Precio:
@@ -384,7 +399,10 @@ export function VentasIbarraForm() {
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title"><i className="bi bi-exclamation-circle-fill text-danger me-2"></i>Producto no disponible</h5>
+                <h5 className="modal-title">
+                  <i className="bi bi-exclamation-circle-fill text-danger me-2"></i>
+                  Producto no disponible
+                </h5>
                 <button
                   type="button"
                   className="btn-close"

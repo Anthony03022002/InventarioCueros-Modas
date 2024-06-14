@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const generarPagoAtuntaquiApi = axios.create({
-    baseURL: 'http://localhost:8000/generarPagoAtuntaqui/generarPagoAtuntaqui/'
+    baseURL: 'http://localhost:9000/generarPagoAtuntaqui/generarPagoAtuntaqui/'
 })
 export const getAllPagosAtuntaqui = () => generarPagoAtuntaquiApi.get('/')
 

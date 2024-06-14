@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const clientesAngelApi = axios.create({
-    baseURL: 'http://localhost:8000/clientesAngel/clientesAngel/'
+    baseURL: 'http://localhost:9000/clientesAngel/clientesAngel/'
 })
 
 export const getAllClientesAngel = () => clientesAngelApi.get('/');

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const generarPagoLagoagrioApi = axios.create({
-    baseURL: 'http://localhost:8000/generarPagoLagoagrio/generarPagoLagoagrio/'
+    baseURL: 'http://localhost:9000/generarPagoLagoagrio/generarPagoLagoagrio/'
 })
 export const getAllPagosLagoagrio = () => generarPagoLagoagrioApi.get('/')
 

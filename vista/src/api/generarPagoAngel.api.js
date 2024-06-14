@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const generarPagoAngelApi = axios.create({
-    baseURL: 'http://localhost:8000/generarPagoAngel/generarPagoAngel/'
+    baseURL: 'http://localhost:9000/generarPagoAngel/generarPagoAngel/'
 })
 export const getAllPagosAngel = () => generarPagoAngelApi.get('/')
 

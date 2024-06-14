@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const generarPagoMiraApi = axios.create({
-    baseURL: 'http://localhost:8000/generarPagoMira/generarPagoMira/'
+    baseURL: 'http://localhost:9000/generarPagoMira/generarPagoMira/'
 })
 export const getAllPagosMira = () => generarPagoMiraApi.get('/')
 

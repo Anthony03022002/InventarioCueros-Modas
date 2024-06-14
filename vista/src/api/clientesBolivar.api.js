@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const clientesBolivarApi = axios.create({
-    baseURL: 'http://localhost:8000/clientesBolivar/clientesBolivar/'
+    baseURL: 'http://localhost:9000/clientesBolivar/clientesBolivar/'
 })
 
 export const getAllClientesBolivar  = () => clientesBolivarApi.get('/');

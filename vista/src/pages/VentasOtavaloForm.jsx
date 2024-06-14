@@ -23,6 +23,7 @@ export function VentasOtavaloForm() {
   const [showModal, setShowModal] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showOutOfStockModal, setShowOutOfStockModal] = useState(false);
+  const [saldoAnterior, setSaldoAnterior] = useState(0);
 
   const {
     register,
@@ -106,15 +107,16 @@ export function VentasOtavaloForm() {
   const handleCantidadChange = (e) => {
     const nuevaCantidad = parseInt(e.target.value, 10) || 0;
     setCantidad(nuevaCantidad);
-    const totalPagar = nuevaCantidad * precio;
+    const totalPagar = nuevaCantidad * precio + saldoAnterior;
     setValue("total_pagar", totalPagar);
   };
 
   useEffect(() => {
     const subscription = watch((value, { name }) => {
-      if (name === "cantidad") {
+      if (name === "cantidad" || name === "cantidad_adeudada") {
         const nuevaCantidad = parseInt(value.cantidad, 10) || 0;
-        const totalPagar = nuevaCantidad * precio;
+        const nuevoSaldoAnterior = parseInt(value.cantidad_adeudada, 10) || 0;
+        const totalPagar = nuevaCantidad * precio + nuevoSaldoAnterior;
         setValue("total_pagar", totalPagar);
       }
     });
@@ -133,8 +135,11 @@ export function VentasOtavaloForm() {
 
         setValue("cantidad", data.cantidad);
         setValue("estado", data.estado);
+        setValue("cantidad_adeudada", data.cantidad_adeudada);
         setValue("fecha_venta", data.fecha_venta);
         setValue("total_pagar", data.total_pagar);
+
+        setSaldoAnterior(data.cantidad_adeudada);
 
         const clienteSeleccionado = clientesOtavalo.find(
           (cliente) => cliente.id === data.cliente
@@ -229,7 +234,15 @@ export function VentasOtavaloForm() {
           />
         </div>
         {errors.cantidad && <span>Debe ingresar una cantidad.</span>}
-
+        <div className="col-md-3">
+          <label className="form-label">Saldo anterior:</label>
+          <input
+            type="number"
+            placeholder="Cantidad del producto"
+            className="form-control form-clientes"
+            {...register("cantidad_adeudada", { required: true })}
+          />
+        </div>
         <div className="col-md-3">
           <label className="form-label">
             <i className="bi bi-currency-dollar"></i>Precio:

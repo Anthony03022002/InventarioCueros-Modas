@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const generarPagoIbarraApi = axios.create({
-    baseURL: 'http://localhost:8000/generarPagoIbarra/generarPagoIbarra/'
+    baseURL: 'http://localhost:9000/generarPagoIbarra/generarPagoIbarra/'
 })
 export const getAllPagosIbarra = () => generarPagoIbarraApi.get('/')
 

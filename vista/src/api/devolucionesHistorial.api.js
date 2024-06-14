@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const devolucionesHistorialApi = axios.create({
-    baseURL: 'http://localhost:8000/devolucionesHistorial/devolucionesHistorial/'
+    baseURL: 'http://localhost:9000/devolucionesHistorial/devolucionesHistorial/'
 })
 
 export const getAllDevolucionesHistorial = () => devolucionesHistorialApi.get('/');

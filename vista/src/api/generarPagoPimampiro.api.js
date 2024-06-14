@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const generarPagoPimampiroApi = axios.create({
-    baseURL: 'http://localhost:8000/generarPagoPimampiro/generarPagoPimampiro/'
+    baseURL: 'http://localhost:9000/generarPagoPimampiro/generarPagoPimampiro/'
 })
 export const getAllPagosPimampiro = () => generarPagoPimampiroApi.get('/')
 

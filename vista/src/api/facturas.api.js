@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const facturaApi = axios.create({
-    baseURL: 'http://localhost:8000/factura/factura/'
+    baseURL: 'http://localhost:9000/factura/factura/'
 })
 
 export const getAllFacturas = () => facturaApi.get('/');

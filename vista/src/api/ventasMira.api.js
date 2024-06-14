@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const ventasMiraApi = axios.create({
-    baseURL: 'http://localhost:8000/ventasMira/ventasMira'
+    baseURL: 'http://localhost:9000/ventasMira/ventasMira'
 })
 
 export const getAllVentasMira = () => ventasMiraApi.get('/');

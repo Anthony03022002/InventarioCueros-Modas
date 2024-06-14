@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const ventasCayambeApi = axios.create({
-    baseURL: 'http://localhost:8000/ventasCayambe/ventasCayambe'
+    baseURL: 'http://localhost:9000/ventasCayambe/ventasCayambe'
 })
 
 export const getAllVentasCayambe = () => ventasCayambeApi.get('/');
