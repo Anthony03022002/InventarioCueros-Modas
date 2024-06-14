@@ -247,8 +247,8 @@ export function DevolucionForm() {
         <label className="form-label">Responsable:</label>
         <select className="form-select form-clientes" {...register("responsable", { required: true })}>
           <option value="">Ingrese el responsable</option>
-          <option value="persona1">Persona 1</option>
-          <option value="persona2">Persona 2</option>
+          <option value="Cristina">Cristina</option>
+          <option value="Fabricio">Fabricio</option>
         </select>
         </div>
         {errors.responsable && <span>Ingrese responsable</span>}
