@@ -275,6 +275,8 @@ export function ProductoClienteAngelForm() {
             type="number"
             className="form-control form-clientes"
             placeholder="Total a Pagar"
+             step="0.01"
+            min="0"
             {...register("total_pagar", { required: true })}
           />
         </div>

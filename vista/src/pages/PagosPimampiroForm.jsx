@@ -65,6 +65,8 @@ export function PagosPimampiroForm() {
           type="number"
           placeholder="cantidad a pagar"
           className="form-control form-clientes"
+           step="0.01"
+            min="0"
           {...register("cantidad_pagada", { required: true })}
         />
         </div>

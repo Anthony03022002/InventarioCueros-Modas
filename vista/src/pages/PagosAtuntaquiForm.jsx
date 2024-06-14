@@ -61,22 +61,24 @@ export function PagosAtuntaquiForm() {
         {errors.fecha_pago && <span>Este campo es requerido</span>}
         <div className="col-md-4">
           <label className="form-label">Cantidad a pagar</label>
-        <input
-          type="number"
-          placeholder="cantidad a pagar"
-          className="form-control form-clientes"
-          {...register("cantidad_pagada", { required: true })}
-        />
+          <input
+            type="number"
+            placeholder="cantidad a pagar"
+            className="form-control form-clientes"
+            step="0.01"
+            min="0"
+            {...register("cantidad_pagada", { required: true })}
+          />
         </div>
         {errors.cantidad_pagada && <span>Este campo es requerido</span>}
         <div className="col-md-4">
-        <label className="form-label">Cliente</label>
-        <input
-          type="text"
-          placeholder="cliente"
-          className="form-control form-clientes"
-          {...register("venta", { required: true })}
-        />
+          <label className="form-label">Cliente</label>
+          <input
+            type="text"
+            placeholder="cliente"
+            className="form-control form-clientes"
+            {...register("venta", { required: true })}
+          />
         </div>
         {errors.venta && <span>Este campo es requerido</span>}
         <div className="row mt-3">
@@ -93,7 +95,7 @@ export function PagosAtuntaquiForm() {
               </div>
             )}
             <button type="submit" className="btn btn-primary">
-            <i className="bi bi-send-check-fill me-2"></i>Enviar
+              <i className="bi bi-send-check-fill me-2"></i>Enviar
             </button>
           </div>
         </div>

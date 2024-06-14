@@ -64,6 +64,8 @@ export function PagosIbarraForm() {
         <input
           type="number"
           placeholder="cantidad a pagar"
+           step="0.01"
+            min="0"
           className="form-control form-clientes"
           {...register("cantidad_pagada", { required: true })}
         />

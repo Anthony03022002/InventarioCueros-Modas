@@ -273,6 +273,8 @@ export function VentasBolivarForm() {
           <input
             type="number"
             className="form-control form-clientes"
+             step="0.01"
+            min="0"
             placeholder="Total a Pagar"
             {...register("total_pagar", { required: true })}
           />
