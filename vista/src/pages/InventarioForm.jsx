@@ -105,7 +105,7 @@ export function InventarioForm() {
 
     if (existingInventario) {
       const updatedStock =
-        parseInt(existingInventario.stock) + parseInt(data.cantidad_ingresar);
+        parseInt(existingInventario.stock) + parseFloat(data.cantidad_ingresar);
       await updateInventario(existingInventario.id, {
         ...formData,
         stock: updatedStock,
