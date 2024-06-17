@@ -106,19 +106,19 @@ export function ProductoClienteAngelForm() {
   };
 
   const handleCantidadChange = (e) => {
-    const nuevaCantidad = parseInt(e.target.value, 10) || 0;
+    const nuevaCantidad = parseFloat(e.target.value) || 0;
     setCantidad(nuevaCantidad);
-    const totalPagar = nuevaCantidad * precio + saldoAnterior;
-    setValue("total_pagar", totalPagar);
+    const totalPagar = nuevaCantidad * precio + parseFloat(saldoAnterior);
+    setValue("total_pagar", totalPagar.toFixed(2));
   };
 
   useEffect(() => {
     const subscription = watch((value, { name }) => {
       if (name === "cantidad" || name === "cantidad_adeudada") {
-        const nuevaCantidad = parseInt(value.cantidad, 10) || 0;
-        const nuevoSaldoAnterior = parseInt(value.cantidad_adeudada, 10) || 0;
+        const nuevaCantidad = parseFloat(value.cantidad) || 0;
+        const nuevoSaldoAnterior = parseFloat(value.cantidad_adeudada) || 0;
         const totalPagar = nuevaCantidad * precio + nuevoSaldoAnterior;
-        setValue("total_pagar", totalPagar);
+        setValue("total_pagar", totalPagar.toFixed(2));
       }
     });
     return () => subscription.unsubscribe();
@@ -240,6 +240,8 @@ export function ProductoClienteAngelForm() {
           <input
             type="number"
             placeholder="Cantidad del producto"
+            step="0.01"
+            min="0"
             className="form-control form-clientes"
             {...register("cantidad_adeudada", { required: true })}
           />
@@ -275,7 +277,7 @@ export function ProductoClienteAngelForm() {
             type="number"
             className="form-control form-clientes"
             placeholder="Total a Pagar"
-             step="0.01"
+            step="0.01"
             min="0"
             {...register("total_pagar", { required: true })}
           />

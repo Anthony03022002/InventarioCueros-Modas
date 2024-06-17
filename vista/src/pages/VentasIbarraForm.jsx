@@ -106,19 +106,19 @@ export function VentasIbarraForm() {
   };
 
   const handleCantidadChange = (e) => {
-    const nuevaCantidad = parseInt(e.target.value, 10) || 0;
+    const nuevaCantidad = parseFloat(e.target.value) || 0;
     setCantidad(nuevaCantidad);
-    const totalPagar = nuevaCantidad * precio + saldoAnterior;
-    setValue("total_pagar", totalPagar);
+    const totalPagar = nuevaCantidad * precio + parseFloat(saldoAnterior);
+    setValue("total_pagar", totalPagar.toFixed(2));
   };
 
   useEffect(() => {
     const subscription = watch((value, { name }) => {
       if (name === "cantidad" || name === "cantidad_adeudada") {
-        const nuevaCantidad = parseInt(value.cantidad, 10) || 0;
-        const nuevoSaldoAnterior = parseInt(value.cantidad_adeudada, 10) || 0;
+        const nuevaCantidad = parseFloat(value.cantidad) || 0;
+        const nuevoSaldoAnterior = parseFloat(value.cantidad_adeudada) || 0;
         const totalPagar = nuevaCantidad * precio + nuevoSaldoAnterior;
-        setValue("total_pagar", totalPagar);
+        setValue("total_pagar", totalPagar.toFixed(2));
       }
     });
     return () => subscription.unsubscribe();
@@ -239,6 +239,8 @@ export function VentasIbarraForm() {
           <label className="form-label">Saldo anterior:</label>
           <input
             type="number"
+            step="0.01"
+            min="0"
             placeholder="Cantidad del producto"
             className="form-control form-clientes"
             {...register("cantidad_adeudada", { required: true })}
