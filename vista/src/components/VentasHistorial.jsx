@@ -1,11 +1,17 @@
-import { getAllVentasHistorial } from "../api/ventasHistorial.api";
 import { useEffect, useState } from "react";
+import {
+  getAllVentasHistorial,
+  deleteVentasHistorial,
+} from "../api/ventasHistorial.api"; // Asegúrate de tener la función deleteVentaHistorial en tu API
+import { Pagination } from "./Paginacion";
 
 export function VentasHistorial() {
   const [ventasHistorial, setVentasHistorial] = useState([]);
   const [searchCodigo, setSearchCodigo] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
 
   useEffect(() => {
     async function cargarVentasHistorial() {
@@ -31,15 +37,34 @@ export function VentasHistorial() {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredVentas.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
-
+  const currentItems = filteredVentas.slice(indexOfFirstItem, indexOfLastItem);
+  const handlePageClick = (pageNumber) => setCurrentPage(pageNumber);
   const totalPages = Math.ceil(filteredVentas.length / itemsPerPage);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  const handleShowModal = (id) => {
+    setSelectedId(id);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedId(null);
+  };
+
+  const handleDelete = async () => {
+    try {
+      await deleteVentasHistorial(selectedId);
+      setVentasHistorial(
+        ventasHistorial.filter((item) => item.id !== selectedId)
+      );
+      handleCloseModal();
+    } catch (error) {
+      console.error("Error al eliminar el registro:", error);
+    }
   };
 
   return (
@@ -73,6 +98,7 @@ export function VentasHistorial() {
             <th scope="col">Fecha de Venta</th>
             <th scope="col">Precio</th>
             <th scope="col">Comentario</th>
+            <th scope="col">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -83,48 +109,63 @@ export function VentasHistorial() {
               <td>{ventas.fecha}</td>
               <td>{ventas.precio}</td>
               <td>{ventas.comentario}</td>
+              <td>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleShowModal(ventas.id)}
+                >
+                  Eliminar
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      <nav aria-label="Page navigation example">
-        <ul className="pagination justify-content-center">
-          <li className={`page-item ${currentPage === 1 && "disabled"}`}>
-            <button
-              className="page-link"
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              <i className="bi bi-chevron-left"></i>
-            </button>
-          </li>
-          {Array.from({ length: totalPages }, (_, index) => (
-            <li
-              key={index + 1}
-              className={`page-item ${
-                currentPage === index + 1 ? "active" : ""
-              }`}
-            >
-              <button
-                className="page-link"
-                onClick={() => handlePageChange(index + 1)}
-              >
-                {index + 1}
-              </button>
-            </li>
-          ))}
-          <li className={`page-item ${currentPage === totalPages && "disabled"}`}>
-            <button
-              className="page-link"
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            >
-              <i className="bi bi-chevron-right"></i>
-            </button>
-          </li>
-        </ul>
-      </nav>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        handlePageClick={handlePageClick}
+      />
+
+      {showModal && (
+        <div
+          className="modal show d-block"
+          style={{
+            display: showModal ? "block" : "none",
+            backgroundColor: "rgba(0,0,0,0.5)",
+          }}
+          tabIndex="-1"
+          role="dialog"
+        >
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Confirmar Eliminación</h5>
+              </div>
+              <div className="modal-body">
+                <p>¿Estás seguro de que deseas eliminar este registro?</p>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={handleCloseModal}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={handleDelete}
+                >
+                  Eliminar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

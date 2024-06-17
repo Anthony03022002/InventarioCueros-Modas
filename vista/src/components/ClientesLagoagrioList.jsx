@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getAllClientesLagoagrio } from "../api/clientesLagoagrio.api";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
+import { Pagination } from "./Paginacion";
 
 export function ClientesLagoagrioList() {
   const [clientesLagoagrio, setClientesLagoagrio] = useState([]);
@@ -36,7 +36,7 @@ export function ClientesLagoagrioList() {
     indexOfFirstClient,
     indexOfLastClient
   );
-
+  const handlePageClick = (pageNumber) => setCurrentPage(pageNumber);
   const totalPages = Math.ceil(filteredClientes.length / clientesPerPage);
 
   return (
@@ -92,45 +92,11 @@ export function ClientesLagoagrioList() {
         </tbody>
       </table>
 
-      <nav aria-label="Page navigation example">
-        <ul className="pagination justify-content-center">
-          <li className={`page-item ${currentPage === 1 && "disabled"}`}>
-            <button
-              className="page-link"
-              onClick={() => setCurrentPage(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              <i className="bi bi-chevron-left"></i>
-            </button>
-          </li>
-          {Array.from({ length: totalPages }, (_, index) => (
-            <li
-              key={index + 1}
-              className={`page-item ${
-                currentPage === index + 1 ? "active" : ""
-              }`}
-            >
-              <button
-                className="page-link"
-                onClick={() => setCurrentPage(index + 1)}
-              >
-                {index + 1}
-              </button>
-            </li>
-          ))}
-          <li
-            className={`page-item ${currentPage === totalPages && "disabled"}`}
-          >
-            <button
-              className="page-link"
-              onClick={() => setCurrentPage(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            >
-              <i className="bi bi-chevron-right"></i>
-            </button>
-          </li>
-        </ul>
-      </nav>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        handlePageClick={handlePageClick}
+      />
     </div>
   );
 }

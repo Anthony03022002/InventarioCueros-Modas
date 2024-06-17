@@ -202,7 +202,6 @@ export function InventarioForm() {
             className="form-control form-clientes"
             placeholder="Precio del producto"
             step="0.01"
-            min="0"
             {...register("precio", { required: true })}
           />
         </div>
