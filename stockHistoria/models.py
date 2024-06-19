@@ -1,7 +1,7 @@
 from django.db import models
 # Create your models here.
 class StockHistoria(models.Model):
-    codigo = models.CharField(max_length=100)
+    codigo = models.CharField(max_length=200)
     cantidad_ingresada = models.IntegerField()
     fecha = models.DateField()
     precio = models.DecimalField(max_digits=50,decimal_places=2)

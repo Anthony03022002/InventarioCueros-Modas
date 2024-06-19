@@ -7,6 +7,7 @@ class Inventario(models.Model):
     producto = models.CharField(max_length=150)
     cantidad_ingresar = models.IntegerField()
     precio = models.DecimalField(max_digits=100,decimal_places=2)
+    precio_venta = models.DecimalField(max_digits=100, decimal_places=2)
     stock = models.IntegerField()
     descripcion = models.CharField(max_length=200)
     talla = models.CharField(max_length=30)

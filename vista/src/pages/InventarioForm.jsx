@@ -46,6 +46,7 @@ export function InventarioForm() {
         setValue("producto", data.producto);
         setValue("cantidad_ingresar", data.cantidad_ingresar);
         setValue("precio", data.precio);
+        setValue("precio_venta", data.precio_venta);
         setValue("stock", data.stock);
         setValue("descripcion", data.descripcion);
         setValue("talla", data.talla);
@@ -105,7 +106,7 @@ export function InventarioForm() {
 
     if (existingInventario) {
       const updatedStock =
-        parseInt(existingInventario.stock) + parseFloat(data.cantidad_ingresar);
+        parseInt(existingInventario.stock) + parseInt(data.cantidad_ingresar);
       await updateInventario(existingInventario.id, {
         ...formData,
         stock: updatedStock,
@@ -195,17 +196,29 @@ export function InventarioForm() {
         </div>
         <div className="col-md-2">
           <label className="form-label">
-            <i className="bi bi-currency-dollar"></i>Precio
+            <i className="bi bi-currency-dollar"></i>Precio Costo
           </label>
           <input
             type="number"
             className="form-control form-clientes"
-            placeholder="Precio del producto"
+            placeholder="Precio Costo"
             step="0.01"
             {...register("precio", { required: true })}
           />
         </div>
-        <div className="col-md-4">
+        <div className="col-md-3">
+          <label className="form-label">
+            <i className="bi bi-currency-dollar"></i>Precio Venta
+          </label>
+          <input
+            type="number"
+            className="form-control form-clientes"
+            placeholder="Precio venta"
+            step="0.01"
+            {...register("precio_venta", { required: true })}
+          />
+        </div>
+        <div className="col-md-3">
           <label className="form-label">Descripcion:</label>
           <textarea
             placeholder="Descripción"

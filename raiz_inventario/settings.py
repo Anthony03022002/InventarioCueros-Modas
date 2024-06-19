@@ -60,7 +60,6 @@ INSTALLED_APPS = [
     'generarPagoOtavalo',
     'generarPagoPimampiro',
     'devoluciones',
-    'kardex',
     'rest_framework',
     'corsheaders',
     'productoClienteAngel',

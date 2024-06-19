@@ -17,13 +17,14 @@ export function VentasAtuntaquiForm() {
   const [inventarios, setInventario] = useState([]);
   const [selectedClient, setSelectedClient] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [precio, setPrecio] = useState(0);
   const [stock, setStock] = useState(0);
   const [cantidad, setCantidad] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showOutOfStockModal, setShowOutOfStockModal] = useState(false);
   const [saldoAnterior, setSaldoAnterior] = useState(0);
+  const [precioVenta, setPrecioVenta] = useState(0);
+
 
 
   const {
@@ -87,13 +88,14 @@ export function VentasAtuntaquiForm() {
       const selectedProductId = selectedOption?.value;
       const product = inventarios.find(
         (item) => item.id === selectedProductId
-      ) || { precio: 0, stock: 0, codigo: "" };
-
+      ) || { precioVenta: 0, precio_venta: 0, stock: 0, codigo: "" };
+  
       setSelectedProduct(selectedOption);
       setValue("producto", selectedProductId || "");
-      setPrecio(product.precio);
+    
+      setPrecioVenta(product.precio_venta); 
       setStock(product.stock);
-      setValue("total_pagar", product.precio);
+      setValue("total_pagar", product.precio_venta); 
       if (product.stock === 0) {
         setShowOutOfStockModal(true);
       }
@@ -110,7 +112,7 @@ export function VentasAtuntaquiForm() {
   const handleCantidadChange = (e) => {
     const nuevaCantidad = parseFloat(e.target.value) || 0;
     setCantidad(nuevaCantidad);
-    const totalPagar = nuevaCantidad * precio + parseFloat(saldoAnterior);
+    const totalPagar = nuevaCantidad * precioVenta + parseFloat(saldoAnterior);
     setValue("total_pagar", totalPagar.toFixed(2));
   };
 
@@ -119,12 +121,12 @@ export function VentasAtuntaquiForm() {
       if (name === "cantidad" || name === "cantidad_adeudada") {
         const nuevaCantidad = parseFloat(value.cantidad) || 0;
         const nuevoSaldoAnterior = parseFloat(value.cantidad_adeudada) || 0;
-        const totalPagar = nuevaCantidad * precio + nuevoSaldoAnterior;
+        const totalPagar = nuevaCantidad * precioVenta + nuevoSaldoAnterior;
         setValue("total_pagar", totalPagar.toFixed(2));
       }
     });
     return () => subscription.unsubscribe();
-  }, [precio, setValue, watch]);
+  }, [precioVenta, setValue, watch]);
 
   const handleDelete = async () => {
     await deleteVentasAtuntaqui(params.id);
@@ -251,12 +253,12 @@ export function VentasAtuntaquiForm() {
 
         <div className="col-md-3">
           <label className="form-label">
-            <i className="bi bi-currency-dollar"></i>Precio:
+            <i className="bi bi-currency-dollar"></i>Precio Venta:
           </label>
           <input
             type="number"
             className="form-control form-clientes"
-            value={precio}
+            value={precioVenta}
             placeholder="Precio"
             readOnly
           />
