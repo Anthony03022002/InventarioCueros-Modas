@@ -102,7 +102,7 @@ export function VentasIbarraForm() {
   const handleConfirmation = (decision) => {
     setShowConfirmationModal(false);
     if (!decision) {
-      navigate("/productosAngel");
+      navigate("/ventasIbarra");
     }
   };
 

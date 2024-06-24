@@ -101,7 +101,12 @@ export function VentasLagoagrioForm() {
     },
     [inventarios, setValue]
   );
-
+  const handleConfirmation = (decision) => {
+    setShowConfirmationModal(false);
+    if (!decision) {
+      navigate("/ventasLagoagrio");
+    }
+  };
   const handleCantidadChange = (e) => {
     const nuevaCantidad = parseFloat(e.target.value) || 0;
     setCantidad(nuevaCantidad);

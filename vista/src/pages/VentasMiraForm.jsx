@@ -103,7 +103,7 @@ export function VentasMiraForm() {
   const handleConfirmation = (decision) => {
     setShowConfirmationModal(false);
     if (!decision) {
-      navigate("/productosAngel");
+      navigate("/ventasMira");
     }
   };
 
