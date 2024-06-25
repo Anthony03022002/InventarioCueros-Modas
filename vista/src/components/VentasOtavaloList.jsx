@@ -115,10 +115,6 @@ export function VentasOtavaloList() {
               <td>{productos.total_pagar}</td>
               <td>{productos.estado}</td>
               <td>
-                <button className="btn btn-info">
-                <Link to={`/ventasOtavalo/${productos.id}/pagosMensualesOtavalo`}
-                ><i className="bi bi-credit-card-fill text-dark"></i></Link>
-                </button>
                 <button
                   onClick={()=>{
                     navigate(`/ventasOtavalo/${productos.id}`)

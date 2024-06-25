@@ -115,10 +115,6 @@ export function VentasMiraList() {
               <td>{productos.total_pagar}</td>
               <td>{productos.estado}</td>
               <td>
-                <button className="btn btn-info">
-                <Link to={`/ventasMira/${productos.id}/pagosMensualesMira`}
-                ><i className="bi bi-credit-card-fill text-dark"></i></Link>
-                </button>
                 <button
                   onClick={()=>{
                     navigate(`/ventasMira/${productos.id}`)

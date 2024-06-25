@@ -43,6 +43,7 @@ export function Navegacion() {
         </div>
         <div className="offcanvas-body menu">
           <ul className="navbar-nav">
+          
           <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle navegacion"
@@ -197,18 +198,78 @@ export function Navegacion() {
                   </li>
                 </ul>
             </li>
-
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle navegacion"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="bi bi-currency-dollar p-2 iconos"></i>Pagos
+              </a>
+              <ul className="dropdown-menu">
+                  
+                  <li>
+                  <Link className="dropdown-item" to="/clienteAngelProducto">
+                      El Angel
+                    </Link>
+                  </li>
+                  <li>
+                  <Link className="dropdown-item" to="/clienteAtuntaquiProducto">
+                      Atuntaqui
+                    </Link>
+                  </li>
+                  <li>
+                  <Link className="dropdown-item" to="/clienteBolivarProducto">
+                      Bolivar
+                    </Link>
+                  </li>
+                  <li>
+                  <Link className="dropdown-item" to="/clienteCayambeProducto">
+                      Cayambe
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item " to="/clienteIbarraProducto">
+                      Ibarra
+                    </Link>
+                  </li>
+                  <li>
+                  <Link className="dropdown-item" to="/clienteLagoagrioProducto">
+                      LagoAgrio
+                    </Link>
+                  </li>
+                  <li>
+                  <Link className="dropdown-item" to="/clienteMiraProducto">
+                      Mira
+                    </Link>
+                  </li>
+                  <li>
+                  <Link className="dropdown-item" to="/clienteOtavaloProducto">
+                      Otavalo
+                    </Link>
+                  </li>
+                  
+                  <li>
+                  <Link className="dropdown-item" to="/clientePimampiroProducto">
+                      Pimampiro
+                    </Link>
+                  </li>
+                </ul>
+            </li>
             <li className="nav-item">
               <Link className="nav-link navegacion" to='/facturas'>
                 <i className="bi bi-file-text p-2 iconos"></i>Factura
               </Link>
             </li>
+            
             <li className="nav-item">
               <Link className="nav-link navegacion" to='/devoluciones'>
                 <i className="bi bi-arrow-repeat p-2 iconos"></i> Devoluciones
               </Link>
             </li>
-        
+            
           </ul>
         </div>
       </div>

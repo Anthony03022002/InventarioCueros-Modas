@@ -1,14 +1,15 @@
 import { useForm } from "react-hook-form";
 import { createPagosAngel } from "../api/generarPagoAngel.api";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { useEffect} from "react";
+import { useEffect } from "react";
 import { jsPDF } from "jspdf";
 
 export function GenerarPagoAngelForm() {
   const navigate = useNavigate();
   const params = useParams();
   const location = useLocation();
-  const debe = location.state?.debe || 0;
+  const clienteId = location.state?.clienteId || "";
+  const deudaRestante = location.state?.debe || 0;
 
   const {
     register,
@@ -18,68 +19,51 @@ export function GenerarPagoAngelForm() {
   } = useForm();
 
   useEffect(() => {
-    if (params.id) {
-      setValue("venta", params.id);
+    if (clienteId) {
+      setValue("cliente", clienteId);
     }
-  }, [params.id, setValue]);
+  }, [clienteId, setValue]);
 
-  const recalculateDebe = async (ventaId) => {
-    const { data: producto } = await getProductoAngel(ventaId);
-    const { data: pagos } = await getAllPagosAngel();
-    const pagosFiltrados = pagos.filter(
-      (pago) => pago.venta === parseInt(ventaId)
-    );
-    const totalPagado = pagosFiltrados.reduce(
-      (total, pago) => total + parseFloat(pago.cantidad_pagada),
-      0
-    );
-    setDebe(parseFloat(producto.total_pagar) - totalPagado);
-  };
-  const generatePDF = (data) => {
+  const generatePDF = (data, deudaRestante) => {
     const doc = new jsPDF();
-    const nuevoDebe = debe - parseFloat(data.cantidad_pagada);
-    // Establecer márgenes
+    const nuevoDebe = deudaRestante - parseFloat(data.cantidad_pagada);
+    
     const marginLeft = 10;
-    let marginTop = 20; // Inicialmente establecido en 20
-  
-    // Agregar título centrado
+    let marginTop = 20; 
+
     const pageWidth = doc.internal.pageSize.getWidth();
     const title = "Comprobante de Pago C & M SPORTS";
     doc.setFontSize(18);
     const textWidth = doc.getTextWidth(title);
     const textX = (pageWidth - textWidth) / 2;
-    doc.text(title, textX, marginTop); // Coordenada Y para el título
-  
-    // Agregar contenido del pago
+    doc.text(title, textX, marginTop); 
+
     doc.setFontSize(12);
     doc.text(
-      `Usted ha hecho el pago por el monto de $${data.cantidad_pagada}`,
+      `Usted ha hecho el pago por el monto de $${parseFloat(data.cantidad_pagada).toFixed(2)}`,
       marginLeft,
-      (marginTop += 20) // Ajuste de coordenada Y
+      (marginTop += 20)
     );
-    doc.text(`Fecha del pago: ${data.fecha_pago}`, marginLeft, (marginTop += 10)); // Ajuste de coordenada Y
+    doc.text(`Fecha del pago: ${data.fecha_pago}`, marginLeft, (marginTop += 10));
     if (data.descuento) {
-      doc.text("Pago por descuento", marginLeft, (marginTop += 10)); // Ajuste de coordenada Y
+      doc.text("Pago por descuento", marginLeft, (marginTop += 10));
     }
     doc.text(
-      `Monto adeudado: $${nuevoDebe.toFixed(2)}`,
+      `Deuda Restante: $${nuevoDebe.toFixed(2)}`,
       marginLeft,
-      (marginTop += 10) // Ajuste de coordenada Y
+      (marginTop += 10)
     );
-  
-    // Dibujar línea debajo del monto adeudado
+
     doc.setLineWidth(0.5);
-    doc.line(marginLeft, marginTop + 5, pageWidth - marginLeft, marginTop + 5); // Línea debajo del monto adeudado
-  
-    // Mejorar vista del PDF
-    doc.save(`C_Pago_${data.venta}_${data.fecha_pago}.pdf`);
+    doc.line(marginLeft, marginTop + 5, pageWidth - marginLeft, marginTop + 5); 
+
+    doc.save(`C_Pago_${data.fecha_pago}.pdf`);
   };
-  
 
   const onSubmit = handleSubmit(async (data) => {
     await createPagosAngel(data);
-    generatePDF(data);
-    navigate(`/productosAngel/${params.id}/pagosMensualesAngel`);
+    generatePDF(data, deudaRestante);
+    navigate('/clienteAngelProducto');
   });
 
   return (
@@ -87,7 +71,6 @@ export function GenerarPagoAngelForm() {
       <form
         onSubmit={onSubmit}
         className="row g-3 needs-validation container_inventario"
-        
       >
         <h1 className="titulos">Formulario de pagos</h1>
         <div className="col-md-4">
@@ -105,6 +88,7 @@ export function GenerarPagoAngelForm() {
             type="number"
             placeholder="cantidad a pagar"
             className="form-control"
+            step="0.01"
             {...register("cantidad_pagada", { required: true })}
           />
         </div>
@@ -114,12 +98,12 @@ export function GenerarPagoAngelForm() {
           <input
             type="text"
             placeholder="cliente"
+            value={clienteId}
             className="form-control"
-            {...register("venta", { required: true })}
-            readOnly
+            {...register("cliente", { required: true })}
           />
         </div>
-        {errors.venta && <span>Este campo es requerido</span>}
+        {errors.cliente && <span>Este campo es requerido</span>}
         <div className="form-check">
           <input
             className="form-check-input"

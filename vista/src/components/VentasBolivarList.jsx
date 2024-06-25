@@ -116,10 +116,6 @@ export function VentasBolivarList() {
               <td>{productos.total_pagar}</td>
               <td>{productos.estado}</td>
               <td>
-                <button className="btn btn-info">
-                <Link to={`/ventasBolivar/${productos.id}/pagosMensualesBolivar`}
-                ><i className="bi bi-credit-card-fill text-dark"></i></Link>
-                </button>
                 <button
                   onClick={()=>{
                     navigate(`/ventasBolivar/${productos.id}`)

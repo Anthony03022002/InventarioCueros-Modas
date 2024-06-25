@@ -13,3 +13,5 @@ export const creatproductoClienteAngel = (cliente) => productoClienteAngelApi.po
 export const deleteProductoClienteAngel = (id) => productoClienteAngelApi.delete(`/${id}`)
 
 export const updateProductoClienteAngel= (id, cliente) => productoClienteAngelApi.put(`/${id}/`, cliente)
+
+export const getProductosPorClienteAngel = (clienteId) => productoClienteAngelApi.get(`/cliente/${clienteId}/productos/`);
