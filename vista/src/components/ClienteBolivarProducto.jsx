@@ -3,7 +3,7 @@ import { getAllVentasBolivar } from "../api/ventasBolivar.api";
 import { getAllClientesBolivar } from "../api/clientesBolivar.api";
 import { getAllInventario } from "../api/inventario.api";
 import { useNavigate } from "react-router-dom";
-import { getAllPagosBolivar } from "../api/generarPagoBolivar.api";
+import { getAllPagosBolivar, deletePagosBolivar, updatePagosBolivar } from "../api/generarPagoBolivar.api"; // Importa las funciones de eliminar y actualizar
 import Select from "react-select";
 
 export function ClienteBolivarProducto() {
@@ -12,6 +12,7 @@ export function ClienteBolivarProducto() {
   const [inventarios, setInventario] = useState([]);
   const [selectedCliente, setSelectedCliente] = useState(null);
   const [pagosCliente, setPagosCliente] = useState([]);
+  const [editingPago, setEditingPago] = useState(null);
 
   const navigate = useNavigate();
 
@@ -84,9 +85,36 @@ export function ClienteBolivarProducto() {
 
   const deudaRestante = totalAPagar - totalPagosRealizados;
 
+  const handleDeletePago = async (id) => {
+    await deletePagosBolivar(id);
+    setPagosCliente(pagosCliente.filter((pago) => pago.id !== id));
+  };
+
+  const handleEditPago = (pago) => {
+    setEditingPago(pago);
+  };
+
+  const handleSaveEditPago = async () => {
+    if (editingPago) {
+      console.log("Datos a editar:", editingPago); // Verifica los datos antes de la llamada
+      await updatePagosBolivar(editingPago.id, editingPago);
+      setEditingPago(null);
+      const res = await getAllPagosBolivar(); // Recarga los pagos después de la edición
+      const pagosFiltrados = res.data.filter(
+        (pago) => pago.cliente === selectedCliente.value
+      );
+      setPagosCliente(pagosFiltrados);
+    }
+  };
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditingPago({ ...editingPago, [name]: value });
+  };
+
   return (
     <div className="container mt-4">
-          <h2 className="text-center titulos">Resumen de Clientes Bolivar</h2>
+      <h2 className="text-center titulos">Resumen de Clientes Bolivar</h2>
 
       <Select
         options={clienteOptions}
@@ -130,14 +158,49 @@ export function ClienteBolivarProducto() {
                     <th>ID del Pago</th>
                     <th>Cantidad Pagada</th>
                     <th>Fecha de Pago</th>
+                    <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   {pagosCliente.map((pago) => (
                     <tr key={pago.id}>
                       <td>{pago.id}</td>
-                      <td>{pago.cantidad_pagada}</td>
+                      <td>
+                        {editingPago && editingPago.id === pago.id ? (
+                          <input
+                            type="text"
+                            name="cantidad_pagada"
+                            value={editingPago.cantidad_pagada}
+                            onChange={handleEditChange}
+                          />
+                        ) : (
+                          pago.cantidad_pagada
+                        )}
+                      </td>
                       <td>{pago.fecha_pago}</td>
+                      <td>
+                        {editingPago && editingPago.id === pago.id ? (
+                          <button
+                            className="btn btn-success"
+                            onClick={handleSaveEditPago}
+                          >
+                            Guardar
+                          </button>
+                        ) : (
+                          <button
+                            className="btn btn-warning"
+                            onClick={() => handleEditPago(pago)}
+                          >
+                            <i className="bi bi-pen-fill"></i>
+                          </button>
+                        )}
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => handleDeletePago(pago.id)}
+                        >
+                          <i className="bi bi-trash3-fill"></i>
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
