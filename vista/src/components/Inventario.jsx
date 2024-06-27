@@ -114,7 +114,7 @@ export const Inventario = () => {
             <th scope="col">Modelo</th>
             <th scope="col">Talla</th>
             <th scope="col">Stock</th>
-            <th scope="col">Precio Unitario</th>
+            <th scope="col">Precio Costo</th>
             <th scope="col">Precio Venta</th>
             <th scope="col">Proveedor</th>
             <th scope="col">Acciones</th>
