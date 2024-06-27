@@ -92,6 +92,7 @@ export function DevolucionesList() {
       <table className="table table-hover mt-4">
         <thead>
           <tr>
+            <th scope="col">Id</th>
             <th scope="col">Codigo</th>
             <th scope="col">Producto</th>
             <th scope="col">Modelo</th>
@@ -106,6 +107,7 @@ export function DevolucionesList() {
         <tbody>
           {currentItems.map((devolucion) => (
             <tr key={devolucion.id}>
+              <td>{devolucion.id}</td>
               <td>{productoCodigo(devolucion.producto)}</td>
               <td>{productoDevolucion(devolucion.producto)}</td>
               <td>{productoModelo(devolucion.producto)}</td>

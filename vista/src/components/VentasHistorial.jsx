@@ -93,6 +93,7 @@ export function VentasHistorial() {
       <table className="table table-hover mt-4">
         <thead>
           <tr>
+            <th scope="col">Id</th>
             <th scope="col">Codigo</th>
             <th scope="col">Cantidad De venta</th>
             <th scope="col">Fecha de Venta</th>
@@ -104,6 +105,7 @@ export function VentasHistorial() {
         <tbody>
           {currentItems.map((ventas) => (
             <tr key={ventas.id}>
+              <td>{ventas.id}</td>
               <td>{ventas.codigo}</td>
               <td>{ventas.cantidad_venta}</td>
               <td>{ventas.fecha}</td>

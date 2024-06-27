@@ -108,6 +108,7 @@ export const Inventario = () => {
       <table className="table table-hover mt-4">
         <thead>
           <tr>
+            <th scope="col">ID</th>
             <th scope="col">Código</th>
             <th scope="col">Producto</th>
             <th scope="col">Modelo</th>
@@ -122,6 +123,7 @@ export const Inventario = () => {
         <tbody>
           {currentItems.map((inventario) => (
             <tr key={inventario.id}>
+              <th>{inventario.id}</th>
               <th>{inventario.codigo}</th>
               <td>{inventario.producto}</td>
               <td>{inventario.modelo}</td>

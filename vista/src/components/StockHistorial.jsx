@@ -96,6 +96,7 @@ export function StockHistorial() {
       <table className="table table-hover mt-4">
         <thead>
           <tr>
+            <th scope="col">Id</th>
             <th scope="col">Código</th>
             <th scope="col">Cantidad Ingresada</th>
             <th scope="col">Fecha de Ingreso</th>
@@ -107,6 +108,7 @@ export function StockHistorial() {
         <tbody>
           {currentItems.map((stock) => (
             <tr key={stock.id}>
+              <td>{stock.id}</td>
               <td>{stock.codigo}</td>
               <td>{stock.cantidad_ingresada}</td>
               <td>{stock.fecha}</td>
