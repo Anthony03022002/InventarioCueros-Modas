@@ -115,9 +115,6 @@ export const Inventario = () => {
           <button onClick={exportToExcel} className="btn btn-success me-2">
             Exportar a Excel
           </button>
-          <Link to="/crear-inventario" className="btn btn-primary">
-            <i className="bi bi-cart4 me-2"></i>Ingresar producto
-          </Link>
         </div>
 
         <div className="col-auto">
