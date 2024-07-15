@@ -114,7 +114,7 @@ WSGI_APPLICATION = 'raiz_inventario.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'inventario',
+        'NAME': 'inventario_sport',
         'USER': 'postgres',
         'PASSWORD': 'anthony',
         'HOST': 'localhost',

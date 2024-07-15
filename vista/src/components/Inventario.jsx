@@ -4,6 +4,7 @@ import { getAllFacturas } from "../api/facturas.api";
 import { Link, useNavigate } from "react-router-dom";
 import "../index.css";
 import { Pagination } from "./Paginacion";
+import * as XLSX from "xlsx";
 
 export const Inventario = () => {
   const [inventarios, setInventario] = useState([]);
@@ -40,12 +41,22 @@ export const Inventario = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredInventarios.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredInventarios.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   const handlePageClick = (pageNumber) => setCurrentPage(pageNumber);
   const totalPages = Math.ceil(filteredInventarios.length / itemsPerPage);
 
-
+  const exportToExcel = () => {
+    const filteredInventarios = inventarios.filter(item => item.stock > 0);
+    const worksheet = XLSX.utils.json_to_sheet(filteredInventarios);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Inventario");
+    XLSX.writeFile(workbook, "inventario.xlsx");
+  };
+  
 
   return (
     <div className="container pt-4">
@@ -101,7 +112,18 @@ export const Inventario = () => {
           </div>
         </div>
         <div className="col-auto">
-          <Link to="/crear-inventario" className="btn btn-primary"><i className="bi bi-cart4 me-2"></i>Ingresar producto</Link>
+          <button onClick={exportToExcel} className="btn btn-success me-2">
+            Exportar a Excel
+          </button>
+          <Link to="/crear-inventario" className="btn btn-primary">
+            <i className="bi bi-cart4 me-2"></i>Ingresar producto
+          </Link>
+        </div>
+
+        <div className="col-auto">
+          <Link to="/crear-inventario" className="btn btn-primary">
+            <i className="bi bi-cart4 me-2"></i>Ingresar producto
+          </Link>
         </div>
       </div>
 
@@ -130,13 +152,19 @@ export const Inventario = () => {
               <td>{inventario.talla}</td>
               <td>
                 {inventario.stock === 0 && (
-                  <i className="bi bi-exclamation-triangle-fill text-danger me-1" title="Producto no disponible"></i>
+                  <i
+                    className="bi bi-exclamation-triangle-fill text-danger me-1"
+                    title="Producto no disponible"
+                  ></i>
                 )}
                 {inventario.stock}
               </td>
               <td>{inventario.precio}</td>
               <td>{inventario.precio_venta}</td>
-              <td>{facturas.find((factura) => factura.id === inventario.proveedor)?.proveedor || 'no se encuentra proveedor'}</td>
+              <td>
+                {facturas.find((factura) => factura.id === inventario.proveedor)
+                  ?.proveedor || "no se encuentra proveedor"}
+              </td>
               <td>
                 <button
                   onClick={() => {
@@ -151,7 +179,7 @@ export const Inventario = () => {
           ))}
         </tbody>
       </table>
-      
+
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
