@@ -57,7 +57,9 @@ export function ClienteLagoagrioProducto() {
 
   const handleClienteChange = (selectedOption) => {
     setSelectedCliente(selectedOption);
+    localStorage.setItem('selectedCliente', JSON.stringify(selectedOption));
   };
+  
 
   const productosFiltrados = selectedCliente
     ? productosAngel.filter(
@@ -93,6 +95,13 @@ export function ClienteLagoagrioProducto() {
   const handleEditPago = (pago) => {
     setEditingPago(pago);
   };
+  useEffect(() => {
+    const savedCliente = localStorage.getItem('selectedCliente');
+    if (savedCliente) {
+      setSelectedCliente(JSON.parse(savedCliente));
+    }
+  }, []);
+  
 
   const handleSaveEditPago = async () => {
     if (editingPago) {

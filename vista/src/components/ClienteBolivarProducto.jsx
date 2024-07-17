@@ -57,7 +57,9 @@ export function ClienteBolivarProducto() {
 
   const handleClienteChange = (selectedOption) => {
     setSelectedCliente(selectedOption);
+    localStorage.setItem('selectedCliente', JSON.stringify(selectedOption));
   };
+  
 
   const productosFiltrados = selectedCliente
     ? productosAngel.filter(
@@ -111,6 +113,13 @@ export function ClienteBolivarProducto() {
     const { name, value } = e.target;
     setEditingPago({ ...editingPago, [name]: value });
   };
+  useEffect(() => {
+    const savedCliente = localStorage.getItem('selectedCliente');
+    if (savedCliente) {
+      setSelectedCliente(JSON.parse(savedCliente));
+    }
+  }, []);
+  
 
   return (
     <div className="container mt-4">

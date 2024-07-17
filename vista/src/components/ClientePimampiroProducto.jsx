@@ -57,7 +57,9 @@ export function ClientePimampiroProducto() {
 
   const handleClienteChange = (selectedOption) => {
     setSelectedCliente(selectedOption);
+    localStorage.setItem('selectedCliente', JSON.stringify(selectedOption));
   };
+  
 
   const productosFiltrados = selectedCliente
     ? productosAngel.filter(
@@ -96,17 +98,24 @@ export function ClientePimampiroProducto() {
 
   const handleSaveEditPago = async () => {
     if (editingPago) {
-      console.log("Datos a editar:", editingPago); // Verifica los datos antes de la llamada
+      console.log("Datos a editar:", editingPago);
       await updatePagosPimampiro(editingPago.id, editingPago);
       setEditingPago(null);
-      const res = await getAllPagosPimampiro(); // Recarga los pagos después de la edición
+      const res = await getAllPagosPimampiro(); 
       const pagosFiltrados = res.data.filter(
         (pago) => pago.cliente === selectedCliente.value
       );
       setPagosCliente(pagosFiltrados);
     }
   };
-
+  
+  useEffect(() => {
+    const savedCliente = localStorage.getItem('selectedCliente');
+    if (savedCliente) {
+      setSelectedCliente(JSON.parse(savedCliente));
+    }
+  }, []);
+  
   const handleEditChange = (e) => {
     const { name, value } = e.target;
     setEditingPago({ ...editingPago, [name]: value });

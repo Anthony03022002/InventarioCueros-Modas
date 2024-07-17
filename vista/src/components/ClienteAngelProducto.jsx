@@ -57,6 +57,7 @@ export function ClienteAngelProducto() {
 
   const handleClienteChange = (selectedOption) => {
     setSelectedCliente(selectedOption);
+    localStorage.setItem('selectedCliente', JSON.stringify(selectedOption));
   };
 
   const productosFiltrados = selectedCliente
@@ -96,10 +97,10 @@ export function ClienteAngelProducto() {
 
   const handleSaveEditPago = async () => {
     if (editingPago) {
-      console.log("Datos a editar:", editingPago); // Verifica los datos antes de la llamada
+      console.log("Datos a editar:", editingPago); 
       await updatePagosAngel(editingPago.id, editingPago);
       setEditingPago(null);
-      const res = await getAllPagosAngel(); // Recarga los pagos después de la edición
+      const res = await getAllPagosAngel(); 
       const pagosFiltrados = res.data.filter(
         (pago) => pago.cliente === selectedCliente.value
       );
@@ -111,6 +112,12 @@ export function ClienteAngelProducto() {
     const { name, value } = e.target;
     setEditingPago({ ...editingPago, [name]: value });
   };
+  useEffect(() => {
+    const savedCliente = localStorage.getItem('selectedCliente');
+    if (savedCliente) {
+      setSelectedCliente(JSON.parse(savedCliente));
+    }
+  }, []);
 
   return (
     <div className="container mt-4">

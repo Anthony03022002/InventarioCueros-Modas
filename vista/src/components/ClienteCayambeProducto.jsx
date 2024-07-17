@@ -57,7 +57,9 @@ export function ClienteCayambeProducto() {
 
   const handleClienteChange = (selectedOption) => {
     setSelectedCliente(selectedOption);
+    localStorage.setItem('selectedCliente', JSON.stringify(selectedOption));
   };
+  
 
   const productosFiltrados = selectedCliente
     ? productosAngel.filter(
@@ -106,6 +108,13 @@ export function ClienteCayambeProducto() {
       setPagosCliente(pagosFiltrados);
     }
   };
+  useEffect(() => {
+    const savedCliente = localStorage.getItem('selectedCliente');
+    if (savedCliente) {
+      setSelectedCliente(JSON.parse(savedCliente));
+    }
+  }, []);
+  
 
   const handleEditChange = (e) => {
     const { name, value } = e.target;

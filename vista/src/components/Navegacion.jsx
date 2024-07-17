@@ -206,7 +206,7 @@ export function Navegacion() {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <i class="bi bi-currency-dollar p-2 iconos"></i>Pagos
+                <i className="bi bi-currency-dollar p-2 iconos"></i>Pagos
               </a>
               <ul className="dropdown-menu">
                   
