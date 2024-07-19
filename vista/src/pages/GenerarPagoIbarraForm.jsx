@@ -67,7 +67,7 @@ export function GenerarPagoIbarraForm() {
     doc.setLineWidth(0.5);
     doc.line(marginLeft, marginTop + 5, pageWidth - marginLeft, marginTop + 5); 
 
-    doc.save(`C_Pago_${data.fecha_pago}.pdf`);
+    doc.save(`C_Pago_${clienteNombre}.pdf`);
   };
 
   const onSubmit = handleSubmit(async (data) => {
