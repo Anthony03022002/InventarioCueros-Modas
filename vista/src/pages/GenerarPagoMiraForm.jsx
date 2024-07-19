@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
 import { createPagosMira } from "../api/generarPagoMira.api";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { jsPDF } from "jspdf";
+import { getClienteMira } from "../api/clientesMira.api";
+
 
 export function GenerarPagoMiraForm() {
   const navigate = useNavigate();
@@ -10,6 +12,7 @@ export function GenerarPagoMiraForm() {
   const location = useLocation();
   const clienteId = location.state?.clienteId || "";
   const deudaRestante = location.state?.debe || 0;
+  const [clienteNombre, setClienteNombre] = useState("");
 
   const {
     register,
@@ -21,8 +24,15 @@ export function GenerarPagoMiraForm() {
   useEffect(() => {
     if (clienteId) {
       setValue("cliente", clienteId);
+  
+      getClienteMira(clienteId).then(response => {
+        setClienteNombre(response.data.nombre_completo);
+      }).catch(error => {
+        console.error("Error al obtener el nombre del cliente:", error);
+      });
     }
   }, [clienteId, setValue]);
+
 
   const generatePDF = (data, deudaRestante) => {
     const doc = new jsPDF();
@@ -40,7 +50,7 @@ export function GenerarPagoMiraForm() {
 
     doc.setFontSize(12);
     doc.text(
-      `Usted ha hecho el pago por el monto de $${parseFloat(data.cantidad_pagada).toFixed(2)}`,
+      `El cliente ${clienteNombre}  ha hecho el pago por el monto de $${parseFloat(data.cantidad_pagada).toFixed(2)}`,
       marginLeft,
       (marginTop += 20)
     );

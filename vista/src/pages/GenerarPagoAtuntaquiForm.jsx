@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
 import { createPagosAtuntaqui } from "../api/generarPagoAtuntaqui.api";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { jsPDF } from "jspdf";
+import { getClienteAtuntaqui } from "../api/clientesAtuntaqui.api";
+
 
 export function GenerarPagoAtuntaquiForm() {
   const navigate = useNavigate();
@@ -10,6 +12,8 @@ export function GenerarPagoAtuntaquiForm() {
   const location = useLocation();
   const clienteId = location.state?.clienteId || "";
   const deudaRestante = location.state?.debe || 0;
+  const [clienteNombre, setClienteNombre] = useState("");
+
 
   const {
     register,
@@ -21,6 +25,12 @@ export function GenerarPagoAtuntaquiForm() {
   useEffect(() => {
     if (clienteId) {
       setValue("cliente", clienteId);
+  
+      getClienteAtuntaqui(clienteId).then(response => {
+        setClienteNombre(response.data.nombre_completo);
+      }).catch(error => {
+        console.error("Error al obtener el nombre del cliente:", error);
+      });
     }
   }, [clienteId, setValue]);
 
@@ -40,7 +50,7 @@ export function GenerarPagoAtuntaquiForm() {
 
     doc.setFontSize(12);
     doc.text(
-      `Usted ha hecho el pago por el monto de $${parseFloat(data.cantidad_pagada).toFixed(2)}`,
+      `El cliente ${clienteNombre}  ha hecho el pago por el monto de $${parseFloat(data.cantidad_pagada).toFixed(2)}`,
       marginLeft,
       (marginTop += 20)
     );

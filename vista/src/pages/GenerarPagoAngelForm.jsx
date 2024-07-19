@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
 import { createPagosAngel } from "../api/generarPagoAngel.api";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { jsPDF } from "jspdf";
+import { getClienteAngel } from "../api/clientesAngel.api";
+
 
 export function GenerarPagoAngelForm() {
   const navigate = useNavigate();
@@ -10,6 +12,8 @@ export function GenerarPagoAngelForm() {
   const location = useLocation();
   const clienteId = location.state?.clienteId || "";
   const deudaRestante = location.state?.debe || 0;
+  const [clienteNombre, setClienteNombre] = useState("");
+  
 
   const {
     register,
@@ -21,8 +25,15 @@ export function GenerarPagoAngelForm() {
   useEffect(() => {
     if (clienteId) {
       setValue("cliente", clienteId);
+  
+      getClienteAngel(clienteId).then(response => {
+        setClienteNombre(response.data.nombre_completo);
+      }).catch(error => {
+        console.error("Error al obtener el nombre del cliente:", error);
+      });
     }
   }, [clienteId, setValue]);
+
 
   const generatePDF = (data, deudaRestante) => {
     const doc = new jsPDF();
@@ -40,7 +51,7 @@ export function GenerarPagoAngelForm() {
 
     doc.setFontSize(12);
     doc.text(
-      `Usted ha hecho el pago por el monto de $${parseFloat(data.cantidad_pagada).toFixed(2)}`,
+      `El cliente ${clienteNombre} ha hecho el pago por el monto de $${parseFloat(data.cantidad_pagada).toFixed(2)}`,
       marginLeft,
       (marginTop += 20)
     );

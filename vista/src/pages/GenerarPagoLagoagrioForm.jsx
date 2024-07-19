@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
 import { createPagosLagoagrio } from "../api/generarPagoLagoagrio.api";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { jsPDF } from "jspdf";
+import { getClienteLagoagrio } from "../api/clientesLagoagrio.api";
+
 
 export function GenerarPagoLagoagrioForm() {
   const navigate = useNavigate();
@@ -10,6 +12,8 @@ export function GenerarPagoLagoagrioForm() {
   const location = useLocation();
   const clienteId = location.state?.clienteId || "";
   const deudaRestante = location.state?.debe || 0;
+  const [clienteNombre, setClienteNombre] = useState("");
+
 
   const {
     register,
@@ -21,6 +25,12 @@ export function GenerarPagoLagoagrioForm() {
   useEffect(() => {
     if (clienteId) {
       setValue("cliente", clienteId);
+  
+      getClienteLagoagrio(clienteId).then(response => {
+        setClienteNombre(response.data.nombre_completo);
+      }).catch(error => {
+        console.error("Error al obtener el nombre del cliente:", error);
+      });
     }
   }, [clienteId, setValue]);
 
@@ -40,7 +50,7 @@ export function GenerarPagoLagoagrioForm() {
 
     doc.setFontSize(12);
     doc.text(
-      `Usted ha hecho el pago por el monto de $${parseFloat(data.cantidad_pagada).toFixed(2)}`,
+      `El cliente ${clienteNombre}  ha hecho el pago por el monto de $${parseFloat(data.cantidad_pagada).toFixed(2)}`,
       marginLeft,
       (marginTop += 20)
     );

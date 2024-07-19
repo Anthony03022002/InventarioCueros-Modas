@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
 import { createPagosOtavalo } from "../api/generarPagoOtavalo.api";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { jsPDF } from "jspdf";
+import { getClienteOtavalo } from "../api/clientesOtavalo.api";
+
 
 export function GenerarPagoOtavaloForm() {
   const navigate = useNavigate();
@@ -10,6 +12,7 @@ export function GenerarPagoOtavaloForm() {
   const location = useLocation();
   const clienteId = location.state?.clienteId || "";
   const deudaRestante = location.state?.debe || 0;
+  const [clienteNombre, setClienteNombre] = useState("");
 
   const {
     register,
@@ -21,6 +24,12 @@ export function GenerarPagoOtavaloForm() {
   useEffect(() => {
     if (clienteId) {
       setValue("cliente", clienteId);
+  
+      getClienteOtavalo(clienteId).then(response => {
+        setClienteNombre(response.data.nombre_completo);
+      }).catch(error => {
+        console.error("Error al obtener el nombre del cliente:", error);
+      });
     }
   }, [clienteId, setValue]);
 
@@ -40,7 +49,7 @@ export function GenerarPagoOtavaloForm() {
 
     doc.setFontSize(12);
     doc.text(
-      `Usted ha hecho el pago por el monto de $${parseFloat(data.cantidad_pagada).toFixed(2)}`,
+      `El cliente ${clienteNombre}  ha hecho el pago por el monto de $${parseFloat(data.cantidad_pagada).toFixed(2)}`,
       marginLeft,
       (marginTop += 20)
     );
