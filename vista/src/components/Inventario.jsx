@@ -14,6 +14,8 @@ export const Inventario = () => {
   const [searchTalla, setSearchTalla] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+  const totalProductos = inventarios.length;
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,18 +52,24 @@ export const Inventario = () => {
   const totalPages = Math.ceil(filteredInventarios.length / itemsPerPage);
 
   const exportToExcel = () => {
-    const filteredInventarios = inventarios.filter(item => item.stock > 0);
+    const filteredInventarios = inventarios.filter((item) => item.stock > 0);
     const worksheet = XLSX.utils.json_to_sheet(filteredInventarios);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Inventario");
     XLSX.writeFile(workbook, "inventario.xlsx");
   };
-  
 
   return (
     <div className="container pt-4">
       <h1 className="titulos">Inventario</h1>
-
+      <div className="d-flex align-items-center mb-2">
+        <p className="text-primary mb-0 me-2">
+          Total de registros de productos: {totalProductos}
+        </p>
+        <Link className="btn btn-secondary" to="/verificacion">
+          Verificar
+        </Link>
+      </div>
       <div className="row mb-3">
         <div className="col">
           <div className="input-group">

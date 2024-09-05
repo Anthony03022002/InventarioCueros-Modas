@@ -75,6 +75,7 @@ import { ClienteLagoagrioProducto } from "./components/ClienteLagoagrioProducto"
 import { ClienteMiraProducto } from "./components/ClienteMiraProducto";
 import { ClienteOtavaloProducto } from "./components/ClienteOtavaloProducto";
 import { ClientePimampiroProducto } from "./components/ClientePimampiroProducto";
+import { Verificacion } from "./components/Verificacion";
 function App() {
   return (
     <BrowserRouter>
@@ -84,6 +85,7 @@ function App() {
         <Route path="/" element={<Navigate to='/inicio'/>}/>
         <Route path="/inicio" element={<Home/>}/>
         <Route path="/pagos" element={<Pagos/>}/>
+        <Route path="/verificacion" element={<Verificacion/>}/>
         <Route path="/clienteAngelProducto" element={<ClienteAngelProducto/>}/>
         <Route path="/clienteAtuntaquiProducto" element={<ClienteAtuntaquiProducto/>}/>
         <Route path="/clienteBolivarProducto" element={<ClienteBolivarProducto/>}/>

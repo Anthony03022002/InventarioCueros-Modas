@@ -12,6 +12,7 @@ export function StockHistorial() {
   const [itemsPerPage] = useState(10);
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const totalRegistros = stockHistorial.length;
 
   useEffect(() => {
     async function cargarStock() {
@@ -73,6 +74,10 @@ export function StockHistorial() {
   return (
     <div className="container pt-4">
       <h1 className="titulos">Kardex Entradas</h1>
+      <p className="font-weight-bold text-primary align-self-center">
+        Total de Registros: {totalRegistros}
+      </p>
+
       <div className="d-flex justify-content-between mb-3">
         <div className="input-group w-25">
           <input
