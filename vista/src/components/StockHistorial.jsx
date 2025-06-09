@@ -45,9 +45,6 @@ export function StockHistorial() {
   const handlePageClick = (pageNumber) => setCurrentPage(pageNumber);
   const totalPages = Math.ceil(filteredStock.length / itemsPerPage);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
 
   const handleShowModal = (id) => {
     setSelectedId(id);
